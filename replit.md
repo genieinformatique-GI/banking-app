@@ -2,7 +2,7 @@
 
 ## Overview
 
-Full-stack financial web platform inspired by bofblockchain.com. Users can manage multi-currency accounts, submit bank wire and crypto transfer requests, and track transactions. Admins have full control over users, balances, and transaction approvals.
+Full-stack financial web platform that replicates bofblockchain.com. Public-facing pages are redesigned to match the real site exactly (double header, #225473 navy blue, #f6a821 yellow, French language). Users can manage multi-currency accounts, submit bank wire and crypto transfer requests, and track transactions. Admins have full control over users, balances, and transaction approvals.
 
 ## Stack
 

@@ -3,11 +3,23 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
-// Pages
+// Public Pages
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/public/Home";
 import Login from "@/pages/public/Login";
 import Register from "@/pages/public/Register";
+import LaBanque from "@/pages/public/LaBanque";
+import Contact from "@/pages/public/Contact";
+import Engagement from "@/pages/public/Engagement";
+import Partenariats from "@/pages/public/Partenariats";
+import AssuranceCrypto from "@/pages/public/AssuranceCrypto";
+import FAQs from "@/pages/public/FAQs";
+import Remboursement from "@/pages/public/services/Remboursement";
+import Securisation from "@/pages/public/services/Securisation";
+import Conseil from "@/pages/public/services/Conseil";
+import Staking from "@/pages/public/services/Staking";
+import LicenceTrading from "@/pages/public/services/LicenceTrading";
+import TaxeCrypto from "@/pages/public/services/TaxeCrypto";
 import AppLayout from "@/components/layout/AppLayout";
 import UserDashboard from "@/pages/user/Dashboard";
 import Transfers from "@/pages/user/Transfers";
@@ -50,11 +62,24 @@ const queryClient = new QueryClient({
 function Router() {
   return (
     <Switch>
-      {/* Public Routes */}
+      {/* ====== PUBLIC ROUTES ====== */}
       <Route path="/" component={Home} />
-      <Route path="/about" component={Home} />
-      <Route path="/contact" component={Home} />
+      <Route path="/la-banque" component={LaBanque} />
+      <Route path="/contact" component={Contact} />
+      <Route path="/engagement-securite-et-transparence" component={Engagement} />
+      <Route path="/partenariats-amf-sec" component={Partenariats} />
+      <Route path="/nos-services/assurance-crypto" component={AssuranceCrypto} />
+      <Route path="/nos-services/faqs" component={FAQs} />
+      <Route path="/nos-services/remboursement-des-pertes" component={Remboursement} />
+      <Route path="/nos-services/securisation-des-investissements" component={Securisation} />
+      <Route path="/nos-services/conseil-et-accompagnement" component={Conseil} />
+      <Route path="/nos-services/services-de-staking" component={Staking} />
+      <Route path="/nos-services/licence-de-trading" component={LicenceTrading} />
+      <Route path="/nos-services/taxe-crypto" component={TaxeCrypto} />
+      {/* Auth routes — real site URL aliases */}
+      <Route path="/espace-client" component={Login} />
       <Route path="/login" component={Login} />
+      <Route path="/ouverture-de-compte" component={Register} />
       <Route path="/register" component={Register} />
 
       {/* User Dashboard Routes */}
