@@ -55,7 +55,7 @@ export default function Transactions() {
           ) : filteredTx.length === 0 ? (
             <div className="p-12 text-center text-muted-foreground">Aucune transaction trouvée pour ces critères.</div>
           ) : (
-            <Table>
+            <div className="overflow-x-auto"><Table>
               <TableHeader>
                 <TableRow>
                   <TableHead>Type</TableHead>
@@ -85,7 +85,7 @@ export default function Transactions() {
                   </TableRow>
                 ))}
               </TableBody>
-            </Table>
+            </Table></div>
           )}
         </CardContent>
       </Card>

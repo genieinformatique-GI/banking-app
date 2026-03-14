@@ -66,7 +66,7 @@ export default function AdminBankTransfers() {
           {isLoading ? (
             <div className="p-8 flex justify-center"><div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" /></div>
           ) : (
-            <Table>
+            <div className="overflow-x-auto"><Table>
               <TableHeader>
                 <TableRow>
                   <TableHead>#</TableHead>
@@ -114,7 +114,7 @@ export default function AdminBankTransfers() {
                   <TableRow><TableCell colSpan={8} className="text-center p-8 text-muted-foreground">Aucun virement trouvé.</TableCell></TableRow>
                 )}
               </TableBody>
-            </Table>
+            </Table></div>
           )}
         </CardContent>
       </Card>

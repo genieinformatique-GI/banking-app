@@ -72,16 +72,16 @@ export default function Transfers() {
         <p className="text-muted-foreground mt-1">Initiez des virements fiat ou crypto en toute sécurité.</p>
       </div>
 
-      <div className="flex gap-2 p-1 bg-secondary rounded-xl w-fit mb-8">
+      <div className="flex gap-2 p-1 bg-secondary rounded-xl w-full sm:w-fit mb-8">
         <button
           onClick={() => setActiveTab("bank")}
-          className={`flex items-center gap-2 px-6 py-2.5 rounded-lg font-semibold transition-all ${activeTab === 'bank' ? 'bg-card text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}
+          className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 rounded-lg font-semibold transition-all text-sm ${activeTab === 'bank' ? 'bg-card text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}
         >
-          <Building className="w-4 h-4" /> Virement Bancaire
+          <Building className="w-4 h-4" /> <span className="hidden xs:inline">Virement </span>Bancaire
         </button>
         <button
           onClick={() => setActiveTab("crypto")}
-          className={`flex items-center gap-2 px-6 py-2.5 rounded-lg font-semibold transition-all ${activeTab === 'crypto' ? 'bg-card text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}
+          className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 rounded-lg font-semibold transition-all text-sm ${activeTab === 'crypto' ? 'bg-card text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}
         >
           <Bitcoin className="w-4 h-4" /> Transfert Crypto
         </button>

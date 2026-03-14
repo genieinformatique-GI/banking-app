@@ -285,15 +285,15 @@ export default function Settings() {
       </div>
 
       <Tabs defaultValue="profile" className="space-y-6">
-        <TabsList className="bg-secondary/50 p-1 rounded-xl">
-          <TabsTrigger value="profile" className="rounded-lg data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-            <UserIcon className="w-4 h-4 mr-2" /> Profil
+        <TabsList className="bg-secondary/50 p-1 rounded-xl w-full sm:w-auto flex">
+          <TabsTrigger value="profile" className="flex-1 rounded-lg data-[state=active]:bg-primary data-[state=active]:text-primary-foreground text-xs sm:text-sm">
+            <UserIcon className="w-4 h-4 mr-1 sm:mr-2" /> Profil
           </TabsTrigger>
-          <TabsTrigger value="security" className="rounded-lg data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-            <Shield className="w-4 h-4 mr-2" /> Sécurité
+          <TabsTrigger value="security" className="flex-1 rounded-lg data-[state=active]:bg-primary data-[state=active]:text-primary-foreground text-xs sm:text-sm">
+            <Shield className="w-4 h-4 mr-1 sm:mr-2" /> Sécurité
           </TabsTrigger>
-          <TabsTrigger value="banks" className="rounded-lg data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-            <Building2 className="w-4 h-4 mr-2" /> Comptes Bancaires
+          <TabsTrigger value="banks" className="flex-1 rounded-lg data-[state=active]:bg-primary data-[state=active]:text-primary-foreground text-xs sm:text-sm">
+            <Building2 className="w-4 h-4 mr-1 sm:mr-2" /> <span className="hidden sm:inline">Comptes </span>Bancaires
           </TabsTrigger>
         </TabsList>
 
@@ -355,7 +355,7 @@ export default function Settings() {
             <CardContent>
               {editingProfile ? (
                 <form onSubmit={handleSaveProfile} className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="firstName">Prénom</Label>
                       <Input id="firstName" value={profileForm.firstName} onChange={e => setProfileForm({ ...profileForm, firstName: e.target.value })} required />
@@ -386,7 +386,7 @@ export default function Settings() {
                   </div>
                 </form>
               ) : (
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {[
                     { label: "Prénom", value: user?.firstName },
                     { label: "Nom", value: user?.lastName },
@@ -665,7 +665,7 @@ export default function Settings() {
                       <Label>BIC / SWIFT</Label>
                       <Input required value={newAccount.bic} onChange={e => setNewAccount({ ...newAccount, bic: e.target.value })} />
                     </div>
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <Label>Nom de la banque</Label>
                         <Input required value={newAccount.bankName} onChange={e => setNewAccount({ ...newAccount, bankName: e.target.value })} />

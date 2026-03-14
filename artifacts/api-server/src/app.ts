@@ -2,12 +2,15 @@ import express, { type Express, type Request, type Response, type NextFunction }
 import cors from "cors";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
+import compression from "compression";
 import router from "./routes";
 
 const app: Express = express();
 
 app.set("trust proxy", 1);
+app.disable("x-powered-by");
 
+app.use(compression());
 app.use(helmet({
   crossOriginEmbedderPolicy: false,
   contentSecurityPolicy: false,

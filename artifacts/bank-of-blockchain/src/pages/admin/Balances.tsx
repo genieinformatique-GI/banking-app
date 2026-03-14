@@ -116,7 +116,7 @@ export default function Balances() {
         <p className="text-muted-foreground mt-1">Créditez ou débitez manuellement les comptes clients.</p>
       </div>
 
-      <div className="grid grid-cols-3 gap-4 mb-2">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-2">
         {[
           { label: "Total clients", value: nonAdminUsers.length.toString(), icon: <Euro className="w-5 h-5" />, color: "text-blue-400" },
           { label: "Devise EUR/USD", value: "Modifiable", icon: <DollarSign className="w-5 h-5" />, color: "text-emerald-400" },
@@ -149,7 +149,7 @@ export default function Balances() {
           ) : nonAdminUsers.length === 0 ? (
             <div className="p-8 text-center text-muted-foreground">Aucun client trouvé.</div>
           ) : (
-            <Table>
+            <div className="overflow-x-auto"><Table>
               <TableHeader>
                 <TableRow>
                   <TableHead>ID</TableHead>
@@ -178,7 +178,7 @@ export default function Balances() {
                   </TableRow>
                 ))}
               </TableBody>
-            </Table>
+            </Table></div>
           )}
         </CardContent>
       </Card>

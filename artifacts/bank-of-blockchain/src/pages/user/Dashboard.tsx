@@ -39,7 +39,7 @@ export default function UserDashboard() {
       </div>
 
       {/* Balance Cards */}
-      <div className="grid md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
         <Card className="bg-gradient-to-br from-card to-card/50 border-primary/20">
           <CardHeader className="pb-2 flex flex-row items-center justify-between">
             <CardTitle className="text-muted-foreground text-sm font-medium">Solde EUR</CardTitle>
@@ -109,6 +109,7 @@ export default function UserDashboard() {
           ) : transactions.length === 0 ? (
             <div className="p-8 text-center text-muted-foreground">Aucune transaction trouvée.</div>
           ) : (
+            <div className="overflow-x-auto">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -138,6 +139,7 @@ export default function UserDashboard() {
                 ))}
               </TableBody>
             </Table>
+            </div>
           )}
         </CardContent>
       </Card>
