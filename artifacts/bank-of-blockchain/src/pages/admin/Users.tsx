@@ -1,3 +1,4 @@
+import { useLanguage } from "@/contexts/LanguageContext";
 import { useState, useRef } from "react";
 import { useGetUsers, useActivateUser, useSuspendUser } from "@workspace/api-client-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -39,6 +40,7 @@ const ADMIN_ROLES = [
 const authHeader = () => ({ "Content-Type": "application/json", Authorization: `Bearer ${localStorage.getItem("bob_token")}` });
 
 export default function AdminUsers() {
+  const { t } = useLanguage();
   const { data, isLoading } = useGetUsers();
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -70,9 +72,9 @@ export default function AdminUsers() {
 
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case 'active': return <Badge variant="success">Actif</Badge>;
-      case 'pending': return <Badge variant="warning">En attente</Badge>;
-      case 'suspended': return <Badge variant="destructive">Suspendu</Badge>;
+      case 'active': return <Badge variant="success">{t.common.status.active}</Badge>;
+      case 'pending': return <Badge variant="warning">{t.common.status.pending}</Badge>;
+      case 'suspended': return <Badge variant="destructive">{t.common.status.suspended}</Badge>;
       default: return <Badge variant="outline">{status}</Badge>;
     }
   };
@@ -168,7 +170,7 @@ export default function AdminUsers() {
     <div className="space-y-8 animate-fade-in">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-display font-bold">Gestion des Utilisateurs</h1>
+          <h1 className="text-3xl font-display font-bold">{t.admin.users.title}</h1>
           <p className="text-muted-foreground mt-1">Gérez les clients et les administrateurs.</p>
         </div>
         <Button onClick={() => setCreateOpen(true)} className="gap-2">
@@ -193,12 +195,12 @@ export default function AdminUsers() {
               <TableHeader>
                 <TableRow>
                   <TableHead>Nom complet</TableHead>
-                  <TableHead>Email</TableHead>
+                  <TableHead>{t.admin.users.email}</TableHead>
                   <TableHead>Pays</TableHead>
-                  <TableHead>Rôle</TableHead>
+                  <TableHead>{t.admin.users.role}</TableHead>
                   <TableHead>2FA</TableHead>
                   <TableHead>Inscription</TableHead>
-                  <TableHead>Statut</TableHead>
+                  <TableHead>{t.admin.users.status}</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
@@ -307,9 +309,9 @@ export default function AdminUsers() {
                 <Select value={newUser.status} onValueChange={v => setNewUser(p => ({ ...p, status: v }))}>
                   <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="active">Actif</SelectItem>
-                    <SelectItem value="pending">En attente</SelectItem>
-                    <SelectItem value="suspended">Suspendu</SelectItem>
+                    <SelectItem value="active">{t.common.status.active}</SelectItem>
+                    <SelectItem value="pending">{t.common.status.pending}</SelectItem>
+                    <SelectItem value="suspended">{t.common.status.suspended}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

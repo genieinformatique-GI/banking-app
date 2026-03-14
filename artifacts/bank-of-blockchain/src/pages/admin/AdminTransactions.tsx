@@ -1,3 +1,4 @@
+import { useLanguage } from "@/contexts/LanguageContext";
 import { useState } from "react";
 import { useGetTransactions, useValidateTransaction, useRejectTransaction } from "@workspace/api-client-react";
 import { Card, CardContent } from "@/components/ui/card";
@@ -15,6 +16,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Filter, Eye, CheckCircle, XCircle, ArrowUpRight } from "lucide-react";
 
 export default function AdminTransactions() {
+  const { t } = useLanguage();
   const [filter, setFilter] = useState("all");
   const { data, isLoading } = useGetTransactions({ limit: 100 });
   const { toast } = useToast();
@@ -52,10 +54,10 @@ export default function AdminTransactions() {
 
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case 'completed': return <Badge variant="success">Complété</Badge>;
-      case 'pending': return <Badge variant="warning">En attente</Badge>;
-      case 'processing': return <Badge variant="default" className="bg-blue-500/10 text-blue-500">En cours</Badge>;
-      case 'rejected': return <Badge variant="destructive">Rejeté</Badge>;
+      case 'completed': return <Badge variant="success">{t.common.status.completed}</Badge>;
+      case 'pending': return <Badge variant="warning">{t.common.status.pending}</Badge>;
+      case 'processing': return <Badge variant="default" className="bg-blue-500/10 text-blue-500">{t.common.status.processing}</Badge>;
+      case 'rejected': return <Badge variant="destructive">{t.common.status.rejected}</Badge>;
       default: return <Badge variant="outline">{status}</Badge>;
     }
   };
@@ -67,21 +69,21 @@ export default function AdminTransactions() {
     <div className="space-y-8 animate-fade-in">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
         <div>
-          <h1 className="text-3xl font-display font-bold">Validation des Transactions</h1>
+          <h1 className="text-3xl font-display font-bold">{(t as any).admin.transactions.title}</h1>
           <p className="text-muted-foreground mt-1">Supervisez et validez les dépôts et retraits.</p>
         </div>
         <div className="flex items-center gap-2">
           <Filter className="w-4 h-4 text-muted-foreground" />
           <Select value={filter} onValueChange={setFilter}>
             <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Tous les statuts" />
+              <SelectValue placeholder={(t as any).transactions.allStatuses} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">Tous les statuts</SelectItem>
-              <SelectItem value="pending">En attente</SelectItem>
-              <SelectItem value="processing">En cours</SelectItem>
-              <SelectItem value="completed">Complétés</SelectItem>
-              <SelectItem value="rejected">Rejetés</SelectItem>
+              <SelectItem value="all">{(t as any).transactions.allStatuses}</SelectItem>
+              <SelectItem value="pending">{t.common.status.pending}</SelectItem>
+              <SelectItem value="processing">{t.common.status.processing}</SelectItem>
+              <SelectItem value="completed">{t.common.status.completed}</SelectItem>
+              <SelectItem value="rejected">{t.common.status.rejected}</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -96,13 +98,13 @@ export default function AdminTransactions() {
               <TableHeader>
                 <TableRow>
                   <TableHead>ID</TableHead>
-                  <TableHead>Utilisateur</TableHead>
-                  <TableHead>Type</TableHead>
-                  <TableHead>Montant</TableHead>
-                  <TableHead>Description</TableHead>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Statut</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
+                  <TableHead>{t.admin.users.name}</TableHead>
+                  <TableHead>{(t as any).common.type}</TableHead>
+                  <TableHead>{t.transfers.amount}</TableHead>
+                  <TableHead>{t.transactions.description}</TableHead>
+                  <TableHead>{t.transactions.date}</TableHead>
+                  <TableHead>{t.transactions.status}</TableHead>
+                  <TableHead className="text-right">{t.common.actions}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>

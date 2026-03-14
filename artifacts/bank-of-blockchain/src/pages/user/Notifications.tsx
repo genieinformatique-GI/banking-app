@@ -1,3 +1,4 @@
+import { useLanguage } from "@/contexts/LanguageContext";
 import { useGetNotifications, useMarkNotificationRead } from "@workspace/api-client-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -7,6 +8,7 @@ import { Bell, Info, CheckCircle, AlertTriangle, XCircle, Check } from "lucide-r
 import { formatDate } from "@/lib/utils";
 
 export default function UserNotifications() {
+  const { t } = useLanguage();
   const { data, isLoading } = useGetNotifications();
   const markRead = useMarkNotificationRead();
   const queryClient = useQueryClient();
@@ -33,9 +35,9 @@ export default function UserNotifications() {
     <div className="space-y-8 animate-fade-in">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-display font-bold">Notifications</h1>
+          <h1 className="text-3xl font-display font-bold">{t.notifications.title}</h1>
           <p className="text-muted-foreground mt-1">
-            {unread.length > 0 ? `${unread.length} notification(s) non lue(s)` : "Tout est à jour."}
+            {unread.length > 0 ? `${unread.length} ${t.notifications.unread}` : (t as any).notifications.upToDate}
           </p>
         </div>
         {unread.length > 0 && (
@@ -48,8 +50,8 @@ export default function UserNotifications() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Toutes les notifications</CardTitle>
-          <CardDescription>Messages de votre conseiller et alertes système.</CardDescription>
+          <CardTitle>{(t as any).notifications.allTitle}</CardTitle>
+          <CardDescription>{(t as any).notifications.description}</CardDescription>
         </CardHeader>
         <CardContent className="p-0">
           {isLoading ? (
@@ -59,7 +61,7 @@ export default function UserNotifications() {
           ) : notifications.length === 0 ? (
             <div className="p-12 text-center">
               <Bell className="w-12 h-12 text-muted-foreground/30 mx-auto mb-4" />
-              <p className="text-muted-foreground">Aucune notification pour le moment.</p>
+              <p className="text-muted-foreground">{t.notifications.noNotifications}</p>
             </div>
           ) : (
             <div className="divide-y divide-border">

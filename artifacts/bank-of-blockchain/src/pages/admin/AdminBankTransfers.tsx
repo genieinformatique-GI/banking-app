@@ -1,3 +1,4 @@
+import { useLanguage } from "@/contexts/LanguageContext";
 import { useState } from "react";
 import { useGetBankTransfers, useValidateBankTransfer, useRejectBankTransfer } from "@workspace/api-client-react";
 import { Card, CardContent } from "@/components/ui/card";
@@ -14,6 +15,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Eye, CheckCircle, XCircle, Building2 } from "lucide-react";
 
 export default function AdminBankTransfers() {
+  const { t } = useLanguage();
   const { data, isLoading } = useGetBankTransfers();
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -49,16 +51,16 @@ export default function AdminBankTransfers() {
   const openReject = (t: any) => { setSelectedTransfer(t); setRejectReason(""); setRejectModalOpen(true); };
 
   const statusBadge = (status: string) => {
-    if (status === 'pending') return <Badge variant="warning">À valider</Badge>;
-    if (status === 'completed') return <Badge variant="success">Validé</Badge>;
-    return <Badge variant="destructive">Rejeté</Badge>;
+    if (status === 'pending') return <Badge variant="warning">{(t as any).admin.bankTransfers.toValidate}</Badge>;
+    if (status === 'completed') return <Badge variant="success">{(t as any).admin.bankTransfers.validated}</Badge>;
+    return <Badge variant="destructive">{(t as any).admin.bankTransfers.rejected}</Badge>;
   };
 
   return (
     <div className="space-y-8 animate-fade-in">
       <div>
-        <h1 className="text-3xl font-display font-bold">Virements Bancaires</h1>
-        <p className="text-muted-foreground mt-1">Validation des virements SEPA et SWIFT sortants.</p>
+        <h1 className="text-3xl font-display font-bold">{(t as any).admin.bankTransfers.title}</h1>
+        <p className="text-muted-foreground mt-1">{(t as any).admin.bankTransfers.subtitle}</p>
       </div>
 
       <Card>
@@ -70,13 +72,13 @@ export default function AdminBankTransfers() {
               <TableHeader>
                 <TableRow>
                   <TableHead>#</TableHead>
-                  <TableHead>Client</TableHead>
-                  <TableHead>Montant</TableHead>
-                  <TableHead>Bénéficiaire</TableHead>
-                  <TableHead>IBAN</TableHead>
+                  <TableHead>{(t as any).admin.bankTransfers.client}</TableHead>
+                  <TableHead>{t.transfers.amount}</TableHead>
+                  <TableHead>{t.transfers.beneficiary}</TableHead>
+                  <TableHead>{t.transfers.iban}</TableHead>
                   <TableHead>Date</TableHead>
-                  <TableHead>Statut</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
+                  <TableHead>{t.transactions.status}</TableHead>
+                  <TableHead className="text-right">{t.common.actions}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>

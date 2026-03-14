@@ -1,3 +1,4 @@
+import { useLanguage } from "@/contexts/LanguageContext";
 import { useState } from "react";
 import { useGetUsers, useUpdateUser, useGetMe } from "@workspace/api-client-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -13,6 +14,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 const authHeader = () => ({ "Content-Type": "application/json", Authorization: `Bearer ${localStorage.getItem("bob_token")}` });
 
 export default function AdminSecurity() {
+  const { t } = useLanguage();
   const { data: currentUser } = useGetMe();
   const { data: usersData, isLoading } = useGetUsers();
   const { toast } = useToast();
@@ -75,7 +77,7 @@ export default function AdminSecurity() {
   return (
     <div className="space-y-8 animate-fade-in">
       <div>
-        <h1 className="text-3xl font-display font-bold">Sécurité & Rôles</h1>
+        <h1 className="text-3xl font-display font-bold">{(t as any).admin.security.title}</h1>
         <p className="text-muted-foreground mt-1">Gérez les privilèges d'accès et les administrateurs de la plateforme.</p>
       </div>
 

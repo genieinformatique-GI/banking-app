@@ -1,3 +1,4 @@
+import { useLanguage } from "@/contexts/LanguageContext";
 import { useState } from "react";
 import { useGetUsers } from "@workspace/api-client-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -14,6 +15,7 @@ import { Edit2, Euro, DollarSign, Bitcoin, RefreshCw, Plus, Minus, Equal } from 
 type OpMode = "set" | "add" | "subtract";
 
 export default function Balances() {
+  const { t } = useLanguage();
   const { data: usersData, isLoading } = useGetUsers();
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -112,7 +114,7 @@ export default function Balances() {
   return (
     <div className="space-y-8 animate-fade-in">
       <div>
-        <h1 className="text-3xl font-display font-bold">Gestion des Soldes</h1>
+        <h1 className="text-3xl font-display font-bold">{t.admin.balances.title}</h1>
         <p className="text-muted-foreground mt-1">Créditez ou débitez manuellement les comptes clients.</p>
       </div>
 
@@ -186,7 +188,7 @@ export default function Balances() {
       <Dialog open={modalOpen} onOpenChange={setModalOpen}>
         <DialogContent className="sm:max-w-lg">
           <DialogHeader>
-            <DialogTitle>Modifier les soldes</DialogTitle>
+            <DialogTitle>{t.admin.users.editBalances}</DialogTitle>
           </DialogHeader>
           {selectedUser && (
             <div>

@@ -1,3 +1,4 @@
+import { useLanguage } from "@/contexts/LanguageContext";
 import { useState, useEffect, useRef } from "react";
 import { useGetMe } from "@workspace/api-client-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -15,6 +16,7 @@ import { exportUserActivityPDF } from "@/lib/pdf";
 const authHeader = () => ({ "Content-Type": "application/json", Authorization: `Bearer ${localStorage.getItem("bob_token")}` });
 
 export default function AdminProfile() {
+  const { t } = useLanguage();
   const { data: user } = useGetMe();
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -178,7 +180,7 @@ export default function AdminProfile() {
     <div className="space-y-8 animate-fade-in">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-display font-bold">Mon Profil Administrateur</h1>
+          <h1 className="text-3xl font-display font-bold">{(t as any).admin.profile.title}</h1>
           <p className="text-muted-foreground mt-1">Gérez vos informations personnelles et votre sécurité.</p>
         </div>
         <Button onClick={handleExportPDF} disabled={exporting} variant="outline" className="gap-2">

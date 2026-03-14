@@ -1,3 +1,4 @@
+import { useLanguage } from "@/contexts/LanguageContext";
 import { useState } from "react";
 import { useGetNotifications, useCreateNotification, useGetUsers } from "@workspace/api-client-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -15,6 +16,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Send, Bell, Info, AlertTriangle, CheckCircle, XCircle } from "lucide-react";
 
 export default function AdminNotifications() {
+  const { t } = useLanguage();
   const { data: notificationsData, isLoading: notificationsLoading } = useGetNotifications();
   const { data: usersData } = useGetUsers();
   const { toast } = useToast();
@@ -75,14 +77,14 @@ export default function AdminNotifications() {
   return (
     <div className="space-y-8 animate-fade-in">
       <div>
-        <h1 className="text-3xl font-display font-bold">Centre de Notifications</h1>
+        <h1 className="text-3xl font-display font-bold">{t.admin.notifications.title}</h1>
         <p className="text-muted-foreground mt-1">Gérez la communication ciblée avec vos clients.</p>
       </div>
 
       <div className="grid lg:grid-cols-3 gap-8">
         <Card className="lg:col-span-1 h-fit">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2"><Send className="w-5 h-5"/> Envoyer une notification</CardTitle>
+            <CardTitle className="flex items-center gap-2"><Send className="w-5 h-5"/> {t.admin.notifications.title}</CardTitle>
             <CardDescription>Diffusez un message sur le dashboard client.</CardDescription>
           </CardHeader>
           <CardContent>
@@ -93,7 +95,7 @@ export default function AdminNotifications() {
                   checked={form.sendToAll} 
                   onCheckedChange={(c) => setForm({...form, sendToAll: !!c})} 
                 />
-                <Label htmlFor="sendToAll" className="cursor-pointer">Envoyer à tous les utilisateurs</Label>
+                <Label htmlFor="sendToAll" className="cursor-pointer">{t.admin.notifications.allUsers}</Label>
               </div>
 
               {!form.sendToAll && (
@@ -101,7 +103,7 @@ export default function AdminNotifications() {
                   <Label>Utilisateur cible</Label>
                   <Select value={form.userId} onValueChange={v => setForm({...form, userId: v})}>
                     <SelectTrigger>
-                      <SelectValue placeholder="Sélectionner un utilisateur" />
+                      <SelectValue placeholder={t.admin.notifications.selectUser} />
                     </SelectTrigger>
                     <SelectContent>
                       {usersData?.users.map(u => (
@@ -113,7 +115,7 @@ export default function AdminNotifications() {
               )}
 
               <div className="space-y-2">
-                <Label>Type de message</Label>
+                <Label>{t.admin.notifications.type}</Label>
                 <Select value={form.type} onValueChange={v => setForm({...form, type: v as any})}>
                   <SelectTrigger>
                     <SelectValue />
@@ -128,12 +130,12 @@ export default function AdminNotifications() {
               </div>
 
               <div className="space-y-2">
-                <Label>Titre</Label>
+                <Label>{t.admin.notifications.notificationTitle}</Label>
                 <Input value={form.title} onChange={e => setForm({...form, title: e.target.value})} placeholder="Ex: Maintenance système" />
               </div>
 
               <div className="space-y-2">
-                <Label>Message</Label>
+                <Label>{t.admin.notifications.message}</Label>
                 <Textarea value={form.message} onChange={e => setForm({...form, message: e.target.value})} placeholder="Détail de la notification..." rows={4} />
               </div>
 
@@ -146,7 +148,7 @@ export default function AdminNotifications() {
 
         <Card className="lg:col-span-2">
           <CardHeader>
-            <CardTitle>Historique des envois</CardTitle>
+            <CardTitle>{(t as any).notifications.allTitle}</CardTitle>
           </CardHeader>
           <CardContent className="p-0">
             {notificationsLoading ? (

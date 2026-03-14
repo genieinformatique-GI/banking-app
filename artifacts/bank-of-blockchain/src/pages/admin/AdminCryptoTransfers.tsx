@@ -1,3 +1,4 @@
+import { useLanguage } from "@/contexts/LanguageContext";
 import { useState } from "react";
 import { useGetCryptoTransfers, useValidateCryptoTransfer, useRejectCryptoTransfer } from "@workspace/api-client-react";
 import { Card, CardContent } from "@/components/ui/card";
@@ -14,6 +15,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Eye, CheckCircle, XCircle, Zap } from "lucide-react";
 
 export default function AdminCryptoTransfers() {
+  const { t: tl } = useLanguage();
   const { data, isLoading } = useGetCryptoTransfers();
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -49,9 +51,9 @@ export default function AdminCryptoTransfers() {
   const openReject = (t: any) => { setSelectedTransfer(t); setRejectReason(""); setRejectModalOpen(true); };
 
   const statusBadge = (status: string) => {
-    if (status === 'pending') return <Badge variant="warning">À valider</Badge>;
-    if (status === 'completed') return <Badge variant="success">Validé</Badge>;
-    return <Badge variant="destructive">Rejeté</Badge>;
+    if (status === 'pending') return <Badge variant="warning">{(tl as any).admin.bankTransfers.toValidate}</Badge>;
+    if (status === 'completed') return <Badge variant="success">{(tl as any).admin.bankTransfers.validated}</Badge>;
+    return <Badge variant="destructive">{(tl as any).admin.bankTransfers.rejected}</Badge>;
   };
 
   const truncateAddress = (address: string) => address ? `${address.slice(0, 8)}…${address.slice(-6)}` : '';
@@ -59,8 +61,8 @@ export default function AdminCryptoTransfers() {
   return (
     <div className="space-y-8 animate-fade-in">
       <div>
-        <h1 className="text-3xl font-display font-bold">Transferts Crypto</h1>
-        <p className="text-muted-foreground mt-1">Validation des retraits de cryptomonnaies vers des portefeuilles externes.</p>
+        <h1 className="text-3xl font-display font-bold">{(tl as any).admin.cryptoTransfers.title}</h1>
+        <p className="text-muted-foreground mt-1">{(tl as any).admin.cryptoTransfers.subtitle}</p>
       </div>
 
       <Card>
@@ -72,13 +74,13 @@ export default function AdminCryptoTransfers() {
               <TableHeader>
                 <TableRow>
                   <TableHead>#</TableHead>
-                  <TableHead>Client</TableHead>
-                  <TableHead>Montant</TableHead>
+                  <TableHead>{(tl as any).admin.bankTransfers.client}</TableHead>
+                  <TableHead>{tl.transfers.amount}</TableHead>
                   <TableHead>Crypto</TableHead>
                   <TableHead>Adresse Wallet</TableHead>
                   <TableHead>Date</TableHead>
-                  <TableHead>Statut</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
+                  <TableHead>{tl.transactions.status}</TableHead>
+                  <TableHead className="text-right">{tl.common.actions}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>

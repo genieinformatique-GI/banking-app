@@ -6,8 +6,10 @@ import { formatCurrency, formatDate } from "@/lib/utils";
 import { Euro, DollarSign, Bitcoin, ArrowUpRight, ArrowDownLeft } from "lucide-react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function UserDashboard() {
+  const { t } = useLanguage();
   const { data: balancesData, isLoading: balancesLoading } = useGetMyBalances();
   const { data: transactionsData, isLoading: txLoading } = useGetTransactions({ limit: 5 });
 
@@ -16,10 +18,10 @@ export default function UserDashboard() {
 
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case 'completed': return <Badge variant="success">Complété</Badge>;
-      case 'pending': return <Badge variant="warning">En attente</Badge>;
-      case 'processing': return <Badge variant="default" className="bg-blue-500/10 text-blue-500">En cours</Badge>;
-      case 'rejected': return <Badge variant="destructive">Rejeté</Badge>;
+      case 'completed': return <Badge variant="success">{t.common.status.completed}</Badge>;
+      case 'pending': return <Badge variant="warning">{t.common.status.pending}</Badge>;
+      case 'processing': return <Badge variant="default" className="bg-blue-500/10 text-blue-500">{t.common.status.processing}</Badge>;
+      case 'rejected': return <Badge variant="destructive">{t.common.status.rejected}</Badge>;
       default: return <Badge variant="outline">{status}</Badge>;
     }
   };
@@ -28,12 +30,12 @@ export default function UserDashboard() {
     <div className="space-y-8 animate-fade-in">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
         <div>
-          <h1 className="text-3xl font-display font-bold">Vue d'ensemble</h1>
-          <p className="text-muted-foreground mt-1">Gérez vos avoirs fiat et crypto en temps réel.</p>
+          <h1 className="text-3xl font-display font-bold">{(t as any).dashboard.title}</h1>
+          <p className="text-muted-foreground mt-1">{(t as any).dashboard.subtitle}</p>
         </div>
         <div className="flex gap-3">
           <Link href="/dashboard/transfers">
-            <Button className="gap-2"><ArrowUpRight className="w-4 h-4"/> Faire un virement</Button>
+            <Button className="gap-2"><ArrowUpRight className="w-4 h-4"/> {t.dashboard.makeTransfer}</Button>
           </Link>
         </div>
       </div>
@@ -42,7 +44,7 @@ export default function UserDashboard() {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
         <Card className="bg-gradient-to-br from-card to-card/50 border-primary/20">
           <CardHeader className="pb-2 flex flex-row items-center justify-between">
-            <CardTitle className="text-muted-foreground text-sm font-medium">Solde EUR</CardTitle>
+            <CardTitle className="text-muted-foreground text-sm font-medium">{t.dashboard.eurBalance}</CardTitle>
             <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
               <Euro className="w-4 h-4 text-primary" />
             </div>
@@ -60,7 +62,7 @@ export default function UserDashboard() {
 
         <Card>
           <CardHeader className="pb-2 flex flex-row items-center justify-between">
-            <CardTitle className="text-muted-foreground text-sm font-medium">Solde USD</CardTitle>
+            <CardTitle className="text-muted-foreground text-sm font-medium">{t.dashboard.usdBalance}</CardTitle>
             <div className="w-8 h-8 rounded-full bg-emerald-500/10 flex items-center justify-center">
               <DollarSign className="w-4 h-4 text-emerald-500" />
             </div>
@@ -78,7 +80,7 @@ export default function UserDashboard() {
 
         <Card>
           <CardHeader className="pb-2 flex flex-row items-center justify-between">
-            <CardTitle className="text-muted-foreground text-sm font-medium">Solde BTC</CardTitle>
+            <CardTitle className="text-muted-foreground text-sm font-medium">{t.dashboard.btcBalance}</CardTitle>
             <div className="w-8 h-8 rounded-full bg-orange-500/10 flex items-center justify-center">
               <Bitcoin className="w-4 h-4 text-orange-500" />
             </div>
@@ -98,9 +100,9 @@ export default function UserDashboard() {
       {/* Recent Transactions */}
       <Card>
         <CardHeader className="flex flex-row items-center justify-between border-b border-border pb-4">
-          <CardTitle>Transactions Récentes</CardTitle>
+          <CardTitle>{ t.dashboard.recentTransactions }</CardTitle>
           <Link href="/dashboard/transactions">
-            <Button variant="link" size="sm">Voir tout</Button>
+            <Button variant="link" size="sm">{ t.common.viewAll }</Button>
           </Link>
         </CardHeader>
         <CardContent className="p-0">
@@ -113,10 +115,10 @@ export default function UserDashboard() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Type</TableHead>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Montant</TableHead>
-                  <TableHead>Statut</TableHead>
+                  <TableHead>{(t as any).common.type}</TableHead>
+                  <TableHead>{t.transactions.date}</TableHead>
+                  <TableHead>{t.transfers.amount}</TableHead>
+                  <TableHead>{t.transactions.status}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>

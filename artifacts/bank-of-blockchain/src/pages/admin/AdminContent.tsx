@@ -1,3 +1,4 @@
+import { useLanguage } from "@/contexts/LanguageContext";
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -33,6 +34,7 @@ const PAGE_LABELS: Record<string, string> = {
 };
 
 export default function AdminContent() {
+  const { t } = useLanguage();
   const [content, setContent] = useState<ContentItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -117,7 +119,7 @@ export default function AdminContent() {
     <div className="space-y-8 animate-fade-in">
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-3xl font-display font-bold">Contenu du Site</h1>
+          <h1 className="text-3xl font-display font-bold">{t.admin.content.title}</h1>
           <p className="text-muted-foreground mt-1">Modifiez les textes et informations affichés sur les pages publiques.</p>
         </div>
         <div className="flex gap-2">

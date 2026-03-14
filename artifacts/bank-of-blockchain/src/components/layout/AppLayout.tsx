@@ -54,10 +54,10 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <div className="w-20 h-20 bg-amber-500/10 rounded-full flex items-center justify-center mb-6">
           <ShieldCheck className="w-10 h-10 text-amber-500" />
         </div>
-        <h1 className="text-3xl font-display font-bold text-foreground mb-4">Compte en attente d'activation</h1>
+        <h1 className="text-3xl font-display font-bold text-foreground mb-4">{(t as any).app.pendingTitle}</h1>
         <p className="text-muted-foreground max-w-md text-lg">
-          Votre compte a été créé avec succès mais attend la validation d'un administrateur.
-          Vous recevrez un email dès son activation.
+          {(t as any).app.pendingDesc}
+          {(t as any).app.pendingEmail}
         </p>
         <button
           onClick={() => { localStorage.removeItem("bob_token"); window.location.href = "/login"; }}
@@ -75,9 +75,9 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <div className="w-20 h-20 bg-red-500/10 rounded-full flex items-center justify-center mb-6">
           <ShieldCheck className="w-10 h-10 text-red-500" />
         </div>
-        <h1 className="text-3xl font-display font-bold text-foreground mb-4">Compte suspendu</h1>
+        <h1 className="text-3xl font-display font-bold text-foreground mb-4">{(t as any).app.suspendedTitle}</h1>
         <p className="text-muted-foreground max-w-md text-lg">
-          Votre compte a été suspendu par un administrateur. Veuillez contacter le support.
+          {(t as any).app.suspendedDesc}
         </p>
       </div>
     );
@@ -224,7 +224,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             <button
               onClick={toggleTheme}
               className="p-2 rounded-xl border border-border hover:bg-secondary/60 transition-colors text-muted-foreground hover:text-foreground"
-              title={theme === "dark" ? "Passer en mode clair" : "Passer en mode sombre"}
+              title={theme === "dark" ? (t as any).app.themeLight : (t as any).app.themeDark}
             >
               {theme === "dark" ? <Sun className="w-4.5 h-4.5" style={{ width: "18px", height: "18px" }} /> : <Moon className="w-4.5 h-4.5" style={{ width: "18px", height: "18px" }} />}
             </button>

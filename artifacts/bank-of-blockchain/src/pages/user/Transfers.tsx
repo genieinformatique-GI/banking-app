@@ -1,3 +1,4 @@
+import { useLanguage } from "@/contexts/LanguageContext";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -29,6 +30,7 @@ const cryptoTransferSchema = z.object({
 });
 
 export default function Transfers() {
+  const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState<"bank" | "crypto">("bank");
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -68,8 +70,8 @@ export default function Transfers() {
   return (
     <div className="max-w-4xl mx-auto space-y-8 animate-fade-in">
       <div>
-        <h1 className="text-3xl font-display font-bold">Transferts</h1>
-        <p className="text-muted-foreground mt-1">Initiez des virements fiat ou crypto en toute sécurité.</p>
+        <h1 className="text-3xl font-display font-bold">{t.transfers.title}</h1>
+        <p className="text-muted-foreground mt-1">{t.transfers.subtitle}</p>
       </div>
 
       <div className="flex gap-2 p-1 bg-secondary rounded-xl w-full sm:w-fit mb-8">
@@ -77,30 +79,30 @@ export default function Transfers() {
           onClick={() => setActiveTab("bank")}
           className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 rounded-lg font-semibold transition-all text-sm ${activeTab === 'bank' ? 'bg-card text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}
         >
-          <Building className="w-4 h-4" /> <span className="hidden xs:inline">Virement </span>Bancaire
+          <Building className="w-4 h-4" /> {(t as any).transfers.bankTab}
         </button>
         <button
           onClick={() => setActiveTab("crypto")}
           className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 rounded-lg font-semibold transition-all text-sm ${activeTab === 'crypto' ? 'bg-card text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}
         >
-          <Bitcoin className="w-4 h-4" /> Transfert Crypto
+          <Bitcoin className="w-4 h-4" /> {(t as any).transfers.cryptoTab}
         </button>
       </div>
 
       {activeTab === "bank" && (
         <Card className="animate-fade-in">
           <CardHeader>
-            <CardTitle>Nouveau Virement SEPA/SWIFT</CardTitle>
+            <CardTitle>{(t as any).transfers.newSepaTitle}</CardTitle>
           </CardHeader>
           <CardContent>
             <form onSubmit={bankForm.handleSubmit((d) => createBankTransfer.mutate({ data: d }))} className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <Label>Montant</Label>
+                  <Label>{t.transfers.amount}</Label>
                   <Input type="number" step="0.01" {...bankForm.register("amount")} />
                 </div>
                 <div>
-                  <Label>Devise</Label>
+                  <Label>{t.transfers.currency}</Label>
                   <select 
                     {...bankForm.register("currency")}
                     className="flex h-12 w-full rounded-xl border border-border bg-background/50 px-4 py-2 text-sm text-foreground focus-visible:outline-none focus-visible:border-primary focus-visible:ring-4 focus-visible:ring-primary/10"
@@ -136,7 +138,7 @@ export default function Transfers() {
                 </div>
                 
                 <div>
-                  <Label>Référence (Optionnel)</Label>
+                  <Label>{t.transfers.reference}</Label>
                   <Input {...bankForm.register("reference")} />
                 </div>
               </div>
@@ -152,17 +154,17 @@ export default function Transfers() {
       {activeTab === "crypto" && (
         <Card className="animate-fade-in">
           <CardHeader>
-            <CardTitle>Retrait Crypto</CardTitle>
+            <CardTitle>{(t as any).transfers.cryptoWithdrawalTitle}</CardTitle>
           </CardHeader>
           <CardContent>
             <form onSubmit={cryptoForm.handleSubmit((d) => createCryptoTransfer.mutate({ data: d }))} className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <Label>Montant</Label>
+                  <Label>{t.transfers.amount}</Label>
                   <Input type="number" step="0.00000001" {...cryptoForm.register("amount")} />
                 </div>
                 <div>
-                  <Label>Cryptomonnaie</Label>
+                  <Label>{t.transfers.cryptocurrency}</Label>
                   <select 
                     {...cryptoForm.register("cryptocurrency")}
                     className="flex h-12 w-full rounded-xl border border-border bg-background/50 px-4 py-2 text-sm text-foreground focus-visible:outline-none focus-visible:border-primary focus-visible:ring-4 focus-visible:ring-primary/10"
@@ -176,11 +178,11 @@ export default function Transfers() {
 
               <div className="space-y-4 border-t border-border pt-6 mt-6">
                 <div>
-                  <Label>Adresse du portefeuille de destination</Label>
+                  <Label>{(t as any).transfers.walletDestination}</Label>
                   <Input {...cryptoForm.register("walletAddress")} placeholder="Ex: 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa" />
                 </div>
                 <div>
-                  <Label>Réseau (Optionnel)</Label>
+                  <Label>{(t as any).transfers.networkOptional}</Label>
                   <Input {...cryptoForm.register("network")} placeholder="Ex: ERC20, TRC20, Bitcoin" />
                 </div>
               </div>
@@ -191,7 +193,7 @@ export default function Transfers() {
               </div>
 
               <Button type="submit" size="lg" className="w-full" disabled={createCryptoTransfer.isPending}>
-                {createCryptoTransfer.isPending ? "Traitement..." : "Initier le retrait"}
+                {createCryptoTransfer.isPending ? t.common.loading : (t as any).transfers.submitCrypto}
               </Button>
             </form>
           </CardContent>

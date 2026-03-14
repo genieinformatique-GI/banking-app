@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatCurrency } from "@/lib/utils";
 import { Euro, DollarSign, Bitcoin, TrendingUp } from "lucide-react";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const fakeChartData = [
   { name: 'Jan', value: 4000 },
@@ -15,6 +16,7 @@ const fakeChartData = [
 ];
 
 export default function Portfolio() {
+  const { t } = useLanguage();
   const { data, isLoading } = useGetMyBalances();
   
   const balances = data?.balances || { eur: 0, usd: 0, btc: 0 };
@@ -22,14 +24,14 @@ export default function Portfolio() {
   return (
     <div className="space-y-8 animate-fade-in">
       <div>
-        <h1 className="text-3xl font-display font-bold">Mon Portefeuille</h1>
-        <p className="text-muted-foreground mt-1">Aperçu de vos actifs et évolution de votre capital.</p>
+        <h1 className="text-3xl font-display font-bold">{t.portfolio.title}</h1>
+        <p className="text-muted-foreground mt-1">{t.portfolio.subtitle}</p>
       </div>
 
       <div className="grid md:grid-cols-3 gap-6">
         <Card className="bg-gradient-to-br from-card to-card/50 border-primary/20">
           <CardHeader className="pb-2 flex flex-row items-center justify-between">
-            <CardTitle className="text-muted-foreground text-sm font-medium">Solde EUR</CardTitle>
+            <CardTitle className="text-muted-foreground text-sm font-medium">{t.dashboard.eurBalance}</CardTitle>
             <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
               <Euro className="w-4 h-4 text-primary" />
             </div>
@@ -47,7 +49,7 @@ export default function Portfolio() {
 
         <Card>
           <CardHeader className="pb-2 flex flex-row items-center justify-between">
-            <CardTitle className="text-muted-foreground text-sm font-medium">Solde USD</CardTitle>
+            <CardTitle className="text-muted-foreground text-sm font-medium">{t.dashboard.usdBalance}</CardTitle>
             <div className="w-8 h-8 rounded-full bg-emerald-500/10 flex items-center justify-center">
               <DollarSign className="w-4 h-4 text-emerald-500" />
             </div>
@@ -65,7 +67,7 @@ export default function Portfolio() {
 
         <Card>
           <CardHeader className="pb-2 flex flex-row items-center justify-between">
-            <CardTitle className="text-muted-foreground text-sm font-medium">Solde BTC</CardTitle>
+            <CardTitle className="text-muted-foreground text-sm font-medium">{t.dashboard.btcBalance}</CardTitle>
             <div className="w-8 h-8 rounded-full bg-orange-500/10 flex items-center justify-center">
               <Bitcoin className="w-4 h-4 text-orange-500" />
             </div>
@@ -85,8 +87,8 @@ export default function Portfolio() {
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
           <div>
-            <CardTitle>Évolution du Capital</CardTitle>
-            <p className="text-sm text-muted-foreground mt-1">Valeur totale estimée en EUR sur les 6 derniers mois</p>
+            <CardTitle>{(t as any).portfolio.capitalEvolution}</CardTitle>
+            <p className="text-sm text-muted-foreground mt-1">{(t as any).portfolio.chartSubtitle}</p>
           </div>
           <TrendingUp className="text-muted-foreground" />
         </CardHeader>

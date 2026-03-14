@@ -1,3 +1,4 @@
+import { useLanguage } from "@/contexts/LanguageContext";
 import { useGetLogs } from "@workspace/api-client-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -5,12 +6,13 @@ import { Badge } from "@/components/ui/badge";
 import { formatDate } from "@/lib/utils";
 
 export default function AdminLogs() {
+  const { t } = useLanguage();
   const { data, isLoading } = useGetLogs({ limit: 100 });
 
   return (
     <div className="space-y-8 animate-fade-in">
       <div>
-        <h1 className="text-3xl font-display font-bold">Logs Système</h1>
+        <h1 className="text-3xl font-display font-bold">{t.admin.logs.title}</h1>
         <p className="text-muted-foreground mt-1">Traçabilité complète des actions d'administration.</p>
       </div>
 
@@ -24,8 +26,8 @@ export default function AdminLogs() {
                 <TableRow>
                   <TableHead>Date / Heure</TableHead>
                   <TableHead>Admin</TableHead>
-                  <TableHead>Action</TableHead>
-                  <TableHead>Cible</TableHead>
+                  <TableHead>{t.admin.logs.action}</TableHead>
+                  <TableHead>{t.admin.logs.target}</TableHead>
                   <TableHead>Détails</TableHead>
                 </TableRow>
               </TableHeader>

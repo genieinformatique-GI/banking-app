@@ -1,3 +1,4 @@
+import { useLanguage } from "@/contexts/LanguageContext";
 import { useState, useEffect, useRef } from "react";
 import { useGetMe, useGetBankAccounts, useCreateBankAccount, useDeleteBankAccount } from "@workspace/api-client-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -13,6 +14,7 @@ import { Trash2, Plus, Building2, Shield, User as UserIcon, Eye, EyeOff, Save, P
 import { exportUserActivityPDF } from "@/lib/pdf";
 
 export default function Settings() {
+  const { t } = useLanguage();
   const { data: user } = useGetMe();
   const { data: accountsData, isLoading: accountsLoading } = useGetBankAccounts();
   const { toast } = useToast();
@@ -280,20 +282,20 @@ export default function Settings() {
   return (
     <div className="space-y-8 animate-fade-in">
       <div>
-        <h1 className="text-3xl font-display font-bold">Paramètres du Compte</h1>
+        <h1 className="text-3xl font-display font-bold">{t.settings.title}</h1>
         <p className="text-muted-foreground mt-1">Gérez vos informations personnelles et vos coordonnées bancaires.</p>
       </div>
 
       <Tabs defaultValue="profile" className="space-y-6">
         <TabsList className="bg-secondary/50 p-1 rounded-xl w-full sm:w-auto flex">
           <TabsTrigger value="profile" className="flex-1 rounded-lg data-[state=active]:bg-primary data-[state=active]:text-primary-foreground text-xs sm:text-sm">
-            <UserIcon className="w-4 h-4 mr-1 sm:mr-2" /> Profil
+            <UserIcon className="w-4 h-4 mr-1 sm:mr-2" /> {t.settings.profile}
           </TabsTrigger>
           <TabsTrigger value="security" className="flex-1 rounded-lg data-[state=active]:bg-primary data-[state=active]:text-primary-foreground text-xs sm:text-sm">
-            <Shield className="w-4 h-4 mr-1 sm:mr-2" /> Sécurité
+            <Shield className="w-4 h-4 mr-1 sm:mr-2" /> {t.settings.security}
           </TabsTrigger>
           <TabsTrigger value="banks" className="flex-1 rounded-lg data-[state=active]:bg-primary data-[state=active]:text-primary-foreground text-xs sm:text-sm">
-            <Building2 className="w-4 h-4 mr-1 sm:mr-2" /> <span className="hidden sm:inline">Comptes </span>Bancaires
+            <Building2 className="w-4 h-4 mr-1 sm:mr-2" /> {t.settings.bankAccounts}
           </TabsTrigger>
         </TabsList>
 
@@ -302,7 +304,7 @@ export default function Settings() {
           {/* Avatar Card */}
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2"><Camera className="w-5 h-5" /> Photo de profil</CardTitle>
+              <CardTitle className="flex items-center gap-2"><Camera className="w-5 h-5" /> {(t as any).settings.profilePicture}</CardTitle>
               <CardDescription>Cliquez sur la photo pour la modifier (PNG, JPG, max 1.5 MB).</CardDescription>
             </CardHeader>
             <CardContent className="flex items-center gap-6">
@@ -671,7 +673,7 @@ export default function Settings() {
                         <Input required value={newAccount.bankName} onChange={e => setNewAccount({ ...newAccount, bankName: e.target.value })} />
                       </div>
                       <div className="space-y-2">
-                        <Label>Pays</Label>
+                        <Label>{t.settings.country}</Label>
                         <Input required value={newAccount.country} onChange={e => setNewAccount({ ...newAccount, country: e.target.value })} />
                       </div>
                     </div>
@@ -693,11 +695,11 @@ export default function Settings() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Bénéficiaire</TableHead>
-                      <TableHead>Banque</TableHead>
-                      <TableHead>IBAN</TableHead>
-                      <TableHead>BIC</TableHead>
-                      <TableHead className="text-right">Actions</TableHead>
+                      <TableHead>{t.transfers.beneficiary}</TableHead>
+                      <TableHead>{t.transfers.bank}</TableHead>
+                      <TableHead>{t.transfers.iban}</TableHead>
+                      <TableHead>{t.transfers.bic}</TableHead>
+                      <TableHead className="text-right">{t.common.actions}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
