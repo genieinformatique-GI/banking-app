@@ -1,6 +1,6 @@
 import PublicLayout, { PageTitle } from "@/components/layout/PublicLayout";
 import { Link } from "wouter";
-import { CheckCircle } from "lucide-react";
+import { CheckCircle, ShieldCheck, Zap, Search, Globe } from "lucide-react";
 
 export default function AssuranceCrypto() {
   return (
@@ -27,28 +27,28 @@ export default function AssuranceCrypto() {
           <div className="grid md:grid-cols-2 gap-6 mb-12">
             {[
               {
-                icon: "🛡️",
+                icon: <ShieldCheck size={28} />,
                 title: "Protection contre les arnaques",
                 desc: "En cas d'escroquerie sur une plateforme frauduleuse, notre assurance couvre vos pertes et déclenche le processus de remboursement.",
               },
               {
-                icon: "⚡",
+                icon: <Zap size={28} />,
                 title: "Remboursement rapide",
                 desc: "Grâce à nos partenariats avec l'AMF et la SEC, le processus de remboursement est rapide et transparent.",
               },
               {
-                icon: "🔍",
+                icon: <Search size={28} />,
                 title: "Investigation complète",
                 desc: "Nos experts analysent chaque dossier en profondeur pour maximiser vos chances de récupérer vos fonds.",
               },
               {
-                icon: "🌐",
+                icon: <Globe size={28} />,
                 title: "Couverture mondiale",
                 desc: "Notre assurance est valable dans plus de 65 pays, couvrant les principales plateformes frauduleuses mondiales.",
               },
             ].map(({ icon, title, desc }, i) => (
               <div key={i} style={{ background: "#f8f9fa", borderRadius: "12px", padding: "24px", borderLeft: "4px solid #225473" }}>
-                <div style={{ fontSize: "2rem", marginBottom: "12px" }}>{icon}</div>
+                <div style={{ color: "#225473", marginBottom: "12px" }}>{icon}</div>
                 <h4 style={{ color: "#225473", fontWeight: 700, marginBottom: "8px" }}>{title}</h4>
                 <p style={{ color: "#666", fontSize: "0.9rem", lineHeight: 1.65 }}>{desc}</p>
               </div>

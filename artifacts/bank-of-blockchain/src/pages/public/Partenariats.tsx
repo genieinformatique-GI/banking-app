@@ -1,6 +1,6 @@
 import PublicLayout, { PageTitle } from "@/components/layout/PublicLayout";
 import { Link } from "wouter";
-import { CheckCircle } from "lucide-react";
+import { CheckCircle, Scale, ScanSearch, Banknote } from "lucide-react";
 
 export default function Partenariats() {
   return (
@@ -80,12 +80,12 @@ export default function Partenariats() {
             </p>
             <div className="grid md:grid-cols-3 gap-6">
               {[
-                { icon: "⚖️", title: "Recours légaux", desc: "Nos partenariats nous permettent d'engager des procédures légales dans plus de 65 pays." },
-                { icon: "🔍", title: "Traçabilité", desc: "Nous avons accès aux outils de traçabilité des transactions blockchain les plus avancés." },
-                { icon: "💰", title: "Remboursements", desc: "Des canaux officiels garantissent que vos remboursements arrivent rapidement et en toute sécurité." },
+                { icon: <Scale size={28} />, title: "Recours légaux", desc: "Nos partenariats nous permettent d'engager des procédures légales dans plus de 65 pays." },
+                { icon: <ScanSearch size={28} />, title: "Traçabilité", desc: "Nous avons accès aux outils de traçabilité des transactions blockchain les plus avancés." },
+                { icon: <Banknote size={28} />, title: "Remboursements", desc: "Des canaux officiels garantissent que vos remboursements arrivent rapidement et en toute sécurité." },
               ].map(({ icon, title, desc }, i) => (
                 <div key={i} style={{ background: "white", borderRadius: "12px", padding: "24px", textAlign: "center", boxShadow: "0 2px 10px rgba(0,0,0,0.05)" }}>
-                  <div style={{ fontSize: "2.5rem", marginBottom: "14px" }}>{icon}</div>
+                  <div style={{ color: "#225473", display: "flex", justifyContent: "center", marginBottom: "14px" }}>{icon}</div>
                   <h4 style={{ color: "#225473", fontWeight: 700, marginBottom: "8px" }}>{title}</h4>
                   <p style={{ color: "#777", fontSize: "0.88rem", lineHeight: 1.65 }}>{desc}</p>
                 </div>

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { ChevronDown, Mail, X, Menu } from "lucide-react";
+import logo from "@assets/logo_1773450356780.jpg";
 
 function PublicHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -50,17 +51,9 @@ function PublicHeader() {
             {/* Logo */}
             <Link href="/">
               <img
-                src="https://bofblockchain.com/template/img/logo_black.png"
+                src={logo}
                 alt="Bank of Blockchain"
-                style={{ height: "50px", width: "auto" }}
-                onError={(e) => {
-                  const t = e.target as HTMLImageElement;
-                  t.style.display = "none";
-                  const span = document.createElement("span");
-                  span.style.cssText = "font-weight:800;font-size:1.2rem;color:#225473;letter-spacing:-0.5px;";
-                  span.textContent = "Bank of Blockchain";
-                  t.parentNode?.insertBefore(span, t);
-                }}
+                style={{ height: "52px", width: "auto", objectFit: "contain" }}
               />
             </Link>
 
@@ -215,9 +208,9 @@ function PublicFooter() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           <div>
             <img
-              src="https://bofblockchain.com/template/img/logo_black.png"
+              src={logo}
               alt="Bank of Blockchain"
-              style={{ height: "40px", width: "auto", filter: "brightness(0) invert(1)", marginBottom: "16px" }}
+              style={{ height: "44px", width: "auto", objectFit: "contain", filter: "brightness(0) invert(1)", marginBottom: "16px" }}
             />
             <p style={{ color: "#aaa", fontSize: "14px", lineHeight: "1.7" }}>
               Depuis plusieurs années, nous proposons à nos internautes nos meilleures offres de financement. Une solution pour chaque situation.

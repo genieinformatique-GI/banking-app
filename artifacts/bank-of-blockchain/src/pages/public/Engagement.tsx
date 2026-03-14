@@ -1,6 +1,6 @@
 import PublicLayout, { PageTitle } from "@/components/layout/PublicLayout";
 import { Link } from "wouter";
-import { CheckCircle, Shield, Eye, Lock, Globe } from "lucide-react";
+import { CheckCircle, Shield, Eye, Lock, Globe, Users, Banknote, FileText } from "lucide-react";
 
 export default function Engagement() {
   return (
@@ -29,13 +29,13 @@ export default function Engagement() {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
-              { icon: "🌍", value: "65+", label: "Pays" },
-              { icon: "👥", value: "10 000+", label: "Clients" },
-              { icon: "💶", value: "50M€+", label: "€ Remboursés" },
-              { icon: "📋", value: "1000+", label: "Financements en cours" },
+              { icon: <Globe size={28} />, value: "65+", label: "Pays" },
+              { icon: <Users size={28} />, value: "10 000+", label: "Clients" },
+              { icon: <Banknote size={28} />, value: "50M€+", label: "€ Remboursés" },
+              { icon: <FileText size={28} />, value: "1000+", label: "Financements en cours" },
             ].map(({ icon, value, label }, i) => (
               <div key={i} style={{ textAlign: "center", background: "rgba(255,255,255,0.07)", borderRadius: "12px", padding: "32px 20px", border: "1px solid rgba(255,255,255,0.1)" }}>
-                <div style={{ fontSize: "2.5rem", marginBottom: "12px" }}>{icon}</div>
+                <div style={{ color: "#f6a821", display: "flex", justifyContent: "center", marginBottom: "12px" }}>{icon}</div>
                 <div style={{ color: "#f6a821", fontSize: "2rem", fontWeight: 800 }}>{value}</div>
                 <div style={{ color: "#b8d4e8", marginTop: "6px", fontSize: "0.9rem" }}>{label}</div>
               </div>

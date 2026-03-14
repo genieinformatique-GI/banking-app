@@ -1,6 +1,6 @@
 import PublicLayout, { PageTitle } from "@/components/layout/PublicLayout";
+import { TrendingUp, Clock, Banknote, Unlock, CheckCircle } from "lucide-react";
 import { Link } from "wouter";
-import { CheckCircle } from "lucide-react";
 
 const ServiceSidebar = ({ active }: { active: string }) => (
   <div>
@@ -43,13 +43,13 @@ export default function Staking() {
 
               <div className="grid grid-cols-2 gap-4 mb-10">
                 {[
-                  { value: "Jusqu'à 12%", label: "APY moyen", icon: "📈" },
-                  { value: "Flexible", label: "Durées de staking", icon: "⏱️" },
-                  { value: "Quotidien", label: "Versement des gains", icon: "💰" },
-                  { value: "Immédiat", label: "Retrait possible", icon: "🔓" },
+                  { value: "Jusqu'à 12%", label: "APY moyen", icon: <TrendingUp size={26} /> },
+                  { value: "Flexible", label: "Durées de staking", icon: <Clock size={26} /> },
+                  { value: "Quotidien", label: "Versement des gains", icon: <Banknote size={26} /> },
+                  { value: "Immédiat", label: "Retrait possible", icon: <Unlock size={26} /> },
                 ].map(({ value, label, icon }, i) => (
                   <div key={i} style={{ background: "#f8f9fa", borderRadius: "10px", padding: "20px", textAlign: "center", borderTop: "3px solid #225473" }}>
-                    <div style={{ fontSize: "2rem", marginBottom: "8px" }}>{icon}</div>
+                    <div style={{ color: "#225473", display: "flex", justifyContent: "center", marginBottom: "8px" }}>{icon}</div>
                     <div style={{ color: "#f6a821", fontSize: "1.3rem", fontWeight: 800 }}>{value}</div>
                     <div style={{ color: "#666", fontSize: "0.85rem", marginTop: "4px" }}>{label}</div>
                   </div>

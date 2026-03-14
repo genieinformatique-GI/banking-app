@@ -1,11 +1,30 @@
 import { useState, useEffect } from "react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { useRegister } from "@workspace/api-client-react";
+import { useQueryClient } from "@tanstack/react-query";
+import { useToast } from "@/hooks/use-toast";
 import PublicLayout from "@/components/layout/PublicLayout";
-import { CheckCircle, Shield, TrendingUp, Users, Globe, Star, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  CheckCircle, Shield, TrendingUp, Users, Globe, Star,
+  ChevronLeft, ChevronRight, Banknote, Lock, Handshake,
+  PieChart, FileText, Receipt, Building2, Link2, BarChart2,
+  Eye, EyeOff, UserCheck, FileCheck, ShieldCheck, Wallet
+} from "lucide-react";
+
+import hero1 from "@assets/3c65477ee3ffb8ebdf1daaa243c237fd_1773450356780.jpg";
+import hero2 from "@assets/005a0e171045f2457c17a0ae0940821e_1773450356780.jpg";
+import aboutImg1 from "@assets/6cceab4d561eba559cf471a4d2990462_1773450356780.jpg";
+import aboutImg2 from "@assets/fec081469d4bc03e66c813538b46e09b_1773450356780.jpg";
+import expertImg from "@assets/29d7b62f7418c70be8a5042ad5e1d0e9_1773450356780.jpg";
+import tradingImg from "@assets/dbeb05576271d11b9a53d9a03c85f3c7_1773450356780.jpg";
 
 const heroSlides = [
   {
-    bg: "linear-gradient(135deg, #0f2940 0%, #225473 50%, #1a3d54 100%)",
+    bg: "linear-gradient(135deg, #0f2940 0%, #225473 60%, #1a3d54 100%)",
+    img: hero1,
     title: "Remboursement des Pertes en Cryptomonnaies",
     subtitle: "La Bank of Blockchain vous aide à récupérer vos fonds perdus sur des plateformes frauduleuses grâce à nos smart contracts et partenariats avec l'AMF et la SEC.",
     cta: { label: "Ouvrir mon compte de Remboursement", href: "/ouverture-de-compte" },
@@ -13,6 +32,7 @@ const heroSlides = [
   },
   {
     bg: "linear-gradient(135deg, #1a3020 0%, #2d5a3d 50%, #1e4a30 100%)",
+    img: hero2,
     title: "Sécurisation & Protection de Vos Investissements",
     subtitle: "Nous mettons en place des mécanismes avancés de protection pour garantir la sécurité de vos actifs numériques et vous offrir la tranquillité d'esprit.",
     cta: { label: "Découvrir nos services", href: "/nos-services/securisation-des-investissements" },
@@ -21,33 +41,51 @@ const heroSlides = [
 ];
 
 const services = [
-  { icon: "💰", title: "Remboursement des pertes", desc: "Récupérez vos fonds perdus sur des plateformes de crypto non réglementées grâce à nos procédures légales et blockchain.", href: "/nos-services/remboursement-des-pertes" },
-  { icon: "🔒", title: "Sécurisation des investissements", desc: "Protégez vos actifs numériques avec nos solutions de sécurité avancées et nos smart contracts audités.", href: "/nos-services/securisation-des-investissements" },
-  { icon: "🤝", title: "Conseil & accompagnement", desc: "Bénéficiez de l'expertise de nos conseillers spécialisés en cryptomonnaies et finance décentralisée.", href: "/nos-services/conseil-et-accompagnement" },
-  { icon: "📈", title: "Services de staking", desc: "Faites fructifier vos cryptomonnaies grâce à nos services de staking sécurisés et rentables.", href: "/nos-services/services-de-staking" },
-  { icon: "📋", title: "Licence de Trading", desc: "Obtenez votre licence de trading officielle pour exercer légalement sur les marchés de cryptomonnaies.", href: "/nos-services/licence-de-trading" },
-  { icon: "🧾", title: "Taxe Crypto", desc: "Simplifiez vos obligations fiscales liées aux cryptomonnaies avec notre service de gestion fiscale automatisée.", href: "/nos-services/taxe-crypto" },
+  { icon: <Banknote size={32} />, title: "Remboursement des pertes", desc: "Récupérez vos fonds perdus sur des plateformes de crypto non réglementées grâce à nos procédures légales et blockchain.", href: "/nos-services/remboursement-des-pertes" },
+  { icon: <Lock size={32} />, title: "Sécurisation des investissements", desc: "Protégez vos actifs numériques avec nos solutions de sécurité avancées et nos smart contracts audités.", href: "/nos-services/securisation-des-investissements" },
+  { icon: <Handshake size={32} />, title: "Conseil & accompagnement", desc: "Bénéficiez de l'expertise de nos conseillers spécialisés en cryptomonnaies et finance décentralisée.", href: "/nos-services/conseil-et-accompagnement" },
+  { icon: <TrendingUp size={32} />, title: "Services de staking", desc: "Faites fructifier vos cryptomonnaies grâce à nos services de staking sécurisés et rentables.", href: "/nos-services/services-de-staking" },
+  { icon: <FileText size={32} />, title: "Licence de Trading", desc: "Obtenez votre licence de trading officielle pour exercer légalement sur les marchés de cryptomonnaies.", href: "/nos-services/licence-de-trading" },
+  { icon: <Receipt size={32} />, title: "Taxe Crypto", desc: "Simplifiez vos obligations fiscales liées aux cryptomonnaies avec notre service de gestion fiscale automatisée.", href: "/nos-services/taxe-crypto" },
 ];
 
 const testimonials = [
-  { name: "Sophie", role: "Cliente", text: "Une solution unique et indispensable ! Enfin un service qui protège les investisseurs contre les arnaques et les faillites." },
-  { name: "Léa", role: "Cliente", text: "Grâce à BOB, j'ai pu récupérer mes pertes rapidement et efficacement. Je recommande vivement leurs services." },
-  { name: "Marc", role: "Client", text: "Le processus est simple, rapide et totalement sécurisé. J'ai récupéré mes pertes en quelques jours grâce à BOB." },
-  { name: "Pierre", role: "Client", text: "J'étais sceptique au début, mais tout est transparent et automatisé via la blockchain. Une vraie révolution pour la protection des investisseurs !" },
+  { name: "Sophie L.", role: "Cliente", text: "Une solution unique et indispensable ! Enfin un service qui protège les investisseurs contre les arnaques et les faillites." },
+  { name: "Léa M.", role: "Cliente", text: "Grâce à BOB, j'ai pu récupérer mes pertes rapidement et efficacement. Je recommande vivement leurs services." },
+  { name: "Marc D.", role: "Client", text: "Le processus est simple, rapide et totalement sécurisé. J'ai récupéré mes pertes en quelques jours grâce à BOB." },
+  { name: "Pierre V.", role: "Client", text: "J'étais sceptique au début, mais tout est transparent et automatisé via la blockchain. Une vraie révolution pour la protection des investisseurs !" },
 ];
 
-const partners = [
-  "https://bofblockchain.com/partners/ubs.png",
-  "https://bofblockchain.com/partners/credit-suisse.png",
-  "https://bofblockchain.com/partners/post-finance.png",
-  "https://bofblockchain.com/partners/PIctet.png",
-  "https://bofblockchain.com/partners/zkb.png",
-  "https://bofblockchain.com/partners/unicredit.jpg",
+const partnerNames = ["UBS", "Crédit Suisse", "PostFinance", "Pictet", "ZKB", "UniCredit"];
+
+const countries = [
+  "France", "Belgique", "Suisse", "Canada", "Maroc", "Algérie", "Tunisie",
+  "Sénégal", "Côte d'Ivoire", "Cameroun", "Mali", "Burkina Faso", "Niger",
+  "Congo", "Gabon", "Madagascar", "Mauritanie", "Togo", "Bénin", "Guinée",
+  "Luxembourg", "Allemagne", "Espagne", "Italie", "Portugal", "Pays-Bas",
+  "Royaume-Uni", "États-Unis", "Brésil", "Mexique", "Autre"
 ];
+
+const registerSchema = z.object({
+  civility: z.string().optional(),
+  firstName: z.string().min(2, "Prénom requis (2 caractères minimum)"),
+  lastName: z.string().min(2, "Nom requis (2 caractères minimum)"),
+  email: z.string().email("Adresse email invalide"),
+  phone: z.string().optional(),
+  country: z.string().min(2, "Veuillez sélectionner votre pays"),
+  password: z
+    .string()
+    .min(8, "Le mot de passe doit contenir au moins 8 caractères")
+    .regex(/[A-Z]/, "Au moins une lettre majuscule")
+    .regex(/[0-9]/, "Au moins un chiffre"),
+  confirmPassword: z.string().min(1, "Veuillez confirmer votre mot de passe"),
+}).refine((d) => d.password === d.confirmPassword, {
+  message: "Les mots de passe ne correspondent pas",
+  path: ["confirmPassword"],
+});
 
 export default function Home() {
   const [slide, setSlide] = useState(0);
-  const [testSlide, setTestSlide] = useState(0);
 
   useEffect(() => {
     const timer = setInterval(() => setSlide((s) => (s + 1) % heroSlides.length), 5000);
@@ -59,46 +97,50 @@ export default function Home() {
   return (
     <PublicLayout>
       {/* Hero Banner */}
-      <section style={{ background: current.bg, transition: "background 0.8s ease", minHeight: "580px", position: "relative", overflow: "hidden" }}>
-        <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(circle at 20% 80%, rgba(255,255,255,0.03) 0%, transparent 50%)" }} />
-        <div className="max-w-6xl mx-auto px-6 py-24 md:py-32 relative z-10">
-          <div className="max-w-2xl">
-            <h1 style={{ color: "white", fontSize: "clamp(1.8rem, 4vw, 2.8rem)", fontWeight: 800, lineHeight: 1.25, marginBottom: "20px" }}>
-              {current.title}
-            </h1>
-            <p style={{ color: "#b8d4e8", fontSize: "1.05rem", lineHeight: 1.75, marginBottom: "32px" }}>
-              {current.subtitle}
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <Link href={current.cta.href}>
-                <button style={{ background: "#f6a821", color: "white", border: "none", padding: "14px 28px", borderRadius: "6px", fontWeight: 700, fontSize: "0.9rem", cursor: "pointer" }}
-                  className="hover:opacity-90 transition-opacity">
-                  {current.cta.label} →
-                </button>
-              </Link>
-              <Link href={current.cta2.href}>
-                <button style={{ background: "transparent", color: "white", border: "2px solid rgba(255,255,255,0.5)", padding: "14px 28px", borderRadius: "6px", fontWeight: 600, fontSize: "0.9rem", cursor: "pointer" }}
-                  className="hover:border-white hover:bg-white/10 transition-all">
-                  {current.cta2.label}
-                </button>
-              </Link>
+      <section style={{ background: current.bg, transition: "background 0.8s ease", minHeight: "560px", position: "relative", overflow: "hidden" }}>
+        <div className="max-w-7xl mx-auto px-6 py-20 md:py-28 relative z-10">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <h1 style={{ color: "white", fontSize: "clamp(1.7rem, 3.5vw, 2.6rem)", fontWeight: 800, lineHeight: 1.25, marginBottom: "20px" }}>
+                {current.title}
+              </h1>
+              <p style={{ color: "#b8d4e8", fontSize: "1.05rem", lineHeight: 1.75, marginBottom: "32px" }}>
+                {current.subtitle}
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <Link href={current.cta.href}>
+                  <button style={{ background: "#f6a821", color: "white", border: "none", padding: "14px 28px", borderRadius: "6px", fontWeight: 700, fontSize: "0.9rem", cursor: "pointer" }}
+                    className="hover:opacity-90 transition-opacity">
+                    {current.cta.label}
+                  </button>
+                </Link>
+                <Link href={current.cta2.href}>
+                  <button style={{ background: "transparent", color: "white", border: "2px solid rgba(255,255,255,0.5)", padding: "14px 28px", borderRadius: "6px", fontWeight: 600, fontSize: "0.9rem", cursor: "pointer" }}
+                    className="hover:border-white hover:bg-white/10 transition-all">
+                    {current.cta2.label}
+                  </button>
+                </Link>
+              </div>
+            </div>
+            <div className="hidden md:flex justify-end">
+              <img src={current.img} alt="Hero" style={{ width: "100%", maxWidth: "420px", height: "340px", objectFit: "cover", borderRadius: "16px", boxShadow: "0 20px 60px rgba(0,0,0,0.3)" }} />
             </div>
           </div>
         </div>
         {/* Slide controls */}
-        <div style={{ position: "absolute", bottom: "24px", left: "50%", transform: "translateX(-50%)", display: "flex", gap: "8px" }}>
+        <div style={{ position: "absolute", bottom: "24px", left: "50%", transform: "translateX(-50%)", display: "flex", gap: "8px", zIndex: 20 }}>
           {heroSlides.map((_, i) => (
             <button key={i} onClick={() => setSlide(i)}
               style={{ width: i === slide ? "24px" : "8px", height: "8px", borderRadius: "4px", background: i === slide ? "#f6a821" : "rgba(255,255,255,0.4)", border: "none", cursor: "pointer", transition: "all 0.3s" }} />
           ))}
         </div>
         <button onClick={() => setSlide((s) => (s - 1 + heroSlides.length) % heroSlides.length)}
-          style={{ position: "absolute", left: "16px", top: "50%", transform: "translateY(-50%)", background: "rgba(255,255,255,0.15)", border: "none", borderRadius: "50%", width: "44px", height: "44px", color: "white", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}
+          style={{ position: "absolute", left: "16px", top: "50%", transform: "translateY(-50%)", background: "rgba(255,255,255,0.15)", border: "none", borderRadius: "50%", width: "44px", height: "44px", color: "white", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 20 }}
           className="hover:bg-white/25 transition-colors">
           <ChevronLeft size={20} />
         </button>
         <button onClick={() => setSlide((s) => (s + 1) % heroSlides.length)}
-          style={{ position: "absolute", right: "16px", top: "50%", transform: "translateY(-50%)", background: "rgba(255,255,255,0.15)", border: "none", borderRadius: "50%", width: "44px", height: "44px", color: "white", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}
+          style={{ position: "absolute", right: "16px", top: "50%", transform: "translateY(-50%)", background: "rgba(255,255,255,0.15)", border: "none", borderRadius: "50%", width: "44px", height: "44px", color: "white", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 20 }}
           className="hover:bg-white/25 transition-colors">
           <ChevronRight size={20} />
         </button>
@@ -108,13 +150,9 @@ export default function Home() {
       <section style={{ background: "#f8f9fa", padding: "80px 0" }}>
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
-                <img src="https://bofblockchain.com/template/img/ICONE BLEU.png" alt="BOB Logo" style={{ width: "100%", borderRadius: "12px", objectFit: "cover" }}
-                  onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />
-                <img src="https://bofblockchain.com/template/img/about-image/About 1.jpg" alt="About" style={{ width: "100%", borderRadius: "12px", objectFit: "cover", marginTop: "32px" }}
-                  onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />
-              </div>
+            <div className="grid grid-cols-2 gap-4">
+              <img src={aboutImg1} alt="Banque blockchain" style={{ width: "100%", height: "220px", borderRadius: "12px", objectFit: "cover" }} />
+              <img src={aboutImg2} alt="Finance numérique" style={{ width: "100%", height: "220px", borderRadius: "12px", objectFit: "cover", marginTop: "32px" }} />
             </div>
             <div>
               <span style={{ color: "#f6a821", fontWeight: 700, fontSize: "0.9rem", textTransform: "uppercase", letterSpacing: "1px" }}>A Propos</span>
@@ -127,10 +165,10 @@ export default function Home() {
               </p>
               <div className="grid grid-cols-2 gap-4 mb-8">
                 {[
-                  { icon: <Shield size={20} />, text: "Sécurité renforcée" },
-                  { icon: <Globe size={20} />, text: "65+ pays couverts" },
-                  { icon: <TrendingUp size={20} />, text: "Rendements optimisés" },
-                  { icon: <Users size={20} />, text: "10,000+ clients satisfaits" },
+                  { icon: <Shield size={18} />, text: "Sécurité renforcée" },
+                  { icon: <Globe size={18} />, text: "65+ pays couverts" },
+                  { icon: <TrendingUp size={18} />, text: "Rendements optimisés" },
+                  { icon: <Users size={18} />, text: "10 000+ clients satisfaits" },
                 ].map(({ icon, text }, i) => (
                   <div key={i} className="flex items-center gap-2" style={{ color: "#225473", fontWeight: 600, fontSize: "0.9rem" }}>
                     <span style={{ color: "#f6a821" }}>{icon}</span>
@@ -141,7 +179,7 @@ export default function Home() {
               <Link href="/la-banque">
                 <button style={{ background: "#225473", color: "white", border: "none", padding: "13px 28px", borderRadius: "6px", fontWeight: 700, fontSize: "0.9rem", cursor: "pointer" }}
                   className="hover:opacity-90 transition-opacity">
-                  En savoir plus →
+                  En savoir plus
                 </button>
               </Link>
             </div>
@@ -152,13 +190,13 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-6 mt-16">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { icon: "🏦", title: "Banque Régulée", desc: "Agréée et supervisée par les autorités financières internationales AMF et SEC." },
-              { icon: "⛓️", title: "Technologie Blockchain", desc: "Utilisation de smart contracts transparents et immuables pour toutes les transactions." },
-              { icon: "🔐", title: "Sécurité Maximale", desc: "Protection avancée de vos données et actifs avec cryptage de niveau militaire." },
-              { icon: "📊", title: "Suivi en Temps Réel", desc: "Accédez à votre espace client 24h/24 et suivez l'évolution de vos investissements." },
+              { icon: <Building2 size={28} />, title: "Banque Régulée", desc: "Agréée et supervisée par les autorités financières internationales AMF et SEC." },
+              { icon: <Link2 size={28} />, title: "Technologie Blockchain", desc: "Utilisation de smart contracts transparents et immuables pour toutes les transactions." },
+              { icon: <ShieldCheck size={28} />, title: "Sécurité Maximale", desc: "Protection avancée de vos données et actifs avec cryptage de niveau militaire." },
+              { icon: <BarChart2 size={28} />, title: "Suivi en Temps Réel", desc: "Accédez à votre espace client 24h/24 et suivez l'évolution de vos investissements." },
             ].map(({ icon, title, desc }, i) => (
               <div key={i} style={{ background: "white", borderRadius: "12px", padding: "28px 22px", boxShadow: "0 4px 20px rgba(0,0,0,0.07)", borderTop: "4px solid #225473", textAlign: "center" }}>
-                <div style={{ fontSize: "2.5rem", marginBottom: "14px" }}>{icon}</div>
+                <div style={{ color: "#f6a821", marginBottom: "14px", display: "flex", justifyContent: "center" }}>{icon}</div>
                 <h3 style={{ color: "#225473", fontWeight: 700, fontSize: "1rem", marginBottom: "10px" }}>{title}</h3>
                 <p style={{ color: "#777", fontSize: "0.88rem", lineHeight: 1.65 }}>{desc}</p>
               </div>
@@ -194,13 +232,13 @@ export default function Home() {
             </div>
             <div className="grid grid-cols-2 gap-4">
               {[
-                { value: "65+", label: "Pays", icon: "🌍" },
-                { value: "10K+", label: "Clients", icon: "👥" },
-                { value: "50M+", label: "€ Remboursés", icon: "💶" },
-                { value: "98%", label: "Satisfaction", icon: "⭐" },
+                { value: "65+", label: "Pays", icon: <Globe size={28} /> },
+                { value: "10K+", label: "Clients", icon: <Users size={28} /> },
+                { value: "50M+", label: "€ Remboursés", icon: <Banknote size={28} /> },
+                { value: "98%", label: "Satisfaction", icon: <Star size={28} /> },
               ].map(({ value, label, icon }, i) => (
                 <div key={i} style={{ background: "rgba(255,255,255,0.08)", borderRadius: "12px", padding: "28px 20px", textAlign: "center", border: "1px solid rgba(255,255,255,0.1)" }}>
-                  <div style={{ fontSize: "2rem", marginBottom: "8px" }}>{icon}</div>
+                  <div style={{ color: "#f6a821", display: "flex", justifyContent: "center", marginBottom: "8px" }}>{icon}</div>
                   <div style={{ color: "#f6a821", fontSize: "2rem", fontWeight: 800, lineHeight: 1 }}>{value}</div>
                   <div style={{ color: "#b8d4e8", fontSize: "0.9rem", marginTop: "6px" }}>{label}</div>
                 </div>
@@ -224,12 +262,12 @@ export default function Home() {
             {services.map(({ icon, title, desc, href }, i) => (
               <div key={i} style={{ border: "1px solid #eee", borderRadius: "12px", padding: "32px 24px", transition: "all 0.3s", cursor: "pointer" }}
                 className="hover:shadow-lg hover:border-[#225473]/30 group">
-                <div style={{ fontSize: "2.5rem", marginBottom: "16px" }}>{icon}</div>
+                <div style={{ color: "#225473", marginBottom: "16px" }}>{icon}</div>
                 <h3 style={{ color: "#225473", fontWeight: 700, fontSize: "1.05rem", marginBottom: "12px" }}>{title}</h3>
                 <p style={{ color: "#777", fontSize: "0.9rem", lineHeight: 1.7, marginBottom: "20px" }}>{desc}</p>
                 <Link href={href} style={{ color: "#f6a821", fontWeight: 700, fontSize: "0.9rem" }}
                   className="hover:underline flex items-center gap-1">
-                  En savoir plus →
+                  En savoir plus
                 </Link>
               </div>
             ))}
@@ -237,7 +275,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Find Agent / CTA */}
+      {/* Expert image + CTA */}
       <section style={{ background: "#f8f9fa", padding: "80px 0" }}>
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -265,28 +303,21 @@ export default function Home() {
               <Link href="/contact">
                 <button style={{ background: "#225473", color: "white", border: "none", padding: "13px 28px", borderRadius: "6px", fontWeight: 700, fontSize: "0.9rem", cursor: "pointer" }}
                   className="hover:opacity-90 transition-opacity">
-                  Contacter un agent →
+                  Contacter un agent
                 </button>
               </Link>
             </div>
-            <div style={{ background: "linear-gradient(135deg, #225473 0%, #1a3d54 100%)", borderRadius: "16px", padding: "40px", textAlign: "center" }}>
-              <h3 style={{ color: "white", fontSize: "1.4rem", fontWeight: 700, marginBottom: "16px" }}>Déposez votre demande</h3>
-              <p style={{ color: "#b8d4e8", marginBottom: "24px", fontSize: "0.95rem", lineHeight: 1.65 }}>
-                Remplissez notre formulaire en ligne et commencez votre procédure de remboursement dès aujourd'hui.
-              </p>
-              <Link href="/ouverture-de-compte">
-                <button style={{ background: "#f6a821", color: "white", border: "none", padding: "14px 32px", borderRadius: "6px", fontWeight: 700, fontSize: "1rem", cursor: "pointer", width: "100%" }}
-                  className="hover:opacity-90 transition-opacity">
-                  Créer mon compte maintenant
-                </button>
-              </Link>
-              <div className="mt-6 grid grid-cols-3 gap-4">
-                {[{ n: "65+", l: "Pays" }, { n: "10K+", l: "Clients" }, { n: "98%", l: "Satisfaits" }].map(({ n, l }, i) => (
-                  <div key={i}>
-                    <div style={{ color: "#f6a821", fontSize: "1.4rem", fontWeight: 800 }}>{n}</div>
-                    <div style={{ color: "#b8d4e8", fontSize: "0.8rem" }}>{l}</div>
-                  </div>
-                ))}
+            <div style={{ position: "relative" }}>
+              <img src={expertImg} alt="Expert en crypto" style={{ width: "100%", borderRadius: "16px", objectFit: "cover", maxHeight: "420px" }} />
+              <div style={{ position: "absolute", bottom: "20px", left: "20px", right: "20px", background: "rgba(34,84,115,0.92)", borderRadius: "10px", padding: "16px 20px", color: "white" }}>
+                <div className="grid grid-cols-3 gap-4 text-center">
+                  {[{ n: "65+", l: "Pays" }, { n: "10K+", l: "Clients" }, { n: "98%", l: "Satisfaits" }].map(({ n, l }, i) => (
+                    <div key={i}>
+                      <div style={{ color: "#f6a821", fontSize: "1.4rem", fontWeight: 800 }}>{n}</div>
+                      <div style={{ color: "#b8d4e8", fontSize: "0.8rem" }}>{l}</div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -328,49 +359,56 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
             <div>
-              <h2 style={{ color: "white", fontSize: "1.8rem", fontWeight: 800, marginBottom: "10px" }}>Reprenez le contrôle de vos investissements!</h2>
+              <h2 style={{ color: "white", fontSize: "1.8rem", fontWeight: 800, marginBottom: "10px" }}>Reprenez le contrôle de vos investissements !</h2>
               <p style={{ color: "rgba(255,255,255,0.85)", fontSize: "1rem" }}>Créez votre compte en quelques clics et commencez le processus de remboursement.</p>
             </div>
             <Link href="/ouverture-de-compte">
               <button style={{ background: "white", color: "#f6a821", border: "none", padding: "15px 35px", borderRadius: "6px", fontWeight: 800, fontSize: "1rem", cursor: "pointer", whiteSpace: "nowrap" }}
                 className="hover:bg-gray-50 transition-colors">
-                Créer mon compte maintenant →
+                Créer mon compte maintenant
               </button>
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Register Form Section */}
+      {/* Full Register Form Section */}
       <section style={{ background: "white", padding: "80px 0" }}>
         <div className="max-w-6xl mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="grid md:grid-cols-2 gap-12 items-start">
             <div>
-              <h2 style={{ color: "#225473", fontSize: "2rem", fontWeight: 800, marginBottom: "16px", lineHeight: 1.3 }}>Ouvrez votre compte en toute simplicité</h2>
+              <span style={{ color: "#f6a821", fontWeight: 700, fontSize: "0.9rem", textTransform: "uppercase", letterSpacing: "1px" }}>Rejoignez-nous</span>
+              <h2 style={{ color: "#225473", fontSize: "2rem", fontWeight: 800, margin: "12px 0 20px", lineHeight: 1.3 }}>
+                Ouvrez votre compte en toute simplicité
+              </h2>
               <p style={{ color: "#777", lineHeight: 1.75, marginBottom: "24px" }}>
                 Accédez à notre plateforme sécurisée et commencez votre demande de remboursement en quelques minutes.
               </p>
-              <div className="space-y-4">
+              <div className="space-y-5 mb-8">
                 {[
-                  { step: "1", title: "Créez votre compte", desc: "Remplissez le formulaire avec vos informations personnelles" },
-                  { step: "2", title: "Soumettez votre dossier", desc: "Fournissez les preuves de vos pertes et transactions" },
-                  { step: "3", title: "Recevez votre remboursement", desc: "Récupérez vos fonds via blockchain en quelques jours" },
-                ].map(({ step, title, desc }) => (
+                  { step: "1", icon: <UserCheck size={18} />, title: "Créez votre compte", desc: "Remplissez le formulaire avec vos informations personnelles" },
+                  { step: "2", icon: <FileCheck size={18} />, title: "Soumettez votre dossier", desc: "Fournissez les preuves de vos pertes et transactions" },
+                  { step: "3", icon: <Wallet size={18} />, title: "Recevez votre remboursement", desc: "Récupérez vos fonds via blockchain en quelques jours" },
+                ].map(({ step, icon, title, desc }) => (
                   <div key={step} className="flex gap-4 items-start">
                     <div style={{ width: "40px", height: "40px", borderRadius: "50%", background: "#225473", color: "white", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: "1.1rem", flexShrink: 0 }}>
                       {step}
                     </div>
                     <div>
-                      <div style={{ color: "#225473", fontWeight: 700 }}>{title}</div>
+                      <div style={{ color: "#225473", fontWeight: 700, display: "flex", alignItems: "center", gap: "6px" }}>
+                        <span style={{ color: "#f6a821" }}>{icon}</span>
+                        {title}
+                      </div>
                       <div style={{ color: "#777", fontSize: "0.9rem" }}>{desc}</div>
                     </div>
                   </div>
                 ))}
               </div>
+              <img src={tradingImg} alt="Trading" style={{ width: "100%", borderRadius: "12px", objectFit: "cover", maxHeight: "200px" }} />
             </div>
             <div style={{ background: "#f8f9fa", borderRadius: "16px", padding: "36px" }}>
               <h3 style={{ color: "#225473", fontWeight: 800, fontSize: "1.3rem", marginBottom: "24px", textAlign: "center" }}>Créer mon compte</h3>
-              <QuickRegisterForm />
+              <HomeRegisterForm />
             </div>
           </div>
         </div>
@@ -381,10 +419,15 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-6">
           <h2 style={{ color: "#225473", fontWeight: 800, fontSize: "1.5rem", textAlign: "center", marginBottom: "40px" }}>Banques partenaires</h2>
           <div className="flex flex-wrap items-center justify-center gap-8">
-            {partners.map((src, i) => (
-              <img key={i} src={src} alt="Partenaire" style={{ height: "50px", width: "auto", objectFit: "contain", filter: "grayscale(80%)", opacity: 0.7 }}
-                className="hover:grayscale-0 hover:opacity-100 transition-all"
-                onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />
+            {partnerNames.map((name, i) => (
+              <div key={i} style={{
+                padding: "12px 28px", border: "1px solid #ddd", borderRadius: "8px",
+                color: "#555", fontWeight: 700, fontSize: "1rem",
+                background: "white", boxShadow: "0 2px 8px rgba(0,0,0,0.05)"
+              }}
+                className="hover:border-[#225473] hover:text-[#225473] transition-all">
+                {name}
+              </div>
             ))}
           </div>
         </div>
@@ -393,34 +436,147 @@ export default function Home() {
   );
 }
 
-function QuickRegisterForm() {
-  const [form, setForm] = useState({ civilite: "", nom: "", prenom: "", email: "", telephone: "" });
+function HomeRegisterForm() {
+  const [, setLocation] = useLocation();
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+
+  const form = useForm<z.infer<typeof registerSchema>>({
+    resolver: zodResolver(registerSchema),
+    defaultValues: {
+      civility: "", firstName: "", lastName: "", email: "",
+      phone: "", country: "", password: "", confirmPassword: ""
+    }
+  });
+
+  const registerMutation = useRegister({
+    mutation: {
+      onSuccess: (data) => {
+        localStorage.setItem("bob_token", data.token);
+        queryClient.invalidateQueries();
+        setLocation("/dashboard");
+      },
+      onError: (error: any) => {
+        toast({
+          title: "Erreur d'inscription",
+          description: error?.response?.data?.error || error?.message || "Vérifiez vos informations",
+          variant: "destructive"
+        });
+      }
+    }
+  });
+
+  const onSubmit = (values: z.infer<typeof registerSchema>) => {
+    const { civility, confirmPassword, ...apiData } = values;
+    registerMutation.mutate({ data: apiData });
+  };
+
+  const inp = (hasError?: boolean) => ({
+    width: "100%", padding: "10px 13px",
+    border: `1px solid ${hasError ? "#dc3545" : "#ddd"}`,
+    borderRadius: "6px", fontSize: "0.875rem", outline: "none", background: "white",
+  });
+  const lbl = { display: "block", color: "#444", fontWeight: 600, fontSize: "0.82rem", marginBottom: "4px" };
+  const err = { color: "#dc3545", fontSize: "0.75rem", marginTop: "3px" };
+  const errors = form.formState.errors;
 
   return (
-    <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
-      <select value={form.civilite} onChange={(e) => setForm({ ...form, civilite: e.target.value })}
-        style={{ width: "100%", padding: "12px 14px", border: "1px solid #ddd", borderRadius: "6px", fontSize: "0.9rem", color: "#555", background: "white" }}>
-        <option value="">- Civilité -</option>
-        <option value="M.">Monsieur</option>
-        <option value="Mlle">Mademoiselle</option>
-        <option value="Mme">Madame</option>
-      </select>
-      <div className="grid grid-cols-2 gap-3">
-        <input type="text" placeholder="Nom" value={form.nom} onChange={(e) => setForm({ ...form, nom: e.target.value })}
-          style={{ width: "100%", padding: "12px 14px", border: "1px solid #ddd", borderRadius: "6px", fontSize: "0.9rem" }} />
-        <input type="text" placeholder="Prénom" value={form.prenom} onChange={(e) => setForm({ ...form, prenom: e.target.value })}
-          style={{ width: "100%", padding: "12px 14px", border: "1px solid #ddd", borderRadius: "6px", fontSize: "0.9rem" }} />
+    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
+      {/* Civilité */}
+      <div>
+        <label style={lbl}>Civilité</label>
+        <select {...form.register("civility")} style={inp()}
+          onFocus={(e) => e.target.style.borderColor = "#225473"}
+          onBlur={(e) => e.target.style.borderColor = "#ddd"}>
+          <option value="">— Sélectionner —</option>
+          <option value="M.">Monsieur</option>
+          <option value="Mlle">Mademoiselle</option>
+          <option value="Mme">Madame</option>
+        </select>
       </div>
-      <input type="email" placeholder="Email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })}
-        style={{ width: "100%", padding: "12px 14px", border: "1px solid #ddd", borderRadius: "6px", fontSize: "0.9rem" }} />
-      <input type="tel" placeholder="Téléphone portable" value={form.telephone} onChange={(e) => setForm({ ...form, telephone: e.target.value })}
-        style={{ width: "100%", padding: "12px 14px", border: "1px solid #ddd", borderRadius: "6px", fontSize: "0.9rem" }} />
-      <a href="/ouverture-de-compte">
-        <button type="button" style={{ width: "100%", background: "#225473", color: "white", border: "none", padding: "14px", borderRadius: "6px", fontWeight: 700, fontSize: "0.95rem", cursor: "pointer", marginTop: "8px" }}
-          className="hover:opacity-90 transition-opacity">
-          Créer mon compte →
-        </button>
-      </a>
+      {/* Nom / Prénom */}
+      <div className="grid grid-cols-2 gap-3">
+        <div>
+          <label style={lbl}>Nom *</label>
+          <input type="text" placeholder="Dupont" {...form.register("lastName")} style={inp(!!errors.lastName)}
+            onFocus={(e) => e.target.style.borderColor = "#225473"}
+            onBlur={(e) => e.target.style.borderColor = errors.lastName ? "#dc3545" : "#ddd"} />
+          {errors.lastName && <p style={err}>{errors.lastName.message}</p>}
+        </div>
+        <div>
+          <label style={lbl}>Prénom *</label>
+          <input type="text" placeholder="Jean" {...form.register("firstName")} style={inp(!!errors.firstName)}
+            onFocus={(e) => e.target.style.borderColor = "#225473"}
+            onBlur={(e) => e.target.style.borderColor = errors.firstName ? "#dc3545" : "#ddd"} />
+          {errors.firstName && <p style={err}>{errors.firstName.message}</p>}
+        </div>
+      </div>
+      {/* Email */}
+      <div>
+        <label style={lbl}>Adresse email *</label>
+        <input type="email" placeholder="jean.dupont@email.com" autoComplete="email" {...form.register("email")} style={inp(!!errors.email)}
+          onFocus={(e) => e.target.style.borderColor = "#225473"}
+          onBlur={(e) => e.target.style.borderColor = errors.email ? "#dc3545" : "#ddd"} />
+        {errors.email && <p style={err}>{errors.email.message}</p>}
+      </div>
+      {/* Téléphone / Pays */}
+      <div className="grid grid-cols-2 gap-3">
+        <div>
+          <label style={lbl}>Téléphone</label>
+          <input type="tel" placeholder="+33 6 00 00 00 00" {...form.register("phone")} style={inp()}
+            onFocus={(e) => e.target.style.borderColor = "#225473"}
+            onBlur={(e) => e.target.style.borderColor = "#ddd"} />
+        </div>
+        <div>
+          <label style={lbl}>Pays *</label>
+          <select {...form.register("country")} style={inp(!!errors.country)}
+            onFocus={(e) => e.target.style.borderColor = "#225473"}
+            onBlur={(e) => e.target.style.borderColor = errors.country ? "#dc3545" : "#ddd"}>
+            <option value="">— Sélectionner —</option>
+            {countries.map((c) => <option key={c} value={c}>{c}</option>)}
+          </select>
+          {errors.country && <p style={err}>{errors.country.message}</p>}
+        </div>
+      </div>
+      {/* Mot de passe */}
+      <div>
+        <label style={lbl}>Mot de passe *</label>
+        <div style={{ position: "relative" }}>
+          <input type={showPassword ? "text" : "password"} placeholder="••••••••"
+            {...form.register("password")} style={{ ...inp(!!errors.password), paddingRight: "40px" }}
+            onFocus={(e) => e.target.style.borderColor = "#225473"}
+            onBlur={(e) => e.target.style.borderColor = errors.password ? "#dc3545" : "#ddd"} />
+          <button type="button" onClick={() => setShowPassword(!showPassword)}
+            style={{ position: "absolute", right: "10px", top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: "#999", padding: "0" }}>
+            {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+          </button>
+        </div>
+        {errors.password && <p style={err}>{errors.password.message}</p>}
+        <p style={{ color: "#aaa", fontSize: "0.72rem", marginTop: "3px" }}>8 car. min., 1 majuscule, 1 chiffre</p>
+      </div>
+      {/* Confirmation */}
+      <div>
+        <label style={lbl}>Confirmer le mot de passe *</label>
+        <div style={{ position: "relative" }}>
+          <input type={showConfirm ? "text" : "password"} placeholder="••••••••"
+            {...form.register("confirmPassword")} style={{ ...inp(!!errors.confirmPassword), paddingRight: "40px" }}
+            onFocus={(e) => e.target.style.borderColor = "#225473"}
+            onBlur={(e) => e.target.style.borderColor = errors.confirmPassword ? "#dc3545" : "#ddd"} />
+          <button type="button" onClick={() => setShowConfirm(!showConfirm)}
+            style={{ position: "absolute", right: "10px", top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: "#999", padding: "0" }}>
+            {showConfirm ? <EyeOff size={16} /> : <Eye size={16} />}
+          </button>
+        </div>
+        {errors.confirmPassword && <p style={err}>{errors.confirmPassword.message}</p>}
+      </div>
+
+      <button type="submit" disabled={registerMutation.isPending}
+        style={{ width: "100%", background: "#225473", color: "white", border: "none", padding: "13px", borderRadius: "6px", fontWeight: 700, fontSize: "0.9rem", cursor: "pointer", marginTop: "4px" }}
+        className="hover:opacity-90 transition-opacity disabled:opacity-60">
+        {registerMutation.isPending ? "Création en cours..." : "Créer mon compte"}
+      </button>
     </form>
   );
 }

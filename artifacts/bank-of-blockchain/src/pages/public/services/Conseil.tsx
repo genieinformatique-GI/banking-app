@@ -1,6 +1,6 @@
 import PublicLayout, { PageTitle } from "@/components/layout/PublicLayout";
+import { UserCog, PieChart, Scale, GraduationCap, CheckCircle } from "lucide-react";
 import { Link } from "wouter";
-import { CheckCircle } from "lucide-react";
 
 const ServiceSidebar = ({ active }: { active: string }) => (
   <div>
@@ -43,13 +43,13 @@ export default function Conseil() {
 
               <div className="space-y-4 mb-10">
                 {[
-                  { icon: "👨‍💼", title: "Conseiller dédié", desc: "Un expert BOB vous est assigné personnellement pour suivre votre dossier et répondre à toutes vos questions." },
-                  { icon: "📊", title: "Analyse de portefeuille", desc: "Évaluation complète de vos investissements actuels et recommandations pour optimiser votre stratégie crypto." },
-                  { icon: "⚖️", title: "Accompagnement légal", desc: "Nos juristes spécialisés vous guident dans toutes les démarches légales liées à vos investissements en cryptomonnaies." },
-                  { icon: "🎓", title: "Formation & Education", desc: "Programmes de formation pour comprendre la blockchain, les cryptomonnaies et les meilleures pratiques d'investissement." },
+                  { icon: <UserCog size={26} />, title: "Conseiller dédié", desc: "Un expert BOB vous est assigné personnellement pour suivre votre dossier et répondre à toutes vos questions." },
+                  { icon: <PieChart size={26} />, title: "Analyse de portefeuille", desc: "Évaluation complète de vos investissements actuels et recommandations pour optimiser votre stratégie crypto." },
+                  { icon: <Scale size={26} />, title: "Accompagnement légal", desc: "Nos juristes spécialisés vous guident dans toutes les démarches légales liées à vos investissements en cryptomonnaies." },
+                  { icon: <GraduationCap size={26} />, title: "Formation & Education", desc: "Programmes de formation pour comprendre la blockchain, les cryptomonnaies et les meilleures pratiques d'investissement." },
                 ].map(({ icon, title, desc }, i) => (
                   <div key={i} style={{ background: "#f8f9fa", borderRadius: "10px", padding: "20px", display: "flex", gap: "16px", alignItems: "flex-start" }}>
-                    <div style={{ fontSize: "2rem", flexShrink: 0 }}>{icon}</div>
+                    <div style={{ color: "#225473", flexShrink: 0, marginTop: "2px" }}>{icon}</div>
                     <div>
                       <h4 style={{ color: "#225473", fontWeight: 700, marginBottom: "6px" }}>{title}</h4>
                       <p style={{ color: "#666", fontSize: "0.9rem", lineHeight: 1.65 }}>{desc}</p>
