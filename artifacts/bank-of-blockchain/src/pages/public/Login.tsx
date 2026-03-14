@@ -6,7 +6,7 @@ import * as z from "zod";
 import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { Eye, EyeOff, BarChart2, FolderOpen, Bell, ShieldCheck, ArrowRight } from "lucide-react";
-import logo from "@assets/logo.jpg";
+import { LogoBrand } from "@/components/ui/LogoBrand";
 import blockchain from "@assets/blockchain.jpg";
 
 const loginSchema = z.object({
@@ -138,9 +138,7 @@ export default function Login() {
         <div style={{ position: "absolute", bottom: "-100px", left: "-100px", width: "350px", height: "350px", borderRadius: "50%", background: "radial-gradient(circle, rgba(246,168,33,0.07) 0%, transparent 70%)", pointerEvents: "none" }} />
 
         <Link href="/" style={{ display: "inline-flex", alignItems: "center", gap: "10px", position: "relative" }}>
-          <div style={{ background: "rgba(255,255,255,0.1)", borderRadius: "10px", padding: "6px 12px", backdropFilter: "blur(10px)", border: "1px solid rgba(255,255,255,0.12)" }}>
-            <img src={logo} alt="Bank of Blockchain" style={{ height: "36px", width: "auto", objectFit: "contain" }} />
-          </div>
+          <LogoBrand size="md" theme="dark" />
         </Link>
 
         <div style={{ position: "relative" }}>
@@ -184,8 +182,8 @@ export default function Login() {
         <div style={{ width: "100%", maxWidth: "460px" }}>
           {/* Mobile logo */}
           <div className="lg:hidden" style={{ textAlign: "center", marginBottom: "36px" }}>
-            <Link href="/">
-              <img src={logo} alt="Bank of Blockchain" style={{ height: "46px", width: "auto", objectFit: "contain" }} />
+            <Link href="/" style={{ display: "inline-flex", justifyContent: "center" }}>
+              <LogoBrand size="lg" theme="light" />
             </Link>
           </div>
 

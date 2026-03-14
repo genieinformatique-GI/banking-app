@@ -16,7 +16,7 @@ export default function LaBanque() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <img src="https://bofblockchain.com/template/img/ICONE BLEU.png" alt="BOB" style={{ width: "60%", marginBottom: "16px", borderRadius: "8px" }}
+              <img src="https://bofblockchain.com/template/img/ICONE BLEU.png" alt="Blockchain Bank" style={{ width: "60%", marginBottom: "16px", borderRadius: "8px" }}
                 onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />
               <img src="https://bofblockchain.com/template/img/about-image/About 1.jpg" alt="About" style={{ width: "80%", borderRadius: "8px", boxShadow: "0 8px 30px rgba(0,0,0,0.1)" }}
                 onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />

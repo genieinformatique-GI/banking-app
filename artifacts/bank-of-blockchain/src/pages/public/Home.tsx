@@ -363,7 +363,7 @@ export default function Home() {
                 border: "1px solid rgba(255,255,255,0.08)",
                 width: "100%", maxWidth: "520px"
               }}>
-                <img src={current.img} alt="Bank of Blockchain services"
+                <img src={current.img} alt="Blockchain Bank services"
                   style={{ width: "100%", height: "400px", objectFit: "cover", display: "block", transition: "opacity 0.6s ease" }} />
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(7,14,26,0.6) 0%, transparent 50%)" }} />
               </div>

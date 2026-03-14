@@ -14,7 +14,7 @@ export default function LicenceTrading() {
             <div className="md:col-span-2">
               <h2 style={{ color: "#225473", fontSize: "1.6rem", fontWeight: 800, marginBottom: "16px" }}>Obtenez votre Licence de Trading</h2>
               <p style={{ color: "#666", lineHeight: 1.8, marginBottom: "24px" }}>
-                Pour exercer légalement sur les marchés de cryptomonnaies, il est indispensable de disposer des licences et agréments appropriés. BOB vous accompagne dans l'obtention de votre licence de trading officielle.
+                Pour exercer légalement sur les marchés de cryptomonnaies, il est indispensable de disposer des licences et agréments appropriés. Blockchain Bank vous accompagne dans l'obtention de votre licence de trading officielle.
               </p>
 
               <div className="space-y-4 mb-10">

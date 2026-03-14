@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "wouter";
 import { ChevronDown, Mail, X, Menu, MapPin, Shield, TrendingUp, FileText, Receipt, Lock, Handshake } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import logo from "@assets/logo.jpg";
+import { LogoBrand } from "@/components/ui/LogoBrand";
 import BitcoinParticles from "@/components/BitcoinParticles";
 
 function PublicHeader() {
@@ -142,8 +142,7 @@ function PublicHeader() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-center justify-between" style={{ height: "80px" }}>
             <Link href="/">
-              <img src={logo} alt="Bank of Blockchain"
-                style={{ height: "52px", width: "auto", objectFit: "contain" }} />
+              <LogoBrand size="lg" theme="light" />
             </Link>
 
             {/* Desktop nav — centered */}
@@ -368,12 +367,11 @@ function PublicFooter() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
             {/* Brand */}
             <div>
-              <div style={{ display: "inline-block", background: "rgba(255,255,255,0.08)", borderRadius: "10px", padding: "8px 14px", marginBottom: "22px", border: "1px solid rgba(255,255,255,0.1)" }}>
-                <img src={logo} alt="Bank of Blockchain"
-                  style={{ height: "38px", width: "auto", objectFit: "contain", display: "block" }} />
+              <div style={{ marginBottom: "22px" }}>
+                <LogoBrand size="md" theme="dark" />
               </div>
               <p style={{ fontSize: "14px", lineHeight: "1.8", color: "#64748b", marginBottom: "24px" }}>
-                Bank of Blockchain protège et accompagne les investisseurs en cryptomonnaies partout dans le monde, grâce à nos partenariats AMF & SEC.
+                Blockchain Bank protège et accompagne les investisseurs en cryptomonnaies partout dans le monde, grâce à nos partenariats AMF & SEC.
               </p>
               <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
                 {["AMF", "SEC", "ISO 27001"].map(cert => (
@@ -469,7 +467,7 @@ function PublicFooter() {
       <div style={{ borderTop: "1px solid #0f1e35", padding: "22px 0" }}>
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-3">
           <p style={{ color: "#374151", fontSize: "13px" }}>
-            © 2024 <Link href="/" className="hover:text-white transition-colors" style={{ color: "#64748b" }}>Bank of Blockchain</Link> — Tous droits réservés
+            © 2024 <Link href="/" className="hover:text-white transition-colors" style={{ color: "#64748b" }}>Blockchain Bank</Link> — Tous droits réservés
           </p>
           <div style={{ display: "flex", gap: "24px" }}>
             {[

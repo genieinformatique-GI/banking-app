@@ -14,7 +14,7 @@ export default function TaxeCrypto() {
             <div className="md:col-span-2">
               <h2 style={{ color: "#225473", fontSize: "1.6rem", fontWeight: 800, marginBottom: "16px" }}>Gestion des Taxes Crypto</h2>
               <p style={{ color: "#666", lineHeight: 1.8, marginBottom: "24px" }}>
-                La fiscalité des cryptomonnaies est un domaine complexe et en constante évolution. BOB vous offre un service complet de gestion fiscale pour vos actifs numériques, vous permettant de rester en conformité avec les réglementations tout en optimisant votre charge fiscale.
+                La fiscalité des cryptomonnaies est un domaine complexe et en constante évolution. Blockchain Bank vous offre un service complet de gestion fiscale pour vos actifs numériques, vous permettant de rester en conformité avec les réglementations tout en optimisant votre charge fiscale.
               </p>
 
               <div className="grid grid-cols-2 gap-4 mb-10">

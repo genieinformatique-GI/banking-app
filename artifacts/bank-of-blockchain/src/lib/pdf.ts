@@ -13,7 +13,7 @@ function addHeader(doc: jsPDF, title: string) {
   doc.setTextColor(246, 168, 33);
   doc.setFontSize(16);
   doc.setFont("helvetica", "bold");
-  doc.text("Bank of Blockchain", 14, 12);
+  doc.text("Blockchain Bank", 14, 12);
   doc.setTextColor(200, 200, 200);
   doc.setFontSize(9);
   doc.setFont("helvetica", "normal");

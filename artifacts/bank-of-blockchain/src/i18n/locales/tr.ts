@@ -276,7 +276,7 @@ const tr: TranslationType = {
     },
     home: {
       hero: [
-        { badge: "Resmi AMF & SEC Ortağı", title: "Kripto", titleAccent: "Fonlarınızı", titleEnd: " Geri Kazanın", subtitle: "Bank of Blockchain, akıllı sözleşmelerimiz ve düzenleyici ortaklıklarımız aracılığıyla sahte platformlarda kaybettiğiniz fonları geri kazanmanıza yardımcı olur.", cta: "Hesabımı aç", cta2: "Daha fazla bilgi" },
+        { badge: "Resmi AMF & SEC Ortağı", title: "Kripto", titleAccent: "Fonlarınızı", titleEnd: " Geri Kazanın", subtitle: "Blockchain Bank, akıllı sözleşmelerimiz ve düzenleyici ortaklıklarımız aracılığıyla sahte platformlarda kaybettiğiniz fonları geri kazanmanıza yardımcı olur.", cta: "Hesabımı aç", cta2: "Daha fazla bilgi" },
         { badge: "ISO 27001 Sertifikalı Koruma", title: "Dijital", titleAccent: "Yatırımlarınızı", titleEnd: " Güvenceye Alın", subtitle: "Dijital varlıklarınızın güvenliğini sağlamak ve tam bir huzur sunmak için gelişmiş koruma mekanizmaları uyguluyoruz.", cta: "Hizmetlerimizi keşfedin", cta2: "Bize ulaşın" },
       ],
       satisfaction: "Memnuniyet oranı", clients: "Memnun müşteri",
@@ -312,8 +312,8 @@ const tr: TranslationType = {
       features: {
         label: "NEDEN BİZİ SEÇMELİSİNİZ",
         title: "Neden bizi seçmelisiniz",
-        subtitle: "Bank of Blockchain, kripto fon kurtarmada uzmanlaşmış ilk finans kuruluşudur.",
-        cta: "BOB hakkında daha fazla bilgi",
+        subtitle: "Blockchain Bank, kripto fon kurtarmada uzmanlaşmış ilk finans kuruluşudur.",
+        cta: "Blockchain Bank hakkında daha fazla bilgi",
         items: [
           { title: "AMF & SEC Sertifikalı", desc: "Önde gelen küresel finansal düzenleyici otoriteler tarafından onaylanmış" },
           { title: "Maksimum güvenlik", desc: "Bankacılık düzeyinde güvenlik protokolleri, uçtan uca şifreleme" },
@@ -332,7 +332,7 @@ const tr: TranslationType = {
         terms: "Hesap oluşturarak", termsLink: "kullanım şartlarını kabul edersiniz",
         errorTitle: "Kayıt hatası",
         sectionLabel: "BİZE KATILIN", sectionCta: "Hesabımı aç",
-        sectionTitle: "BOB hesabınızı kolayca açın",
+        sectionTitle: "Blockchain Bank hesabınızı kolayca açın",
         sectionDesc: "Güvenli platformumuza erişin. Hesabınız doğrulama sonrası 24 saat içinde aktif edilecektir.",
         benefits: ["100% ücretsiz kayıt","24 saat içinde aktivasyon","Güvenli müşteri alanı","7/7 destek mevcut"],
         formTitle: "Hesabımı oluştur", formSubtitle: "* ile işaretlenmiş tüm alanlar zorunludur",
@@ -352,9 +352,9 @@ const tr: TranslationType = {
       desc2: "Mali lisans olmadan faaliyet gösteren kripto para platformlarına yatırım yapan herkesi tazmin etmek için buradayız. Misyonumuz; yatırımcıları korumak, onlara ikinci bir şans vermek ve blockchain teknolojileri ile akıllı sözleşmeler sayesinde daha adil bir finans ortamı sağlamaktır.",
       points: ["AMF ve SEC resmi ortağı", "Blockchain teknolojisi ve akıllı sözleşmeler", "Güvenli ve şeffaf geri ödeme", "Dünya genelinde 65+ ülke", "10.000+ müşteriye başarıyla yardım edildi"],
       openAccount: "Hesabımı aç →",
-      stats: { label: "İstatistikler", title: "Sosyal etkimiz", subtitle: "Faaliyetlerimizin temel rakamları. BOB her zaman müşterilerine daha yakın!", countries: "Ülke", clients: "Müşteri", recovered: "Geri ödenen", financing: "Devam eden finansmanlar" },
+      stats: { label: "İstatistikler", title: "Sosyal etkimiz", subtitle: "Faaliyetlerimizin temel rakamları. Blockchain Bank her zaman müşterilerine daha yakın!", countries: "Ülke", clients: "Müşteri", recovered: "Geri ödenen", financing: "Devam eden finansmanlar" },
       partners: "Ortak bankalar",
-      join: { title: "Bank of Blockchain'e katılın", subtitle: "Kripto yatırımlarının korunması ve kurtarılması için bize güvenen binlerce müşterinin parçası olun.", createAccount: "Hesabımı oluştur →", contact: "Bize ulaşın" },
+      join: { title: "Blockchain Bank'e katılın", subtitle: "Kripto yatırımlarının korunması ve kurtarılması için bize güvenen binlerce müşterinin parçası olun.", createAccount: "Hesabımı oluştur →", contact: "Bize ulaşın" },
     },
     faqs: {
       title: "Sıkça Sorulan Sorular (SSS)",
@@ -369,7 +369,7 @@ const tr: TranslationType = {
         { q: "Hangi belgeleri sağlamam gerekiyor?", a: "Sahte platformdaki işlem ekstrelerinin bir kopyasını, ödeme belgelerini (banka havaleleri, kart ekstreleri), geçerli bir kimlik belgesini ve yatırımınızı ve kaybınızı kanıtlayan diğer belgeleri sağlamanız gerekecektir." },
         { q: "Hizmet ücretleriniz nelerdir?", a: "Başarı bazlı komisyon modeli ile çalışıyoruz. Ücret yalnızca fonlarınızı geri kazanmayı başardığımızda alınır. Komisyon oranı, hizmet sözleşmesinin imzalanması sırasında belirlenir ve tutara ve davanın karmaşıklığına göre değişir." },
         { q: "İşletmeler için danışmanlık hizmeti sunuyor musunuz?", a: "Evet, blockchain'i faaliyetlerine entegre etmek isteyen şirket ve kurumlara da destek veriyoruz. Düzenleyici uyumluluk, dijital varlık güvenliği ve blockchain yatırım stratejisi konularında danışmanlık hizmetleri sunuyoruz." },
-        { q: "Danışmanlık hizmetine nasıl erişebilirim?", a: "BOB'da hesap oluşturmanız ve uzmanlarımızdan biriyle randevu almanız yeterlidir. Ayrıca bize doğrudan e-posta ile veya sitemizde bulunan iletişim formu aracılığıyla ulaşabilirsiniz." },
+        { q: "Danışmanlık hizmetine nasıl erişebilirim?", a: "Blockchain Bank'da hesap oluşturmanız ve uzmanlarımızdan biriyle randevu almanız yeterlidir. Ayrıca bize doğrudan e-posta ile veya sitemizde bulunan iletişim formu aracılığıyla ulaşabilirsiniz." },
         { q: "Hizmetiniz ülkemde mevcut mu?", a: "Hizmetlerimiz dünya genelinde 65'ten fazla ülkede mevcuttur. AMF, SEC ve Interpol ile ortaklıklarımız sayesinde ülkelerin büyük çoğunluğunda hizmet verebiliyoruz. Bölgenizdeki uygunluğu kontrol etmek için bize ulaşın." },
         { q: "Blockchain işlem güvenliğini nasıl sağlar?", a: "Blockchain, tüm işlemleri kalıcı ve doğrulanabilir şekilde kaydeden dağıtık ve değiştirilemez bir defterdir. Akıllı sözleşmelerimiz geri ödemeleri otomatikleştirir ve fonların tam olarak planlandığı gibi, hiçbir değişiklik imkânı olmaksızın transfer edilmesini garanti eder." },
         { q: "Kripto para vergileri nasıl yönetilir?", a: "Platformumuz, müşteri alanınızdan erişilebilen tüm işlemlerinizin ayrıntılı bir özetini otomatik olarak oluşturur. Vergi beyannamenizi kolaylaştırmak için bu belgeyi dışa aktarabilirsiniz. Ayrıca uzmanlaşmış kripto vergi yönetim hizmeti de sunuyoruz." },
@@ -377,7 +377,7 @@ const tr: TranslationType = {
     },
     services: {
       sidebarTitle: "Hizmetlerimiz", help: "Yardıma mı ihtiyacınız var?",
-      helpDesc: "Sürecinizde size rehberlik etmesi için bir BOB danışmanıyla iletişime geçin.", contactBtn: "Bize ulaşın",
+      helpDesc: "Sürecinizde size rehberlik etmesi için bir Blockchain Bank danışmanıyla iletişime geçin.", contactBtn: "Bize ulaşın",
       names: { remboursement: "Kayıp Tazmini", securisation: "Yatırım Güvenliği", conseil: "Danışmanlık ve Destek", staking: "Staking Hizmetleri", licence: "İşlem Lisansı", taxe: "Kripto Vergisi" },
     },
     common: {

@@ -14,7 +14,7 @@ export default function Staking() {
             <div className="md:col-span-2">
               <h2 style={{ color: "#225473", fontSize: "1.6rem", fontWeight: 800, marginBottom: "16px" }}>Services de Staking Sécurisé</h2>
               <p style={{ color: "#666", lineHeight: 1.8, marginBottom: "24px" }}>
-                Le staking est l'une des méthodes les plus sûres pour faire fructifier vos cryptomonnaies. BOB vous offre un service de staking sécurisé avec des rendements optimisés et une transparence totale.
+                Le staking est l'une des méthodes les plus sûres pour faire fructifier vos cryptomonnaies. Blockchain Bank vous offre un service de staking sécurisé avec des rendements optimisés et une transparence totale.
               </p>
 
               <div className="grid grid-cols-2 gap-4 mb-10">

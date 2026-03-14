@@ -276,7 +276,7 @@ const zh: TranslationType = {
     },
     home: {
       hero: [
-        { badge: "AMF & SEC官方合作伙伴", title: "找回您的", titleAccent: "加密资产", titleEnd: "损失", subtitle: "Bank of Blockchain通过我们的智能合约和监管合作伙伴关系，帮助您找回在欺诈平台上损失的资金。", cta: "开立账户", cta2: "了解更多" },
+        { badge: "AMF & SEC官方合作伙伴", title: "找回您的", titleAccent: "加密资产", titleEnd: "损失", subtitle: "Blockchain Bank通过我们的智能合约和监管合作伙伴关系，帮助您找回在欺诈平台上损失的资金。", cta: "开立账户", cta2: "了解更多" },
         { badge: "ISO 27001认证保护", title: "保护您的", titleAccent: "数字投资", titleEnd: "", subtitle: "我们部署先进的保护机制，保障您的数字资产安全，让您完全放心。", cta: "了解我们的服务", cta2: "联系我们" },
       ],
       satisfaction: "满意度", clients: "满意客户",
@@ -313,7 +313,7 @@ const zh: TranslationType = {
         label: "为什么选择我们",
         title: "为何选择我们",
         subtitle: "区块链银行是第一家专门从事加密货币资金追回的金融机构。",
-        cta: "了解更多关于BOB",
+        cta: "了解更多关于Blockchain Bank",
         items: [
           { title: "AMF & SEC认证", desc: "经全球主要金融监管机构认可" },
           { title: "最高安全性", desc: "银行级安全协议，端到端加密" },
@@ -354,7 +354,7 @@ const zh: TranslationType = {
       openAccount: "开立账户 →",
       stats: { label: "统计数据", title: "我们的社会影响", subtitle: "我们活动的关键数据。BOB始终与客户保持最紧密的联系！", countries: "国家", clients: "客户", recovered: "已赔偿", financing: "进行中的融资" },
       partners: "合作银行",
-      join: { title: "加入Bank of Blockchain", subtitle: "成为数千名信任我们保护和追回加密投资的客户之一。", createAccount: "创建账户 →", contact: "联系我们" },
+      join: { title: "加入Blockchain Bank", subtitle: "成为数千名信任我们保护和追回加密投资的客户之一。", createAccount: "创建账户 →", contact: "联系我们" },
     },
     faqs: {
       title: "常见问题解答 (FAQ)",

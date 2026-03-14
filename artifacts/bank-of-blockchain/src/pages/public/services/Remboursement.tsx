@@ -17,7 +17,7 @@ export default function Remboursement() {
               <h2 style={{ color: "#225473", fontSize: "1.6rem", fontWeight: 800, marginBottom: "12px", lineHeight: 1.3 }}>
                 Vous avez perdu de l'argent sur une plateforme crypto frauduleuse ou défaillante?
               </h2>
-              <h5 style={{ color: "#f6a821", fontWeight: 700, marginBottom: "24px" }}>BOB est là pour vous aider à récupérer vos fonds.</h5>
+              <h5 style={{ color: "#f6a821", fontWeight: 700, marginBottom: "24px" }}>Blockchain Bank est là pour vous aider à récupérer vos fonds.</h5>
 
               <h5 style={{ color: "#225473", fontWeight: 700, marginBottom: "16px" }}>Comment ça marche?</h5>
               <div className="space-y-6 mb-10">

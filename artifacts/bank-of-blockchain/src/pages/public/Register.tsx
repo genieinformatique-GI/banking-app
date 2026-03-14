@@ -7,7 +7,7 @@ import { useRegister } from "@workspace/api-client-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { Eye, EyeOff, CheckCircle, ArrowRight, Shield, Clock, Users, Award } from "lucide-react";
-import logo from "@assets/logo.jpg";
+import { LogoBrand } from "@/components/ui/LogoBrand";
 import expert from "@assets/expert.jpg";
 
 const registerSchema = z.object({
@@ -117,9 +117,7 @@ export default function Register() {
         <div style={{ position: "absolute", bottom: "-100px", left: "-80px", width: "320px", height: "320px", borderRadius: "50%", background: "radial-gradient(circle, rgba(246,168,33,0.06) 0%, transparent 70%)", pointerEvents: "none" }} />
 
         <Link href="/" style={{ display: "inline-flex", alignItems: "center", position: "relative" }}>
-          <div style={{ background: "rgba(255,255,255,0.1)", borderRadius: "10px", padding: "6px 12px", backdropFilter: "blur(10px)", border: "1px solid rgba(255,255,255,0.12)" }}>
-            <img src={logo} alt="Bank of Blockchain" style={{ height: "34px", width: "auto", objectFit: "contain" }} />
-          </div>
+          <LogoBrand size="md" theme="dark" />
         </Link>
 
         <div style={{ position: "relative" }}>
@@ -130,7 +128,7 @@ export default function Register() {
             Ouvrez votre compte et commencez à récupérer vos fonds
           </h1>
           <p style={{ color: "#8899b0", fontSize: "14px", lineHeight: "1.8", marginBottom: "36px" }}>
-            Rejoignez des milliers d'investisseurs qui ont déjà récupéré leurs fonds crypto grâce à Bank of Blockchain.
+            Rejoignez des milliers d'investisseurs qui ont déjà récupéré leurs fonds crypto grâce à Blockchain Bank.
           </p>
 
           <div style={{ display: "flex", flexDirection: "column", gap: "16px", marginBottom: "40px" }}>
@@ -163,8 +161,8 @@ export default function Register() {
         <div style={{ width: "100%", maxWidth: "520px" }}>
           {/* Mobile logo */}
           <div className="lg:hidden" style={{ textAlign: "center", marginBottom: "32px" }}>
-            <Link href="/">
-              <img src={logo} alt="Bank of Blockchain" style={{ height: "44px", objectFit: "contain" }} />
+            <Link href="/" style={{ display: "inline-flex", justifyContent: "center" }}>
+              <LogoBrand size="lg" theme="light" />
             </Link>
           </div>
 

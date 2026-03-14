@@ -16,7 +16,7 @@ export default function Securisation() {
             <div className="md:col-span-2">
               <h2 style={{ color: "#225473", fontSize: "1.6rem", fontWeight: 800, marginBottom: "16px" }}>Sécurisation de vos Investissements en Cryptomonnaies</h2>
               <p style={{ color: "#666", lineHeight: 1.8, marginBottom: "24px" }}>
-                Chez BOB, nous mettons en place des mécanismes avancés de protection pour garantir la sécurité de vos actifs numériques. Notre approche multi-couches combine technologie blockchain, smart contracts audités et surveillance en temps réel.
+                Chez Blockchain Bank, nous mettons en place des mécanismes avancés de protection pour garantir la sécurité de vos actifs numériques. Notre approche multi-couches combine technologie blockchain, smart contracts audités et surveillance en temps réel.
               </p>
 
               <div className="grid grid-cols-2 gap-6 mb-10">

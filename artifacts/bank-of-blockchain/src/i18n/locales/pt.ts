@@ -276,7 +276,7 @@ const pt: TranslationType = {
     },
     home: {
       hero: [
-        { badge: "Parceiro oficial AMF & SEC", title: "Recupere Seus", titleAccent: "Fundos Cripto", titleEnd: " Perdidos", subtitle: "Bank of Blockchain ajuda você a recuperar fundos perdidos em plataformas fraudulentas por meio de nossos smart contracts e parcerias regulatórias.", cta: "Abrir minha conta", cta2: "Saiba mais" },
+        { badge: "Parceiro oficial AMF & SEC", title: "Recupere Seus", titleAccent: "Fundos Cripto", titleEnd: " Perdidos", subtitle: "Blockchain Bank ajuda você a recuperar fundos perdidos em plataformas fraudulentas por meio de nossos smart contracts e parcerias regulatórias.", cta: "Abrir minha conta", cta2: "Saiba mais" },
         { badge: "Proteção certificada ISO 27001", title: "Proteja Seus", titleAccent: "Investimentos", titleEnd: " Digitais", subtitle: "Implementamos mecanismos avançados de proteção para garantir a segurança dos seus ativos digitais e oferecer total tranquilidade.", cta: "Descobrir nossos serviços", cta2: "Fale conosco" },
       ],
       satisfaction: "Taxa de satisfação", clients: "Clientes satisfeitos",
@@ -312,8 +312,8 @@ const pt: TranslationType = {
       features: {
         label: "PORQUÊ ESCOLHER-NOS",
         title: "Por que nos escolher",
-        subtitle: "Bank of Blockchain é a primeira instituição financeira especializada na recuperação de fundos cripto.",
-        cta: "Saber mais sobre BOB",
+        subtitle: "Blockchain Bank é a primeira instituição financeira especializada na recuperação de fundos cripto.",
+        cta: "Saber mais sobre Blockchain Bank",
         items: [
           { title: "Certificado AMF & SEC", desc: "Aprovado pelas principais autoridades reguladoras financeiras mundiais" },
           { title: "Segurança máxima", desc: "Protocolos de segurança de nível bancário, criptografia ponta a ponta" },
@@ -332,7 +332,7 @@ const pt: TranslationType = {
         terms: "Ao criar uma conta, você aceita nossos", termsLink: "termos de uso",
         errorTitle: "Erro de registro",
         sectionLabel: "JUNTE-SE A NÓS", sectionCta: "Abrir minha conta",
-        sectionTitle: "Abra a sua conta BOB com facilidade",
+        sectionTitle: "Abra a sua conta Blockchain Bank com facilidade",
         sectionDesc: "Aceda à nossa plataforma segura. A sua conta será ativada após verificação em 24h.",
         benefits: ["Registo 100% gratuito","Ativação em menos de 24h","Área de cliente segura","Suporte disponível 7/7"],
         formTitle: "Criar minha conta", formSubtitle: "Todos os campos marcados com * são obrigatórios",
@@ -352,9 +352,9 @@ const pt: TranslationType = {
       desc2: "Estamos aqui para reembolsar todas as pessoas que investiram dinheiro em plataformas de criptomoedas que operavam sem licença financeira. Nossa missão é proteger os investidores, oferecer-lhes uma segunda chance e garantir finanças mais justas graças às tecnologias blockchain e smart contracts.",
       points: ["Parceiro oficial da AMF e SEC", "Tecnologia blockchain e smart contracts", "Reembolso seguro e transparente", "Mais de 65 países cobertos", "Mais de 10.000 clientes atendidos com sucesso"],
       openAccount: "Abrir minha conta →",
-      stats: { label: "Estatísticas", title: "Nosso impacto social", subtitle: "Números-chave de nossas atividades. BOB sempre mais perto de seus clientes!", countries: "Países", clients: "Clientes", recovered: "Reembolsados", financing: "Financiamentos em curso" },
+      stats: { label: "Estatísticas", title: "Nosso impacto social", subtitle: "Números-chave de nossas atividades. Blockchain Bank sempre mais perto de seus clientes!", countries: "Países", clients: "Clientes", recovered: "Reembolsados", financing: "Financiamentos em curso" },
       partners: "Bancos parceiros",
-      join: { title: "Junte-se ao Bank of Blockchain", subtitle: "Faça parte dos milhares de clientes que confiam em nós para a proteção e recuperação de seus investimentos em criptomoedas.", createAccount: "Criar minha conta →", contact: "Fale conosco" },
+      join: { title: "Junte-se ao Blockchain Bank", subtitle: "Faça parte dos milhares de clientes que confiam em nós para a proteção e recuperação de seus investimentos em criptomoedas.", createAccount: "Criar minha conta →", contact: "Fale conosco" },
     },
     faqs: {
       title: "Perguntas Frequentes (FAQ)",
@@ -369,7 +369,7 @@ const pt: TranslationType = {
         { q: "Quais documentos devo fornecer?", a: "Você precisará fornecer: uma cópia dos extratos de transações na plataforma fraudulenta, comprovantes de pagamento (transferências bancárias, extratos de cartão), um documento de identidade válido e qualquer outro documento que comprove seu investimento e perda." },
         { q: "Quais são suas taxas de serviço?", a: "Operamos com um modelo de comissão por sucesso. Cobramos taxas apenas se conseguirmos recuperar seus fundos. A taxa de comissão é definida na assinatura do contrato de serviço e varia de acordo com o valor e a complexidade do caso." },
         { q: "Vocês oferecem consultoria para empresas?", a: "Sim, também assistimos empresas e instituições que desejam integrar blockchain em suas atividades. Oferecemos serviços de consultoria em conformidade regulatória, segurança de ativos digitais e estratégia de investimento blockchain." },
-        { q: "Como posso acessar o serviço de consultoria?", a: "Basta criar uma conta no BOB e agendar um encontro com um de nossos especialistas. Você também pode nos contatar diretamente por email ou pelo formulário de contato disponível em nosso site." },
+        { q: "Como posso acessar o serviço de consultoria?", a: "Basta criar uma conta no Blockchain Bank e agendar um encontro com um de nossos especialistas. Você também pode nos contatar diretamente por email ou pelo formulário de contato disponível em nosso site." },
         { q: "Seu serviço está disponível no meu país?", a: "Nossos serviços estão disponíveis em mais de 65 países ao redor do mundo. Graças às nossas parcerias com AMF, SEC e Interpol, podemos atuar na grande maioria dos países. Entre em contato para verificar a disponibilidade na sua região." },
         { q: "Como a blockchain garante a segurança das transações?", a: "A blockchain é um registro distribuído e imutável que registra todas as transações de forma permanente e verificável. Nossos smart contracts automatizam os reembolsos e garantem que os fundos sejam transferidos exatamente como planejado, sem possibilidade de alteração." },
         { q: "Como gerenciar meus impostos relacionados a criptomoedas?", a: "Nossa plataforma gera automaticamente um extrato detalhado de todas as suas transações, acessível pela sua área do cliente. Você pode exportar este documento para facilitar sua declaração fiscal. Também oferecemos um serviço especializado de gestão de impostos cripto." },
@@ -377,7 +377,7 @@ const pt: TranslationType = {
     },
     services: {
       sidebarTitle: "Nossos serviços", help: "Precisa de ajuda?",
-      helpDesc: "Contacte um assessor BOB para ser orientado em seu processo.", contactBtn: "Fale conosco",
+      helpDesc: "Contacte um assessor Blockchain Bank para ser orientado em seu processo.", contactBtn: "Fale conosco",
       names: { remboursement: "Recuperação de perdas", securisation: "Segurança de investimentos", conseil: "Consultoria e suporte", staking: "Serviços de staking", licence: "Licença de trading", taxe: "Imposto Cripto" },
     },
     common: {

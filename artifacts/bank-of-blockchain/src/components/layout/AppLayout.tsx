@@ -25,7 +25,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
-import logo from "@assets/logo.jpg";
+import { LogoBrand } from "@/components/ui/LogoBrand";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const [location, setLocation] = useLocation();
@@ -138,14 +138,9 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       `} style={{ width: "260px" }}>
 
         {/* Logo */}
-        <div className="p-5 border-b border-sidebar-border flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl overflow-hidden border-2 border-primary/30 flex-shrink-0 bg-white">
-            <img src={logo} alt="Bank of Blockchain" className="w-full h-full object-contain" />
-          </div>
-          <div>
-            <span className="font-display font-bold text-base text-sidebar-foreground tracking-tight leading-none">Bank of Blockchain</span>
-            <p className="text-xs text-muted-foreground mt-0.5">{isAdmin ? "Administration" : "Espace Client"}</p>
-          </div>
+        <div className="p-5 border-b border-sidebar-border flex items-center justify-between">
+          <LogoBrand size="md" theme="dark" />
+          <p className="text-xs text-muted-foreground">{isAdmin ? "Admin" : "Client"}</p>
         </div>
 
         {/* Nav */}

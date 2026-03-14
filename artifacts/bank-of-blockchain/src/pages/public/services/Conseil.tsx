@@ -17,7 +17,7 @@ export default function Conseil() {
 
               <div className="space-y-4 mb-10">
                 {[
-                  { icon: <UserCog size={26} />, title: "Conseiller dédié", desc: "Un expert BOB vous est assigné personnellement pour suivre votre dossier et répondre à toutes vos questions." },
+                  { icon: <UserCog size={26} />, title: "Conseiller dédié", desc: "Un expert Blockchain Bank vous est assigné personnellement pour suivre votre dossier et répondre à toutes vos questions." },
                   { icon: <PieChart size={26} />, title: "Analyse de portefeuille", desc: "Évaluation complète de vos investissements actuels et recommandations pour optimiser votre stratégie crypto." },
                   { icon: <Scale size={26} />, title: "Accompagnement légal", desc: "Nos juristes spécialisés vous guident dans toutes les démarches légales liées à vos investissements en cryptomonnaies." },
                   { icon: <GraduationCap size={26} />, title: "Formation & Education", desc: "Programmes de formation pour comprendre la blockchain, les cryptomonnaies et les meilleures pratiques d'investissement." },
@@ -38,7 +38,7 @@ export default function Conseil() {
                   {[
                     { q: "Qui peut bénéficier du service de conseil?", a: "Toute personne physique ou morale souhaitant investir, gérer ou récupérer des actifs en cryptomonnaies." },
                     { q: "Proposez-vous des conseils pour les entreprises?", a: "Oui, nous accompagnons aussi les entreprises et institutions souhaitant intégrer la blockchain dans leur activité." },
-                    { q: "Comment puis-je accéder au service de conseil?", a: "Il suffit de créer un compte sur BOB et de prendre rendez-vous avec l'un de nos experts." },
+                    { q: "Comment puis-je accéder au service de conseil?", a: "Il suffit de créer un compte sur Blockchain Bank et de prendre rendez-vous avec l'un de nos experts." },
                   ].map(({ q, a }, i) => (
                     <div key={i}>
                       <strong style={{ color: "#225473", fontSize: "0.9rem" }}>{q}</strong>
@@ -49,7 +49,7 @@ export default function Conseil() {
               </div>
 
               <h5 style={{ color: "#225473", fontWeight: 700, marginBottom: "12px" }}>Prenez le contrôle de vos investissements!</h5>
-              <p style={{ color: "#666", marginBottom: "20px" }}>Bénéficiez d'un accompagnement sur mesure et investissez en toute sérénité avec BOB.</p>
+              <p style={{ color: "#666", marginBottom: "20px" }}>Bénéficiez d'un accompagnement sur mesure et investissez en toute sérénité avec Blockchain Bank.</p>
               <Link href="/contact">
                 <button style={{ background: "#225473", color: "white", border: "none", padding: "14px 30px", borderRadius: "6px", fontWeight: 700, cursor: "pointer" }} className="hover:opacity-90 transition-opacity">Prendre rendez-vous →</button>
               </Link>

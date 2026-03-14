@@ -17,7 +17,7 @@ export default function Partenariats() {
             <div>
               <img
                 src="https://bofblockchain.com/template/img/ICONE BLEU.png"
-                alt="BOB"
+                alt="Blockchain Bank"
                 style={{ width: "60%", marginBottom: "16px", borderRadius: "8px" }}
                 onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
               />
@@ -34,7 +34,7 @@ export default function Partenariats() {
                 Nos Partenariats avec l'AMF et la SEC
               </h2>
               <p style={{ color: "#444", fontWeight: 600, lineHeight: 1.75, marginBottom: "16px" }}>
-                La Bank of Blockchain opère en totale conformité avec les réglementations financières internationales grâce à ses partenariats officiels avec l'AMF (Autorité des Marchés Financiers) et la SEC (Securities and Exchange Commission).
+                La Blockchain Bank opère en totale conformité avec les réglementations financières internationales grâce à ses partenariats officiels avec l'AMF (Autorité des Marchés Financiers) et la SEC (Securities and Exchange Commission).
               </p>
               <p style={{ color: "#666", lineHeight: 1.75, marginBottom: "24px" }}>
                 Ces collaborations officielles nous donnent accès à des ressources uniques pour récupérer vos fonds, poursuivre les plateformes frauduleuses et garantir une protection maximale à chaque investisseur que nous accompagnons.
@@ -216,7 +216,7 @@ export default function Partenariats() {
       <section style={{ background: "#f8f9fa", padding: "80px 0", textAlign: "center" }}>
         <div className="max-w-3xl mx-auto px-6">
           <span style={{ color: "#f6a821", fontWeight: 700, fontSize: "0.9rem", textTransform: "uppercase", letterSpacing: "1px" }}>Passez à l'action</span>
-          <h2 style={{ color: "#225473", fontSize: "2rem", fontWeight: 800, margin: "16px 0 16px" }}>Rejoignez la Bank of Blockchain</h2>
+          <h2 style={{ color: "#225473", fontSize: "2rem", fontWeight: 800, margin: "16px 0 16px" }}>Rejoignez la Blockchain Bank</h2>
           <p style={{ color: "#777", lineHeight: 1.75, marginBottom: "32px" }}>
             Faites partie des milliers de clients qui nous font confiance pour la protection et la récupération de leurs investissements en cryptomonnaies.
           </p>
