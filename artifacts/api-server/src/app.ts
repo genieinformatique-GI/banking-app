@@ -3,6 +3,8 @@ import cors from "cors";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import compression from "compression";
+import path from "path";
+import { existsSync } from "fs";
 import router from "./routes";
 
 const app: Express = express();
@@ -38,6 +40,23 @@ app.use("/api/auth/login", authLimiter);
 app.use("/api/auth/register", authLimiter);
 
 app.use("/api", router);
+
+// Serve frontend static files in production
+// Set FRONTEND_DIST_PATH to the absolute path of the built frontend (dist/public/)
+const frontendDist = process.env.FRONTEND_DIST_PATH
+  ? path.resolve(process.env.FRONTEND_DIST_PATH)
+  : path.resolve(path.dirname(new URL(import.meta.url).pathname), "../../bank-of-blockchain/dist/public");
+
+if (process.env.NODE_ENV === "production" && existsSync(frontendDist)) {
+  app.use(express.static(frontendDist, { maxAge: "7d", etag: true }));
+
+  // SPA fallback — send index.html for all non-API routes
+  app.get("*", (_req: Request, res: Response) => {
+    res.sendFile(path.join(frontendDist, "index.html"));
+  });
+
+  console.log(`Serving frontend from: ${frontendDist}`);
+}
 
 app.use((err: any, req: Request, res: Response, _next: NextFunction) => {
   console.error("Unhandled error:", err);
