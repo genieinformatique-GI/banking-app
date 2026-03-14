@@ -28,7 +28,7 @@ function PublicHeader() {
     pourquoiTimer.current = setTimeout(() => setPourquoiOpen(false), 200);
   };
   const [location] = useLocation();
-  const { lang, setLang } = useLanguage();
+  const { lang, setLang, t } = useLanguage();
 
   const languages = [
     { code: "fr", name: "Français", flag: "🇫🇷" },
@@ -40,7 +40,7 @@ function PublicHeader() {
     { code: "zh", name: "中文", flag: "🇨🇳" },
     { code: "ar", name: "العربية", flag: "🇸🇦" },
     { code: "ru", name: "Русский", flag: "🇷🇺" },
-    { code: "ja", name: "日本語", flag: "🇯🇵" },
+    { code: "tr", name: "Türkçe", flag: "🇹🇷" },
   ] as const;
   const current = languages.find(l => l.code === lang) || languages[0];
 
@@ -71,12 +71,12 @@ function PublicHeader() {
               <Link href="/ouverture-de-compte"
                 style={{ color: "#8899b0", fontSize: "12px" }}
                 className="hover:text-[#f6a821] transition-colors">
-                Activation de compte
+                {t.public.nav.activation}
               </Link>
               <Link href="/espace-client"
                 style={{ color: "#8899b0", fontSize: "12px" }}
                 className="hover:text-[#f6a821] transition-colors">
-                Espace client
+                {t.public.nav.espace}
               </Link>
             </div>
             <div className="flex items-center gap-3 ml-auto">
@@ -123,7 +123,7 @@ function PublicHeader() {
                   borderRadius: "4px", fontSize: "11px", fontWeight: "700",
                   cursor: "pointer", letterSpacing: "0.5px", textTransform: "uppercase"
                 }}>
-                  Discuter avec un agent
+                  {t.public.nav.cta}
                 </button>
               </Link>
             </div>
@@ -148,8 +148,8 @@ function PublicHeader() {
             {/* Desktop nav — centered */}
             <nav className="hidden lg:flex items-center gap-1 flex-1 justify-center">
               {[
-                { href: "/", label: "Accueil" },
-                { href: "/la-banque", label: "La Banque" },
+                { href: "/", label: t.public.nav.home },
+                { href: "/la-banque", label: t.public.nav.labanque },
               ].map(({ href, label }) => (
                 <Link key={href} href={href}
                   style={{
@@ -171,7 +171,7 @@ function PublicHeader() {
                   background: "none", border: "none", cursor: "pointer",
                   borderBottom: "2px solid transparent", whiteSpace: "nowrap"
                 }} className="hover:text-[#225473]">
-                  Nos Services
+                  {t.public.nav.services}
                   <ChevronDown size={14} style={{ transition: "transform 0.2s", transform: servicesOpen ? "rotate(180deg)" : "none" }} />
                 </button>
                 {servicesOpen && (
@@ -186,15 +186,15 @@ function PublicHeader() {
                     padding: "12px",
                   }}>
                     <div style={{ padding: "6px 14px 12px", borderBottom: "1px solid #f0f4f8", marginBottom: "8px" }}>
-                      <span style={{ fontSize: "11px", fontWeight: "700", color: "#f6a821", letterSpacing: "1.5px", textTransform: "uppercase" }}>Nos Services</span>
+                      <span style={{ fontSize: "11px", fontWeight: "700", color: "#f6a821", letterSpacing: "1.5px", textTransform: "uppercase" }}>{t.public.nav.services}</span>
                     </div>
                     {[
-                      { href: "/nos-services/remboursement-des-pertes", label: "Remboursement des pertes", icon: <Handshake size={16} /> },
-                      { href: "/nos-services/securisation-des-investissements", label: "Sécurisation des investissements", icon: <Lock size={16} /> },
-                      { href: "/nos-services/conseil-et-accompagnement", label: "Conseil et accompagnement", icon: <Shield size={16} /> },
-                      { href: "/nos-services/services-de-staking", label: "Services de staking", icon: <TrendingUp size={16} /> },
-                      { href: "/nos-services/licence-de-trading", label: "Licence de Trading", icon: <FileText size={16} /> },
-                      { href: "/nos-services/taxe-crypto", label: "Taxe Crypto", icon: <Receipt size={16} /> },
+                      { href: "/nos-services/remboursement-des-pertes", label: t.public.nav.servicesMenu.remboursement, icon: <Handshake size={16} /> },
+                      { href: "/nos-services/securisation-des-investissements", label: t.public.nav.servicesMenu.securisation, icon: <Lock size={16} /> },
+                      { href: "/nos-services/conseil-et-accompagnement", label: t.public.nav.servicesMenu.conseil, icon: <Shield size={16} /> },
+                      { href: "/nos-services/services-de-staking", label: t.public.nav.servicesMenu.staking, icon: <TrendingUp size={16} /> },
+                      { href: "/nos-services/licence-de-trading", label: t.public.nav.servicesMenu.licence, icon: <FileText size={16} /> },
+                      { href: "/nos-services/taxe-crypto", label: t.public.nav.servicesMenu.taxe, icon: <Receipt size={16} /> },
                     ].map(({ href, label, icon }) => (
                       <Link key={href} href={href}
                         style={{
@@ -219,7 +219,7 @@ function PublicHeader() {
                   background: "none", border: "none", cursor: "pointer",
                   borderBottom: "2px solid transparent", whiteSpace: "nowrap"
                 }} className="hover:text-[#225473]">
-                  Pourquoi Nous
+                  {t.public.nav.pourquoi}
                   <ChevronDown size={14} style={{ transition: "transform 0.2s", transform: pourquoiOpen ? "rotate(180deg)" : "none" }} />
                 </button>
                 {pourquoiOpen && (
@@ -234,8 +234,8 @@ function PublicHeader() {
                     padding: "12px",
                   }}>
                     {[
-                      { href: "/engagement-securite-et-transparence", label: "Engagement envers la sécurité et la transparence", icon: <Shield size={16} /> },
-                      { href: "/partenariats-amf-sec", label: "Partenariats avec l'AMF et la SEC", icon: <Handshake size={16} /> },
+                      { href: "/engagement-securite-et-transparence", label: t.public.nav.pourquoiMenu.engagement, icon: <Shield size={16} /> },
+                      { href: "/partenariats-amf-sec", label: t.public.nav.pourquoiMenu.partenariats, icon: <Handshake size={16} /> },
                     ].map(({ href, label, icon }) => (
                       <Link key={href} href={href}
                         style={{
@@ -255,12 +255,12 @@ function PublicHeader() {
               <Link href="/nos-services/assurance-crypto"
                 style={{ padding: "10px 18px", fontSize: "15px", fontWeight: "600", color: "#374151", borderBottom: "2px solid transparent", display: "block", whiteSpace: "nowrap" }}
                 className="hover:text-[#225473]">
-                Assurance crypto
+                {t.public.nav.assurance}
               </Link>
               <Link href="/nos-services/faqs"
                 style={{ padding: "10px 18px", fontSize: "15px", fontWeight: "600", color: "#374151", borderBottom: "2px solid transparent", display: "block", whiteSpace: "nowrap" }}
                 className="hover:text-[#225473]">
-                FAQs
+                {t.public.nav.faqs}
               </Link>
             </nav>
 
@@ -276,18 +276,18 @@ function PublicHeader() {
           <div style={{ background: "#070e1a", borderTop: "1px solid #1a2e4a" }}>
             <div className="max-w-7xl mx-auto px-6 py-5 flex flex-col gap-1">
               {[
-                { href: "/", label: "Accueil" },
-                { href: "/la-banque", label: "La Banque" },
-                { href: "/nos-services/remboursement-des-pertes", label: "Remboursement des pertes" },
-                { href: "/nos-services/securisation-des-investissements", label: "Sécurisation des investissements" },
-                { href: "/nos-services/conseil-et-accompagnement", label: "Conseil et accompagnement" },
-                { href: "/nos-services/services-de-staking", label: "Services de staking" },
-                { href: "/nos-services/licence-de-trading", label: "Licence de Trading" },
-                { href: "/nos-services/taxe-crypto", label: "Taxe Crypto" },
-                { href: "/engagement-securite-et-transparence", label: "Sécurité & transparence" },
-                { href: "/partenariats-amf-sec", label: "Partenariats AMF & SEC" },
-                { href: "/nos-services/assurance-crypto", label: "Assurance crypto" },
-                { href: "/nos-services/faqs", label: "FAQs" },
+                { href: "/", label: t.public.nav.home },
+                { href: "/la-banque", label: t.public.nav.labanque },
+                { href: "/nos-services/remboursement-des-pertes", label: t.public.nav.servicesMenu.remboursement },
+                { href: "/nos-services/securisation-des-investissements", label: t.public.nav.servicesMenu.securisation },
+                { href: "/nos-services/conseil-et-accompagnement", label: t.public.nav.servicesMenu.conseil },
+                { href: "/nos-services/services-de-staking", label: t.public.nav.servicesMenu.staking },
+                { href: "/nos-services/licence-de-trading", label: t.public.nav.servicesMenu.licence },
+                { href: "/nos-services/taxe-crypto", label: t.public.nav.servicesMenu.taxe },
+                { href: "/engagement-securite-et-transparence", label: t.public.nav.pourquoiMenu.engagement },
+                { href: "/partenariats-amf-sec", label: t.public.nav.pourquoiMenu.partenariats },
+                { href: "/nos-services/assurance-crypto", label: t.public.nav.assurance },
+                { href: "/nos-services/faqs", label: t.public.nav.faqs },
                 { href: "/contact", label: "Contact" },
               ].map(({ href, label }) => (
                 <Link key={href} href={href} onClick={() => setMenuOpen(false)}
@@ -299,12 +299,12 @@ function PublicHeader() {
               <div className="flex gap-3 mt-5 pt-5" style={{ borderTop: "1px solid #1a2e4a" }}>
                 <Link href="/espace-client" className="flex-1" onClick={() => setMenuOpen(false)}>
                   <button style={{ width: "100%", padding: "11px", background: "transparent", border: "1px solid #f6a821", color: "#f6a821", borderRadius: "8px", fontSize: "14px", fontWeight: "600" }}>
-                    Espace client
+                    {t.public.nav.espace}
                   </button>
                 </Link>
                 <Link href="/contact" className="flex-1" onClick={() => setMenuOpen(false)}>
                   <button style={{ width: "100%", padding: "11px", background: "#f6a821", border: "none", color: "white", borderRadius: "8px", fontSize: "14px", fontWeight: "700" }}>
-                    Nous contacter
+                    {t.public.common.contact}
                   </button>
                 </Link>
               </div>

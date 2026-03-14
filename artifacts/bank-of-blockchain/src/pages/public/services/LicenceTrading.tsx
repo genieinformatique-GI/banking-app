@@ -1,32 +1,8 @@
+import ServiceSidebar from "@/components/ServiceSidebar";
 import PublicLayout, { PageTitle } from "@/components/layout/PublicLayout";
 import { Link } from "wouter";
 import { CheckCircle } from "lucide-react";
 
-const ServiceSidebar = ({ active }: { active: string }) => (
-  <div>
-    <div style={{ background: "#f8f9fa", borderRadius: "12px", padding: "28px", marginBottom: "20px" }}>
-      <h4 style={{ color: "#225473", fontWeight: 700, marginBottom: "16px" }}>Nos services</h4>
-      <ul className="space-y-2">
-        {[
-          { label: "Remboursement des pertes", href: "/nos-services/remboursement-des-pertes" },
-          { label: "Sécurisation des investissements", href: "/nos-services/securisation-des-investissements" },
-          { label: "Conseil et accompagnement", href: "/nos-services/conseil-et-accompagnement" },
-          { label: "Services de staking", href: "/nos-services/services-de-staking" },
-          { label: "Licence de Trading", href: "/nos-services/licence-de-trading" },
-          { label: "Taxe Crypto", href: "/nos-services/taxe-crypto" },
-        ].map(({ label, href }) => {
-          const isActive = href === active;
-          return <li key={href}><Link href={href} style={{ display: "block", padding: "10px 14px", borderRadius: "6px", fontSize: "0.9rem", fontWeight: isActive ? 700 : 500, background: isActive ? "#225473" : "transparent", color: isActive ? "white" : "#555" }} className={isActive ? "" : "hover:bg-gray-200 transition-colors"}>{label}</Link></li>;
-        })}
-      </ul>
-    </div>
-    <div style={{ background: "#225473", borderRadius: "12px", padding: "28px", color: "white", textAlign: "center" }}>
-      <h4 style={{ fontWeight: 700, marginBottom: "12px" }}>Besoin d'aide?</h4>
-      <p style={{ color: "#b8d4e8", fontSize: "0.9rem", marginBottom: "20px", lineHeight: 1.6 }}>Contactez un conseiller BOB pour être guidé dans votre démarche.</p>
-      <Link href="/contact"><button style={{ background: "#f6a821", color: "white", border: "none", padding: "11px 20px", borderRadius: "6px", fontWeight: 700, cursor: "pointer", width: "100%", fontSize: "0.9rem" }} className="hover:opacity-90 transition-opacity">Nous contacter</button></Link>
-    </div>
-  </div>
-);
 
 export default function LicenceTrading() {
   return (
@@ -69,7 +45,8 @@ export default function LicenceTrading() {
                 <button style={{ background: "#225473", color: "white", border: "none", padding: "14px 30px", borderRadius: "6px", fontWeight: 700, cursor: "pointer" }} className="hover:opacity-90 transition-opacity">Demander ma licence →</button>
               </Link>
             </div>
-            <ServiceSidebar active="/nos-services/licence-de-trading" />
+            {/* Sidebar */}
+            <ServiceSidebar activeKey="licence" />
           </div>
         </div>
       </section>
