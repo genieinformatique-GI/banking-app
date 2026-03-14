@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "wouter";
 import { ChevronDown, Mail, X, Menu, MapPin, Shield, TrendingUp, FileText, Receipt, Lock, Handshake } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -10,6 +10,23 @@ function PublicHeader() {
   const [pourquoiOpen, setPourquoiOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
+  const servicesTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const pourquoiTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const openServices = () => {
+    if (servicesTimer.current) clearTimeout(servicesTimer.current);
+    setServicesOpen(true);
+  };
+  const closeServices = () => {
+    servicesTimer.current = setTimeout(() => setServicesOpen(false), 200);
+  };
+  const openPourquoi = () => {
+    if (pourquoiTimer.current) clearTimeout(pourquoiTimer.current);
+    setPourquoiOpen(true);
+  };
+  const closePourquoi = () => {
+    pourquoiTimer.current = setTimeout(() => setPourquoiOpen(false), 200);
+  };
   const [location] = useLocation();
   const { lang, setLang } = useLanguage();
 
@@ -147,7 +164,7 @@ function PublicHeader() {
               ))}
 
               {/* Services dropdown */}
-              <div className="relative" onMouseEnter={() => setServicesOpen(true)} onMouseLeave={() => setServicesOpen(false)}>
+              <div className="relative" onMouseEnter={openServices} onMouseLeave={closeServices}>
                 <button style={{
                   display: "flex", alignItems: "center", gap: "5px", padding: "10px 18px",
                   fontSize: "15px", fontWeight: "600", color: "#374151",
@@ -159,10 +176,14 @@ function PublicHeader() {
                 </button>
                 {servicesOpen && (
                   <div style={{
-                    position: "absolute", top: "calc(100% + 8px)", left: "50%", transform: "translateX(-50%)",
-                    background: "white", minWidth: "310px", borderRadius: "16px",
+                    position: "absolute", top: "100%", left: "50%", transform: "translateX(-50%)",
+                    paddingTop: "8px", zIndex: 200, minWidth: "310px",
+                  }}
+                  onMouseEnter={openServices} onMouseLeave={closeServices}>
+                  <div style={{
+                    background: "white", borderRadius: "16px",
                     boxShadow: "0 25px 70px rgba(0,0,0,0.14)", border: "1px solid #edf2f7",
-                    padding: "12px", zIndex: 200,
+                    padding: "12px",
                   }}>
                     <div style={{ padding: "6px 14px 12px", borderBottom: "1px solid #f0f4f8", marginBottom: "8px" }}>
                       <span style={{ fontSize: "11px", fontWeight: "700", color: "#f6a821", letterSpacing: "1.5px", textTransform: "uppercase" }}>Nos Services</span>
@@ -186,11 +207,12 @@ function PublicHeader() {
                       </Link>
                     ))}
                   </div>
+                  </div>
                 )}
               </div>
 
               {/* Pourquoi dropdown */}
-              <div className="relative" onMouseEnter={() => setPourquoiOpen(true)} onMouseLeave={() => setPourquoiOpen(false)}>
+              <div className="relative" onMouseEnter={openPourquoi} onMouseLeave={closePourquoi}>
                 <button style={{
                   display: "flex", alignItems: "center", gap: "5px", padding: "10px 18px",
                   fontSize: "15px", fontWeight: "600", color: "#374151",
@@ -202,10 +224,14 @@ function PublicHeader() {
                 </button>
                 {pourquoiOpen && (
                   <div style={{
-                    position: "absolute", top: "calc(100% + 8px)", left: "50%", transform: "translateX(-50%)",
-                    background: "white", minWidth: "320px", borderRadius: "16px",
+                    position: "absolute", top: "100%", left: "50%", transform: "translateX(-50%)",
+                    paddingTop: "8px", zIndex: 200, minWidth: "320px",
+                  }}
+                  onMouseEnter={openPourquoi} onMouseLeave={closePourquoi}>
+                  <div style={{
+                    background: "white", borderRadius: "16px",
                     boxShadow: "0 25px 70px rgba(0,0,0,0.14)", border: "1px solid #edf2f7",
-                    padding: "12px", zIndex: 200,
+                    padding: "12px",
                   }}>
                     {[
                       { href: "/engagement-securite-et-transparence", label: "Engagement envers la sécurité et la transparence", icon: <Shield size={16} /> },
@@ -221,6 +247,7 @@ function PublicHeader() {
                         {label}
                       </Link>
                     ))}
+                  </div>
                   </div>
                 )}
               </div>
