@@ -80,11 +80,15 @@ export default function Settings() {
   };
 
   // 2FA state
-  type TfaStep = "idle" | "setup" | "enable" | "disable";
+  type TfaStep = "idle" | "method-select" | "setup" | "enable" | "disable";
   const [tfaStep, setTfaStep] = useState<TfaStep>("idle");
   const [tfaEnabled, setTfaEnabled] = useState(false);
+  const [tfaMethod, setTfaMethod] = useState<"app" | "email" | "sms">("app");
+  const [tfaActiveMethod, setTfaActiveMethod] = useState<string | null>(null);
   const [tfaQr, setTfaQr] = useState("");
   const [tfaSecret, setTfaSecret] = useState("");
+  const [tfaOtpMsg, setTfaOtpMsg] = useState("");
+  const [tfaDevCode, setTfaDevCode] = useState("");
   const [tfaVerifyCode, setTfaVerifyCode] = useState("");
   const [tfaDisableForm, setTfaDisableForm] = useState({ password: "", code: "" });
   const [tfaLoading, setTfaLoading] = useState(false);
@@ -92,20 +96,43 @@ export default function Settings() {
   useEffect(() => {
     if (user && "twoFactorEnabled" in user) {
       setTfaEnabled(!!(user as any).twoFactorEnabled);
+      setTfaActiveMethod((user as any).twoFactorMethod || null);
     }
   }, [user]);
 
   const authHeader = () => ({ "Content-Type": "application/json", Authorization: `Bearer ${localStorage.getItem("bob_token")}` });
 
-  const startSetup2FA = async () => {
+  const startSetup2FA = async (method: "app" | "email" | "sms") => {
     setTfaLoading(true);
     try {
-      const res = await fetch("/api/auth/2fa/setup", { method: "POST", headers: authHeader() });
+      const res = await fetch("/api/auth/2fa/setup", { method: "POST", headers: authHeader(), body: JSON.stringify({ method }) });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Erreur");
-      setTfaQr(data.qrCode);
-      setTfaSecret(data.secret);
+      setTfaMethod(method);
+      if (method === "app") {
+        setTfaQr(data.qrCode);
+        setTfaSecret(data.secret);
+      } else {
+        setTfaOtpMsg(data.message);
+        setTfaDevCode(data.devCode || "");
+      }
       setTfaStep("setup");
+    } catch (err: any) {
+      toast({ title: "Erreur", description: err.message, variant: "destructive" });
+    } finally {
+      setTfaLoading(false);
+    }
+  };
+
+  const resendOtp = async () => {
+    setTfaLoading(true);
+    try {
+      const res = await fetch("/api/auth/2fa/send-otp", { method: "POST", headers: authHeader() });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Erreur");
+      setTfaOtpMsg(data.message);
+      setTfaDevCode(data.devCode || "");
+      toast({ title: "Code renvoyé", description: data.message });
     } catch (err: any) {
       toast({ title: "Erreur", description: err.message, variant: "destructive" });
     } finally {
@@ -120,10 +147,13 @@ export default function Settings() {
       const res = await fetch("/api/auth/2fa/enable", { method: "POST", headers: authHeader(), body: JSON.stringify({ code: tfaVerifyCode }) });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Erreur");
-      toast({ title: "2FA activée !", description: "L'authentification à deux facteurs est maintenant active.", variant: "success" });
+      const label = tfaMethod === "app" ? "Application" : tfaMethod === "email" ? "Email" : "SMS";
+      toast({ title: `2FA activée (${label}) !`, description: data.message, variant: "success" });
       setTfaEnabled(true);
+      setTfaActiveMethod(tfaMethod);
       setTfaStep("idle");
       setTfaVerifyCode("");
+      setTfaDevCode("");
       queryClient.invalidateQueries();
     } catch (err: any) {
       toast({ title: "Code invalide", description: err.message, variant: "destructive" });
@@ -141,6 +171,7 @@ export default function Settings() {
       if (!res.ok) throw new Error(data.error || "Erreur");
       toast({ title: "2FA désactivée", description: "L'authentification à deux facteurs a été désactivée." });
       setTfaEnabled(false);
+      setTfaActiveMethod(null);
       setTfaStep("idle");
       setTfaDisableForm({ password: "", code: "" });
       queryClient.invalidateQueries();
@@ -423,7 +454,14 @@ export default function Settings() {
                   <CardTitle className="flex items-center gap-2">
                     <Shield className="w-5 h-5" /> Authentification à deux facteurs (2FA)
                   </CardTitle>
-                  <CardDescription>Protégez votre compte avec une couche de sécurité supplémentaire.</CardDescription>
+                  <CardDescription>
+                    Choisissez votre méthode de vérification : application, email ou SMS.
+                    {tfaEnabled && tfaActiveMethod && (
+                      <span className="ml-2 text-green-600 font-medium">
+                        — Méthode active : {tfaActiveMethod === "app" ? "Application 2FA" : tfaActiveMethod === "email" ? "Email" : "SMS"}
+                      </span>
+                    )}
+                  </CardDescription>
                 </div>
                 <div className={`px-3 py-1 rounded-full text-xs font-bold ${tfaEnabled ? "bg-green-500/15 text-green-500 border border-green-500/30" : "bg-amber-500/15 text-amber-500 border border-amber-500/30"}`}>
                   {tfaEnabled ? "✓ Activée" : "✗ Désactivée"}
@@ -439,12 +477,20 @@ export default function Settings() {
                         <CheckCircle2 className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
                         <div>
                           <p className="font-semibold text-sm text-green-600">La 2FA est activée sur votre compte</p>
-                          <p className="text-xs text-muted-foreground mt-1">Vous devez saisir un code à chaque connexion. Votre compte bénéficie d'une protection renforcée.</p>
+                          <p className="text-xs text-muted-foreground mt-1">
+                            Méthode : <strong>{tfaActiveMethod === "app" ? "Application d'authentification" : tfaActiveMethod === "email" ? "Email" : "SMS"}</strong>.
+                            Un code vous est demandé à chaque connexion.
+                          </p>
                         </div>
                       </div>
-                      <Button variant="destructive" size="sm" onClick={() => setTfaStep("disable")}>
-                        <Lock className="w-4 h-4 mr-2" /> Désactiver la 2FA
-                      </Button>
+                      <div className="flex gap-3">
+                        <Button variant="outline" size="sm" onClick={() => setTfaStep("method-select")}>
+                          <QrCode className="w-4 h-4 mr-2" /> Changer de méthode
+                        </Button>
+                        <Button variant="destructive" size="sm" onClick={() => setTfaStep("disable")}>
+                          <Lock className="w-4 h-4 mr-2" /> Désactiver la 2FA
+                        </Button>
+                      </div>
                     </div>
                   ) : (
                     <div className="space-y-4">
@@ -452,22 +498,41 @@ export default function Settings() {
                         <AlertTriangle className="w-5 h-5 text-amber-500 mt-0.5 flex-shrink-0" />
                         <div>
                           <p className="font-semibold text-sm text-amber-600">Votre compte n'est pas protégé par la 2FA</p>
-                          <p className="text-xs text-muted-foreground mt-1">Activez l'authentification à deux facteurs pour protéger votre compte contre les accès non autorisés.</p>
+                          <p className="text-xs text-muted-foreground mt-1">Activez la 2FA pour sécuriser votre compte. Choisissez votre méthode préférée.</p>
                         </div>
                       </div>
-                      <p className="text-sm text-muted-foreground">
-                        Vous aurez besoin d'une application d'authentification comme <strong>Google Authenticator</strong> ou <strong>Authy</strong>.
-                      </p>
-                      <Button onClick={startSetup2FA} disabled={tfaLoading}>
-                        <QrCode className="w-4 h-4 mr-2" />
-                        {tfaLoading ? "Chargement..." : "Configurer la 2FA"}
+                      <Button onClick={() => setTfaStep("method-select")} disabled={tfaLoading}>
+                        <Shield className="w-4 h-4 mr-2" /> Activer la 2FA
                       </Button>
                     </div>
                   )}
                 </div>
               )}
 
-              {tfaStep === "setup" && (
+              {tfaStep === "method-select" && (
+                <div className="space-y-4 max-w-md">
+                  <p className="font-semibold text-sm">Choisissez votre méthode de double authentification :</p>
+                  <div className="grid gap-3">
+                    {[
+                      { method: "app" as const, icon: <QrCode className="w-6 h-6" />, title: "Application d'authentification", desc: "Google Authenticator, Authy, etc. — méthode la plus sécurisée" },
+                      { method: "email" as const, icon: <span className="text-2xl">✉️</span>, title: "Email", desc: `Un code à 6 chiffres sera envoyé à ${user?.email}` },
+                      { method: "sms" as const, icon: <span className="text-2xl">📱</span>, title: "SMS", desc: `Un code sera envoyé par SMS au ${(user as any)?.phone || "numéro renseigné dans votre profil"}` },
+                    ].map(({ method, icon, title, desc }) => (
+                      <button key={method} onClick={() => startSetup2FA(method)} disabled={tfaLoading}
+                        className="flex items-center gap-4 p-4 rounded-xl border-2 text-left transition-all hover:border-primary hover:bg-primary/5 border-border">
+                        <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary flex-shrink-0">{icon}</div>
+                        <div>
+                          <p className="font-semibold text-sm">{title}</p>
+                          <p className="text-xs text-muted-foreground mt-0.5">{desc}</p>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                  <Button type="button" variant="outline" size="sm" onClick={() => setTfaStep("idle")}>Annuler</Button>
+                </div>
+              )}
+
+              {tfaStep === "setup" && tfaMethod === "app" && (
                 <div className="space-y-6 max-w-md">
                   <div className="space-y-2">
                     <p className="font-semibold text-sm">Étape 1 — Scannez le QR code</p>
@@ -484,26 +549,56 @@ export default function Settings() {
                   </div>
                   <div className="space-y-2">
                     <p className="font-semibold text-sm">Étape 2 — Vérifiez le code</p>
-                    <p className="text-xs text-muted-foreground">Entrez le code à 6 chiffres affiché dans votre application pour finaliser la configuration.</p>
+                    <p className="text-xs text-muted-foreground">Entrez le code à 6 chiffres affiché dans votre application.</p>
                   </div>
                   <form onSubmit={enable2FA} className="space-y-4">
                     <div className="space-y-2">
                       <Label>Code de vérification</Label>
-                      <Input
-                        type="text"
-                        inputMode="numeric"
-                        maxLength={6}
-                        placeholder="000000"
+                      <Input type="text" inputMode="numeric" maxLength={6} placeholder="000000"
                         value={tfaVerifyCode}
                         onChange={e => setTfaVerifyCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
-                        className="text-center text-2xl tracking-widest font-bold"
-                      />
+                        className="text-center text-2xl tracking-widest font-bold" />
                     </div>
                     <div className="flex gap-3">
                       <Button type="submit" disabled={tfaLoading || tfaVerifyCode.length !== 6}>
                         {tfaLoading ? "Activation..." : "Activer la 2FA"}
                       </Button>
-                      <Button type="button" variant="outline" onClick={() => { setTfaStep("idle"); setTfaVerifyCode(""); }}>Annuler</Button>
+                      <Button type="button" variant="outline" onClick={() => { setTfaStep("method-select"); setTfaVerifyCode(""); }}>Retour</Button>
+                    </div>
+                  </form>
+                </div>
+              )}
+
+              {tfaStep === "setup" && (tfaMethod === "email" || tfaMethod === "sms") && (
+                <div className="space-y-6 max-w-md">
+                  <div className="flex items-start gap-3 p-4 rounded-xl bg-primary/5 border border-primary/20">
+                    <CheckCircle2 className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                    <div>
+                      <p className="font-semibold text-sm">{tfaOtpMsg || `Code envoyé par ${tfaMethod === "email" ? "email" : "SMS"}`}</p>
+                      {tfaDevCode && (
+                        <div className="mt-2 p-2 bg-amber-500/10 rounded border border-amber-500/20">
+                          <p className="text-xs text-amber-700 font-medium">Mode démo — Code visible :</p>
+                          <code className="text-lg font-bold tracking-widest text-amber-800">{tfaDevCode}</code>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <form onSubmit={enable2FA} className="space-y-4">
+                    <div className="space-y-2">
+                      <Label>Code à 6 chiffres</Label>
+                      <Input type="text" inputMode="numeric" maxLength={6} placeholder="000000"
+                        value={tfaVerifyCode}
+                        onChange={e => setTfaVerifyCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                        className="text-center text-2xl tracking-widest font-bold" />
+                    </div>
+                    <div className="flex gap-3 flex-wrap">
+                      <Button type="submit" disabled={tfaLoading || tfaVerifyCode.length !== 6}>
+                        {tfaLoading ? "Activation..." : "Activer la 2FA"}
+                      </Button>
+                      <Button type="button" variant="outline" size="sm" onClick={resendOtp} disabled={tfaLoading}>
+                        Renvoyer le code
+                      </Button>
+                      <Button type="button" variant="outline" onClick={() => { setTfaStep("method-select"); setTfaVerifyCode(""); }}>Retour</Button>
                     </div>
                   </form>
                 </div>
@@ -513,18 +608,22 @@ export default function Settings() {
                 <form onSubmit={disable2FA} className="space-y-4 max-w-md">
                   <div className="flex items-start gap-3 p-4 rounded-xl bg-red-500/5 border border-red-500/20">
                     <AlertTriangle className="w-5 h-5 text-red-500 mt-0.5 flex-shrink-0" />
-                    <p className="text-xs text-red-600">Pour confirmer la désactivation, entrez votre mot de passe et votre code 2FA actuel.</p>
+                    <p className="text-xs text-red-600">Pour confirmer la désactivation, entrez votre mot de passe.
+                      {tfaActiveMethod !== "app" && " Si votre méthode 2FA est email/SMS, laissez le champ code vide ou entrez le dernier code reçu."}
+                    </p>
                   </div>
                   <div className="space-y-2">
                     <Label>Mot de passe</Label>
                     <Input type="password" required value={tfaDisableForm.password} onChange={e => setTfaDisableForm(f => ({ ...f, password: e.target.value }))} />
                   </div>
-                  <div className="space-y-2">
-                    <Label>Code 2FA actuel</Label>
-                    <Input type="text" inputMode="numeric" maxLength={6} placeholder="000000"
-                      value={tfaDisableForm.code} onChange={e => setTfaDisableForm(f => ({ ...f, code: e.target.value.replace(/\D/g, "").slice(0, 6) }))}
-                      className="text-center text-xl tracking-widest font-bold" />
-                  </div>
+                  {tfaActiveMethod === "app" && (
+                    <div className="space-y-2">
+                      <Label>Code de l'application 2FA</Label>
+                      <Input type="text" inputMode="numeric" maxLength={6} placeholder="000000"
+                        value={tfaDisableForm.code} onChange={e => setTfaDisableForm(f => ({ ...f, code: e.target.value.replace(/\D/g, "").slice(0, 6) }))}
+                        className="text-center text-xl tracking-widest font-bold" />
+                    </div>
+                  )}
                   <div className="flex gap-3">
                     <Button type="submit" variant="destructive" disabled={tfaLoading}>
                       {tfaLoading ? "Désactivation..." : "Confirmer la désactivation"}

@@ -14,7 +14,7 @@ import { Separator } from "@/components/ui/separator";
 import { formatDate, formatCurrency } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
-import { CheckCircle, XCircle, Plus, Eye, Settings2, UserPlus, ShieldCheck, Search, Euro, DollarSign, Bitcoin, ArrowRightLeft, CreditCard, Zap } from "lucide-react";
+import { CheckCircle, XCircle, Plus, Eye, Settings2, UserPlus, ShieldCheck, Search, Euro, DollarSign, Bitcoin, ArrowRightLeft, CreditCard, Zap, KeyRound } from "lucide-react";
 
 const ADMIN_PERMISSIONS = [
   { key: "manage_users", label: "Gestion des utilisateurs" },
@@ -62,6 +62,8 @@ export default function AdminUsers() {
     adminRole: "", permissions: {} as Record<string, boolean>, twoFactorRequired: false
   });
   const [savingPerm, setSavingPerm] = useState(false);
+  const [resetPwValue, setResetPwValue] = useState("");
+  const [resetPwLoading, setResetPwLoading] = useState(false);
 
   const activateUser = useActivateUser({ mutation: { onSuccess: () => { toast({ title: "Utilisateur activé", variant: "success" }); queryClient.invalidateQueries(); } } });
   const suspendUser = useSuspendUser({ mutation: { onSuccess: () => { toast({ title: "Utilisateur suspendu" }); queryClient.invalidateQueries(); } } });
@@ -135,6 +137,25 @@ export default function AdminUsers() {
       toast({ title: "Erreur", description: err.message, variant: "destructive" });
     }
     setSavingPerm(false);
+  };
+
+  const handleResetPassword = async () => {
+    if (!selectedUser || !resetPwValue.trim()) return;
+    setResetPwLoading(true);
+    try {
+      const res = await fetch(`/api/users/${selectedUser.id}/reset-password`, {
+        method: "POST",
+        headers: authHeader(),
+        body: JSON.stringify({ newPassword: resetPwValue }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Erreur lors de la réinitialisation");
+      toast({ title: "Mot de passe réinitialisé", description: "L'utilisateur a été notifié.", variant: "success" });
+      setResetPwValue("");
+    } catch (err: any) {
+      toast({ title: "Erreur", description: err.message, variant: "destructive" });
+    }
+    setResetPwLoading(false);
   };
 
   const filteredUsers = data?.users?.filter((u: any) => {
@@ -406,6 +427,29 @@ export default function AdminUsers() {
                     ))}
                   </div>
                 )}
+
+                <Separator />
+                <div className="space-y-3">
+                  <p className="text-sm font-semibold flex items-center gap-2"><KeyRound className="w-4 h-4 text-primary" /> Réinitialiser le mot de passe</p>
+                  <div className="flex gap-2">
+                    <Input
+                      type="password"
+                      placeholder="Nouveau mot de passe..."
+                      value={resetPwValue}
+                      onChange={e => setResetPwValue(e.target.value)}
+                      className="flex-1"
+                    />
+                    <Button
+                      onClick={handleResetPassword}
+                      disabled={resetPwLoading || resetPwValue.trim().length < 6}
+                      variant="destructive"
+                      size="sm"
+                    >
+                      {resetPwLoading ? "..." : "Réinitialiser"}
+                    </Button>
+                  </div>
+                  <p className="text-xs text-muted-foreground">Le mot de passe doit contenir au moins 6 caractères. L'utilisateur recevra une notification.</p>
+                </div>
               </TabsContent>
 
               <TabsContent value="balances">

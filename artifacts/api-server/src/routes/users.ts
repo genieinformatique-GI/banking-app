@@ -1,7 +1,7 @@
 import { Router } from "express";
 import bcrypt from "bcryptjs";
 import { db } from "@workspace/db";
-import { usersTable, balancesTable, bankAccountsTable, transactionsTable, bankTransfersTable, cryptoTransfersTable } from "@workspace/db/schema";
+import { usersTable, balancesTable, bankAccountsTable, transactionsTable, bankTransfersTable, cryptoTransfersTable, notificationsTable } from "@workspace/db/schema";
 import { eq, ilike, or, and, count, SQL, desc } from "drizzle-orm";
 import { requireAuth, requireAdmin, AuthRequest } from "../middlewares/auth.js";
 import { logAction } from "../lib/logger.js";
@@ -282,6 +282,32 @@ router.post("/:id/suspend", async (req: AuthRequest, res): Promise<void> => {
     await db.update(usersTable).set({ status: "suspended", updatedAt: new Date() }).where(eq(usersTable.id, id));
     await logAction({ adminId: req.userId, action: "SUSPEND_USER", target: "user", targetId: id });
     res.json({ success: true, message: "User suspended" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+router.post("/:id/reset-password", async (req: AuthRequest, res): Promise<void> => {
+  try {
+    const id = parseInt(req.params["id"]!);
+    const { newPassword } = req.body || {};
+    if (!newPassword || newPassword.length < 8) {
+      res.status(400).json({ error: "Le mot de passe doit contenir au moins 8 caractères" }); return;
+    }
+    const [user] = await db.select({ id: usersTable.id, email: usersTable.email, firstName: usersTable.firstName }).from(usersTable).where(eq(usersTable.id, id)).limit(1);
+    if (!user) { res.status(404).json({ error: "Utilisateur non trouvé" }); return; }
+    const newHash = await bcrypt.hash(newPassword, 10);
+    await db.update(usersTable).set({ passwordHash: newHash, updatedAt: new Date() }).where(eq(usersTable.id, id));
+    await logAction({ adminId: req.userId, action: "ADMIN_RESET_PASSWORD", target: "user", targetId: id });
+    await db.insert(notificationsTable).values({
+      userId: id,
+      title: "Mot de passe réinitialisé",
+      message: "Votre mot de passe a été réinitialisé par un administrateur. Veuillez vous connecter avec votre nouveau mot de passe et le modifier depuis vos paramètres.",
+      type: "info",
+      isRead: false,
+    });
+    res.json({ success: true, message: "Mot de passe réinitialisé avec succès" });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Internal Server Error" });

@@ -63,7 +63,27 @@ router.post("/login", async (req, res): Promise<void> => {
 
     if (user.twoFactorEnabled) {
       const tempToken = signTempToken({ userId: user.id, twoFactorPending: true });
-      res.json({ requiresTwoFactor: true, tempToken });
+      const method = user.twoFactorMethod || "app";
+
+      if (method === "email" || method === "sms") {
+        const code = Math.floor(100000 + Math.random() * 900000).toString();
+        const otpExpiry = new Date(Date.now() + 10 * 60 * 1000);
+        await db.update(usersTable).set({ otpCode: code, otpExpiry, updatedAt: new Date() }).where(eq(usersTable.id, user.id));
+        console.log(`[2FA LOGIN ${method.toUpperCase()}] User ${user.email} — Code: ${code}`);
+        try {
+          const { notificationsTable } = await import("@workspace/db/schema");
+          await db.insert(notificationsTable).values({
+            userId: user.id,
+            title: `Code 2FA par ${method === "email" ? "Email" : "SMS"}`,
+            message: `Votre code de connexion est : ${code} (valable 10 minutes). ${method === "sms" ? `SMS envoyé au ${user.phone || "numéro renseigné"}.` : `Envoyé à ${user.email}.`}`,
+            type: "info",
+            isRead: false,
+          });
+        } catch {}
+        res.json({ requiresTwoFactor: true, tempToken, method, sentTo: method === "email" ? user.email : user.phone, devCode: code });
+      } else {
+        res.json({ requiresTwoFactor: true, tempToken, method: "app" });
+      }
       return;
     }
 

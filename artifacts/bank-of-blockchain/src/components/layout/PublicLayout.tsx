@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { ChevronDown, Mail, X, Menu, MapPin, Shield, TrendingUp, FileText, Receipt, Lock, Handshake } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 import logo from "@assets/logo.jpg";
 
 function PublicHeader() {
@@ -8,7 +9,23 @@ function PublicHeader() {
   const [servicesOpen, setServicesOpen] = useState(false);
   const [pourquoiOpen, setPourquoiOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [langOpen, setLangOpen] = useState(false);
   const [location] = useLocation();
+  const { lang, setLang } = useLanguage();
+
+  const languages = [
+    { code: "fr", name: "Français", flag: "🇫🇷" },
+    { code: "en", name: "English", flag: "🇬🇧" },
+    { code: "es", name: "Español", flag: "🇪🇸" },
+    { code: "de", name: "Deutsch", flag: "🇩🇪" },
+    { code: "it", name: "Italiano", flag: "🇮🇹" },
+    { code: "pt", name: "Português", flag: "🇵🇹" },
+    { code: "zh", name: "中文", flag: "🇨🇳" },
+    { code: "ar", name: "العربية", flag: "🇸🇦" },
+    { code: "ru", name: "Русский", flag: "🇷🇺" },
+    { code: "ja", name: "日本語", flag: "🇯🇵" },
+  ] as const;
+  const current = languages.find(l => l.code === lang) || languages[0];
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 30);
@@ -46,6 +63,42 @@ function PublicHeader() {
               </Link>
             </div>
             <div className="flex items-center gap-3 ml-auto">
+              <div className="relative">
+                <button
+                  onClick={() => setLangOpen(!langOpen)}
+                  style={{
+                    display: "flex", alignItems: "center", gap: "6px",
+                    background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)",
+                    borderRadius: "4px", padding: "4px 10px", color: "#b8d4e8",
+                    fontSize: "12px", cursor: "pointer", fontWeight: "600"
+                  }}
+                >
+                  <span>{current.flag}</span>
+                  <span>{current.code.toUpperCase()}</span>
+                  <ChevronDown size={11} style={{ opacity: 0.7 }} />
+                </button>
+                {langOpen && (
+                  <div style={{
+                    position: "absolute", top: "calc(100% + 6px)", right: 0,
+                    background: "#0f1e35", border: "1px solid #1e3a5f", borderRadius: "8px",
+                    padding: "6px", zIndex: 300, minWidth: "140px",
+                    boxShadow: "0 20px 50px rgba(0,0,0,0.4)"
+                  }}>
+                    {languages.map(l => (
+                      <button key={l.code} onClick={() => { setLang(l.code as any); setLangOpen(false); }}
+                        style={{
+                          display: "flex", alignItems: "center", gap: "8px", width: "100%",
+                          padding: "7px 10px", borderRadius: "6px", border: "none",
+                          background: l.code === lang ? "rgba(246,168,33,0.12)" : "transparent",
+                          color: l.code === lang ? "#f6a821" : "#8899b0",
+                          fontSize: "13px", cursor: "pointer", textAlign: "left"
+                        }}>
+                        <span>{l.flag}</span> {l.name}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
               <Link href="/contact">
                 <button style={{
                   background: "linear-gradient(135deg, #f6a821 0%, #d4891a 100%)",

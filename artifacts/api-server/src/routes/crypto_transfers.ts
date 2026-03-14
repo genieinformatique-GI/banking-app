@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { db } from "@workspace/db";
-import { cryptoTransfersTable, transactionsTable, usersTable } from "@workspace/db/schema";
+import { cryptoTransfersTable, transactionsTable, usersTable, notificationsTable } from "@workspace/db/schema";
 import { eq, and, desc, count, SQL } from "drizzle-orm";
 import { requireAuth, requireAdmin, AuthRequest } from "../middlewares/auth.js";
 import { logAction } from "../lib/logger.js";
@@ -87,6 +87,24 @@ router.post("/", async (req: AuthRequest, res): Promise<void> => {
       status: "pending",
       transactionId: tx.id,
     }).returning();
+    const [user] = await db.select({ firstName: usersTable.firstName, lastName: usersTable.lastName, email: usersTable.email }).from(usersTable).where(eq(usersTable.id, req.userId!)).limit(1);
+    await db.insert(notificationsTable).values({
+      userId: req.userId!,
+      title: "Transfert crypto soumis",
+      message: `Votre transfert de ${amount} ${cryptocurrency} vers ${walletAddress.slice(0, 12)}... est en cours de traitement.`,
+      type: "info",
+      isRead: false,
+    });
+    const admins = await db.select({ id: usersTable.id }).from(usersTable).where(eq(usersTable.role, "admin"));
+    if (admins.length > 0) {
+      await db.insert(notificationsTable).values(admins.map(a => ({
+        userId: a.id,
+        title: "Nouveau transfert crypto",
+        message: `${user?.firstName || ""} ${user?.lastName || ""} (${user?.email || ""}) a soumis un transfert de ${amount} ${cryptocurrency} vers ${walletAddress.slice(0, 12)}.... En attente de validation.`,
+        type: "info",
+        isRead: false,
+      })));
+    }
     res.status(201).json({ ...transfer, amount: parseFloat(transfer.amount) });
   } catch (err) {
     console.error(err);

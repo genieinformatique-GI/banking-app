@@ -128,7 +128,8 @@ All routes are under `/api`:
 - Role-based access: admin-only routes protected
 - SQL injection prevention via Drizzle ORM parameterized queries
 - **Password reset**: Token-based via `password_reset_tokens` table (1h expiry, single-use). Emails sent via Resend when `RESEND_API_KEY` env var is set. Without it, the reset link is logged to the API server console.
-- **Two-factor authentication (2FA)**: TOTP via `speakeasy`. Users enable/disable from Settings > Sécurité tab. Login triggers 2FA step when enabled (10-min temp token). Columns `two_factor_enabled`, `two_factor_secret`, `two_factor_pending_secret` on `users` table.
+- **Two-factor authentication (2FA)**: Multi-method (app/email/SMS) via `speakeasy` for TOTP, OTP stored in DB for email/SMS. Users choose method from Settings > Sécurité tab. Login triggers 2FA step; for email/SMS a devCode is returned in API response for demo mode. Columns: `two_factor_enabled`, `two_factor_secret`, `two_factor_pending_secret`, `two_factor_method`, `otp_code`, `otp_expiry` on `users` table. Admin can force 2FA for all users.
+- **Admin password reset**: `POST /api/users/:id/reset-password` — admin can reset any user's password; user receives a notification; visible in admin Users modal > Profil tab.
 
 ## Email (Resend)
 

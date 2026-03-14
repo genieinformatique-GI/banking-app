@@ -20,9 +20,12 @@ export const usersTable = pgTable("users", {
   adminRole: text("admin_role"),
   adminPermissions: text("admin_permissions"),
   twoFactorEnabled: boolean("two_factor_enabled").notNull().default(false),
+  twoFactorMethod: text("two_factor_method"),
   twoFactorSecret: text("two_factor_secret"),
   twoFactorPendingSecret: text("two_factor_pending_secret"),
   twoFactorRequired: boolean("two_factor_required").notNull().default(false),
+  otpCode: text("otp_code"),
+  otpExpiry: timestamp("otp_expiry"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
