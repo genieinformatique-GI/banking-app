@@ -10,6 +10,7 @@ import bankAccountsRouter from "./bank_accounts.js";
 import notificationsRouter from "./notifications.js";
 import logsRouter from "./logs.js";
 import adminRouter from "./admin.js";
+import contentRouter from "./content.js";
 
 const router: IRouter = Router();
 
@@ -24,5 +25,6 @@ router.use("/bank-accounts", bankAccountsRouter);
 router.use("/notifications", notificationsRouter);
 router.use("/logs", logsRouter);
 router.use("/admin", adminRouter);
+router.use("/content", contentRouter);
 
 export default router;

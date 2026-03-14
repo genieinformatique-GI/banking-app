@@ -37,17 +37,18 @@ import Balances from "@/pages/admin/Balances";
 import AdminNotifications from "@/pages/admin/AdminNotifications";
 import AdminLogs from "@/pages/admin/AdminLogs";
 import AdminSecurity from "@/pages/admin/AdminSecurity";
+import AdminContent from "@/pages/admin/AdminContent";
 
 // Setup fetch interceptor to inject JWT token automatically to all requests
+// Correctly handles Headers objects (not just plain objects) to preserve Content-Type
 const originalFetch = window.fetch;
 window.fetch = async (input, init) => {
   const token = localStorage.getItem('bob_token');
   if (token) {
     init = init || {};
-    init.headers = {
-      ...init.headers,
-      Authorization: `Bearer ${token}`
-    };
+    const headers = new Headers(init.headers || {});
+    headers.set('Authorization', `Bearer ${token}`);
+    init = { ...init, headers };
   }
   return originalFetch(input, init);
 };
@@ -131,6 +132,9 @@ function Router() {
       </Route>
       <Route path="/admin/security">
         <AppLayout><AdminSecurity /></AppLayout>
+      </Route>
+      <Route path="/admin/content">
+        <AppLayout><AdminContent /></AppLayout>
       </Route>
 
       <Route component={NotFound} />

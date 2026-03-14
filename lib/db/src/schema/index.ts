@@ -6,3 +6,4 @@ export * from "./crypto_transfers";
 export * from "./bank_accounts";
 export * from "./notifications";
 export * from "./system_logs";
+export * from "./site_content";

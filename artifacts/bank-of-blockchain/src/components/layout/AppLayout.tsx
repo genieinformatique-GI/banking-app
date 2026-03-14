@@ -17,7 +17,8 @@ import {
   X,
   Sun,
   Moon,
-  ChevronRight
+  ChevronRight,
+  Globe
 } from "lucide-react";
 import { useGetMe } from "@workspace/api-client-react";
 import { useQueryClient } from "@tanstack/react-query";
@@ -99,6 +100,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     { label: "Crypto", path: "/admin/crypto-transfers", icon: Bitcoin },
     { label: "Soldes", path: "/admin/balances", icon: Wallet },
     { label: "Notifications", path: "/admin/notifications", icon: Bell },
+    { label: "Contenu du Site", path: "/admin/content", icon: Globe },
     { label: "Logs Système", path: "/admin/logs", icon: FileText },
   ];
 
