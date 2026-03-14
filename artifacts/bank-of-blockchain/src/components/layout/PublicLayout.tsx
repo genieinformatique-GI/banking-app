@@ -3,6 +3,7 @@ import { Link, useLocation } from "wouter";
 import { ChevronDown, Mail, X, Menu, MapPin, Shield, TrendingUp, FileText, Receipt, Lock, Handshake } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import logo from "@assets/logo.jpg";
+import BitcoinParticles from "@/components/BitcoinParticles";
 
 function PublicHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -320,7 +321,7 @@ function PublicFooter() {
   const [email, setEmail] = useState("");
 
   return (
-    <footer style={{ background: "#070e1a", color: "#8899b0", fontFamily: "'Open Sans', sans-serif" }}>
+    <footer style={{ background: "#070e1a", color: "#8899b0", fontFamily: "'Open Sans', sans-serif", position: "relative", zIndex: 1 }}>
       {/* Newsletter */}
       <div style={{
         background: "linear-gradient(135deg, #1a3d54 0%, #225473 50%, #1a3d54 100%)",
@@ -495,9 +496,10 @@ interface PublicLayoutProps {
 
 export default function PublicLayout({ children }: PublicLayoutProps) {
   return (
-    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", fontFamily: "'Open Sans', sans-serif" }}>
+    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", fontFamily: "'Open Sans', sans-serif", position: "relative" }}>
+      <BitcoinParticles count={20} />
       <PublicHeader />
-      <main style={{ flex: 1 }}>
+      <main style={{ flex: 1, position: "relative", zIndex: 1 }} className="page-transition">
         {children}
       </main>
       <PublicFooter />
