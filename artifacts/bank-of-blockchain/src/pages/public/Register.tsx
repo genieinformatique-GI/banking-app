@@ -6,9 +6,9 @@ import * as z from "zod";
 import { useRegister } from "@workspace/api-client-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
-import PublicLayout, { PageTitle } from "@/components/layout/PublicLayout";
-import { Eye, EyeOff, CheckCircle, UserCheck, FileCheck, ShieldCheck, Wallet } from "lucide-react";
-import logo from "@assets/logo_1773450356780.jpg";
+import { Eye, EyeOff, CheckCircle, ArrowRight, Shield, Clock, Users, Award } from "lucide-react";
+import logo from "@assets/logo.jpg";
+import expert from "@assets/expert.jpg";
 
 const registerSchema = z.object({
   civility: z.string().optional(),
@@ -20,8 +20,8 @@ const registerSchema = z.object({
   password: z
     .string()
     .min(8, "Le mot de passe doit contenir au moins 8 caractères")
-    .regex(/[A-Z]/, "Au moins une lettre majuscule")
-    .regex(/[0-9]/, "Au moins un chiffre"),
+    .regex(/[A-Z]/, "Au moins une lettre majuscule requise")
+    .regex(/[0-9]/, "Au moins un chiffre requis"),
   confirmPassword: z.string().min(1, "Veuillez confirmer votre mot de passe"),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Les mots de passe ne correspondent pas",
@@ -60,8 +60,8 @@ export default function Register() {
       },
       onError: (error: any) => {
         toast({
-          title: "Erreur d'inscription",
-          description: error?.response?.data?.error || error?.message || "Vérifiez vos informations",
+          title: "Erreur lors de l'inscription",
+          description: error?.response?.data?.error || error?.message || "Une erreur s'est produite",
           variant: "destructive"
         });
       }
@@ -69,199 +69,243 @@ export default function Register() {
   });
 
   const onSubmit = (values: z.infer<typeof registerSchema>) => {
-    const { civility, confirmPassword, ...apiData } = values;
-    registerMutation.mutate({ data: apiData });
+    const { civility: _c, confirmPassword: _cp, ...data } = values;
+    registerMutation.mutate({ data });
   };
-
-  const inp = (hasError?: boolean) => ({
-    width: "100%",
-    padding: "11px 14px",
-    border: `1px solid ${hasError ? "#dc3545" : "#ddd"}`,
-    borderRadius: "6px",
-    fontSize: "0.9rem",
-    outline: "none",
-    background: "white",
-  });
-
-  const errStyle = { color: "#dc3545", fontSize: "0.78rem", marginTop: "4px", display: "flex", alignItems: "center", gap: "4px" };
-  const labelStyle = { display: "block", color: "#444", fontWeight: 600, fontSize: "0.85rem", marginBottom: "5px" };
 
   const errors = form.formState.errors;
 
+  const inp = (hasErr: boolean) => ({
+    width: "100%",
+    padding: "12px 14px",
+    border: `1.5px solid ${hasErr ? "#ef4444" : "#e2e8f0"}`,
+    borderRadius: "9px",
+    fontSize: "13.5px",
+    outline: "none",
+    background: "#f8fafd",
+    color: "#1a2637",
+    transition: "all 0.2s",
+    boxSizing: "border-box" as const
+  });
+
+  const lbl = {
+    display: "block" as const,
+    color: "#374151",
+    fontWeight: 600 as const,
+    fontSize: "12.5px",
+    marginBottom: "6px"
+  };
+
+  const errStyle = { color: "#ef4444", fontSize: "11.5px", marginTop: "4px" };
+
+  const highlights = [
+    { icon: <Award size={18} />, text: "Certifié AMF & SEC" },
+    { icon: <Shield size={18} />, text: "Sécurité de niveau bancaire" },
+    { icon: <Clock size={18} />, text: "Activation en moins de 24h" },
+    { icon: <Users size={18} />, text: "Plus de 10 000 clients satisfaits" },
+  ];
+
   return (
-    <PublicLayout>
-      <PageTitle title="Activation de compte" breadcrumbs={[{ label: "Accueil", href: "/" }, { label: "Activation de compte" }]} />
+    <div style={{ minHeight: "100vh", display: "flex", fontFamily: "'Open Sans', sans-serif" }}>
+      {/* Left dark panel */}
+      <div className="hidden lg:flex lg:w-5/12" style={{
+        background: "linear-gradient(160deg, #070e1a 0%, #0f2040 55%, #1a3d54 100%)",
+        flexDirection: "column", justifyContent: "space-between",
+        padding: "48px 52px", position: "relative", overflow: "hidden"
+      }}>
+        <div style={{ position: "absolute", top: "-180px", right: "-120px", width: "450px", height: "450px", borderRadius: "50%", background: "radial-gradient(circle, rgba(34,84,115,0.25) 0%, transparent 70%)", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", bottom: "-100px", left: "-80px", width: "320px", height: "320px", borderRadius: "50%", background: "radial-gradient(circle, rgba(246,168,33,0.06) 0%, transparent 70%)", pointerEvents: "none" }} />
 
-      <section style={{ background: "#f8f9fa", padding: "80px 0" }}>
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-12 items-start">
-            {/* Left info */}
-            <div>
-              <span style={{ color: "#f6a821", fontWeight: 700, fontSize: "0.9rem", textTransform: "uppercase", letterSpacing: "1px" }}>Rejoignez-nous</span>
-              <h2 style={{ color: "#225473", fontSize: "2rem", fontWeight: 800, margin: "12px 0 20px", lineHeight: 1.3 }}>
-                Ouvrez votre compte BOB en toute simplicité
-              </h2>
-              <p style={{ color: "#666", lineHeight: 1.8, marginBottom: "28px" }}>
-                Accédez à notre plateforme sécurisée et commencez votre demande de remboursement en quelques minutes. Votre compte sera activé après vérification de vos informations par notre équipe.
-              </p>
+        <Link href="/" style={{ display: "inline-flex", alignItems: "center", position: "relative" }}>
+          <div style={{ background: "rgba(255,255,255,0.1)", borderRadius: "10px", padding: "6px 12px", backdropFilter: "blur(10px)", border: "1px solid rgba(255,255,255,0.12)" }}>
+            <img src={logo} alt="Bank of Blockchain" style={{ height: "34px", width: "auto", objectFit: "contain" }} />
+          </div>
+        </Link>
 
-              <div className="space-y-5 mb-8">
-                {[
-                  { step: "1", icon: <UserCheck size={18} />, title: "Remplissez le formulaire", desc: "Fournissez vos informations personnelles complètes" },
-                  { step: "2", icon: <FileCheck size={18} />, title: "Soumettez votre dossier", desc: "Joignez les preuves de vos investissements perdus" },
-                  { step: "3", icon: <ShieldCheck size={18} />, title: "Activation du compte", desc: "Notre équipe valide votre demande sous 24h" },
-                  { step: "4", icon: <Wallet size={18} />, title: "Démarrez le remboursement", desc: "Accédez à votre espace et suivez votre dossier" },
-                ].map(({ step, icon, title, desc }) => (
-                  <div key={step} className="flex gap-4 items-start">
-                    <div style={{ width: "40px", height: "40px", borderRadius: "50%", background: "#225473", color: "white", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, flexShrink: 0, fontSize: "0.95rem" }}>
-                      {step}
-                    </div>
-                    <div>
-                      <div style={{ color: "#225473", fontWeight: 700, fontSize: "0.95rem", display: "flex", alignItems: "center", gap: "6px" }}>
-                        <span style={{ color: "#f6a821" }}>{icon}</span>
-                        {title}
-                      </div>
-                      <div style={{ color: "#777", fontSize: "0.875rem", marginTop: "2px" }}>{desc}</div>
-                    </div>
-                  </div>
-                ))}
+        <div style={{ position: "relative" }}>
+          <div style={{ color: "#f6a821", fontWeight: "700", fontSize: "12px", letterSpacing: "2px", textTransform: "uppercase", marginBottom: "16px" }}>
+            REJOIGNEZ-NOUS
+          </div>
+          <h1 style={{ fontSize: "30px", fontWeight: "800", color: "white", lineHeight: 1.25, marginBottom: "18px" }}>
+            Ouvrez votre compte et commencez à récupérer vos fonds
+          </h1>
+          <p style={{ color: "#8899b0", fontSize: "14px", lineHeight: "1.8", marginBottom: "36px" }}>
+            Rejoignez des milliers d'investisseurs qui ont déjà récupéré leurs fonds crypto grâce à Bank of Blockchain.
+          </p>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: "16px", marginBottom: "40px" }}>
+            {highlights.map(({ icon, text }, i) => (
+              <div key={i} style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+                <div style={{
+                  width: "36px", height: "36px", borderRadius: "10px", flexShrink: 0,
+                  background: "rgba(246,168,33,0.1)", border: "1px solid rgba(246,168,33,0.2)",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  color: "#f6a821"
+                }}>
+                  {icon}
+                </div>
+                <span style={{ color: "#94aec8", fontSize: "14px" }}>{text}</span>
               </div>
+            ))}
+          </div>
 
-              <div style={{ background: "#225473", borderRadius: "12px", padding: "24px", color: "white" }}>
-                <h4 style={{ fontWeight: 700, marginBottom: "8px" }}>Déjà client ?</h4>
-                <p style={{ color: "#b8d4e8", fontSize: "0.9rem", marginBottom: "16px" }}>
-                  Connectez-vous à votre espace client pour accéder à vos services.
-                </p>
-                <Link href="/espace-client">
-                  <button style={{ background: "#f6a821", color: "white", border: "none", padding: "11px 22px", borderRadius: "6px", fontWeight: 700, cursor: "pointer", fontSize: "0.9rem" }}
-                    className="hover:opacity-90 transition-opacity">
-                    Se connecter
-                  </button>
-                </Link>
-              </div>
-            </div>
-
-            {/* Registration Form */}
-            <div style={{ background: "white", borderRadius: "16px", padding: "40px", boxShadow: "0 8px 40px rgba(0,0,0,0.08)" }}>
-              <div style={{ textAlign: "center", marginBottom: "28px" }}>
-                <img src={logo} alt="Bank of Blockchain" style={{ height: "50px", width: "auto", margin: "0 auto 14px", objectFit: "contain" }} />
-                <h3 style={{ color: "#225473", fontSize: "1.3rem", fontWeight: 800 }}>Créer mon compte</h3>
-                <p style={{ color: "#777", fontSize: "0.85rem", marginTop: "4px" }}>Tous les champs marqués * sont obligatoires</p>
-              </div>
-
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                {/* Civilité */}
-                <div>
-                  <label style={labelStyle}>Civilité</label>
-                  <select {...form.register("civility")} style={inp()}
-                    onFocus={(e) => e.target.style.borderColor = "#225473"}
-                    onBlur={(e) => e.target.style.borderColor = "#ddd"}>
-                    <option value="">— Sélectionner —</option>
-                    <option value="M.">Monsieur</option>
-                    <option value="Mlle">Mademoiselle</option>
-                    <option value="Mme">Madame</option>
-                  </select>
-                </div>
-
-                {/* Nom / Prénom */}
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <label style={labelStyle}>Nom *</label>
-                    <input type="text" placeholder="Dupont" {...form.register("lastName")} style={inp(!!errors.lastName)}
-                      onFocus={(e) => e.target.style.borderColor = "#225473"}
-                      onBlur={(e) => e.target.style.borderColor = errors.lastName ? "#dc3545" : "#ddd"} />
-                    {errors.lastName && <p style={errStyle}><CheckCircle size={12} />{errors.lastName.message}</p>}
-                  </div>
-                  <div>
-                    <label style={labelStyle}>Prénom *</label>
-                    <input type="text" placeholder="Jean" {...form.register("firstName")} style={inp(!!errors.firstName)}
-                      onFocus={(e) => e.target.style.borderColor = "#225473"}
-                      onBlur={(e) => e.target.style.borderColor = errors.firstName ? "#dc3545" : "#ddd"} />
-                    {errors.firstName && <p style={errStyle}><CheckCircle size={12} />{errors.firstName.message}</p>}
-                  </div>
-                </div>
-
-                {/* Email */}
-                <div>
-                  <label style={labelStyle}>Adresse email *</label>
-                  <input type="email" placeholder="jean.dupont@email.com" autoComplete="email" {...form.register("email")} style={inp(!!errors.email)}
-                    onFocus={(e) => e.target.style.borderColor = "#225473"}
-                    onBlur={(e) => e.target.style.borderColor = errors.email ? "#dc3545" : "#ddd"} />
-                  {errors.email && <p style={errStyle}><CheckCircle size={12} />{errors.email.message}</p>}
-                </div>
-
-                {/* Téléphone / Pays */}
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <label style={labelStyle}>Téléphone</label>
-                    <input type="tel" placeholder="+33 6 00 00 00 00" {...form.register("phone")} style={inp()}
-                      onFocus={(e) => e.target.style.borderColor = "#225473"}
-                      onBlur={(e) => e.target.style.borderColor = "#ddd"} />
-                  </div>
-                  <div>
-                    <label style={labelStyle}>Pays *</label>
-                    <select {...form.register("country")} style={inp(!!errors.country)}
-                      onFocus={(e) => e.target.style.borderColor = "#225473"}
-                      onBlur={(e) => e.target.style.borderColor = errors.country ? "#dc3545" : "#ddd"}>
-                      <option value="">— Sélectionner —</option>
-                      {countries.map((c) => <option key={c} value={c}>{c}</option>)}
-                    </select>
-                    {errors.country && <p style={errStyle}><CheckCircle size={12} />{errors.country.message}</p>}
-                  </div>
-                </div>
-
-                {/* Mot de passe */}
-                <div>
-                  <label style={labelStyle}>Mot de passe *</label>
-                  <div style={{ position: "relative" }}>
-                    <input type={showPassword ? "text" : "password"} placeholder="••••••••" autoComplete="new-password"
-                      {...form.register("password")} style={{ ...inp(!!errors.password), paddingRight: "44px" }}
-                      onFocus={(e) => e.target.style.borderColor = "#225473"}
-                      onBlur={(e) => e.target.style.borderColor = errors.password ? "#dc3545" : "#ddd"} />
-                    <button type="button" onClick={() => setShowPassword(!showPassword)}
-                      style={{ position: "absolute", right: "12px", top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: "#999", padding: "0" }}>
-                      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                    </button>
-                  </div>
-                  {errors.password && <p style={errStyle}><CheckCircle size={12} />{errors.password.message}</p>}
-                  <p style={{ color: "#aaa", fontSize: "0.75rem", marginTop: "4px" }}>8 caractères min., 1 majuscule, 1 chiffre</p>
-                </div>
-
-                {/* Confirmation mot de passe */}
-                <div>
-                  <label style={labelStyle}>Confirmer le mot de passe *</label>
-                  <div style={{ position: "relative" }}>
-                    <input type={showConfirm ? "text" : "password"} placeholder="••••••••" autoComplete="new-password"
-                      {...form.register("confirmPassword")} style={{ ...inp(!!errors.confirmPassword), paddingRight: "44px" }}
-                      onFocus={(e) => e.target.style.borderColor = "#225473"}
-                      onBlur={(e) => e.target.style.borderColor = errors.confirmPassword ? "#dc3545" : "#ddd"} />
-                    <button type="button" onClick={() => setShowConfirm(!showConfirm)}
-                      style={{ position: "absolute", right: "12px", top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: "#999", padding: "0" }}>
-                      {showConfirm ? <EyeOff size={18} /> : <Eye size={18} />}
-                    </button>
-                  </div>
-                  {errors.confirmPassword && <p style={errStyle}><CheckCircle size={12} />{errors.confirmPassword.message}</p>}
-                </div>
-
-                <button type="submit" disabled={registerMutation.isPending}
-                  style={{ width: "100%", background: "#225473", color: "white", border: "none", padding: "14px", borderRadius: "6px", fontWeight: 700, fontSize: "0.95rem", cursor: "pointer", marginTop: "8px" }}
-                  className="hover:opacity-90 transition-opacity disabled:opacity-60">
-                  {registerMutation.isPending ? "Création en cours..." : "Créer mon compte"}
-                </button>
-              </form>
-
-              <div style={{ borderTop: "1px solid #eee", marginTop: "20px", paddingTop: "16px", textAlign: "center" }}>
-                <p style={{ color: "#777", fontSize: "0.88rem" }}>
-                  Déjà client ?{" "}
-                  <Link href="/espace-client" style={{ color: "#225473", fontWeight: 700 }} className="hover:underline">
-                    Se connecter
-                  </Link>
-                </p>
-              </div>
-            </div>
+          {/* Expert image */}
+          <div style={{ borderRadius: "16px", overflow: "hidden", boxShadow: "0 20px 60px rgba(0,0,0,0.4)" }}>
+            <img src={expert} alt="Nos experts" style={{ width: "100%", height: "200px", objectFit: "cover", objectPosition: "top", display: "block", opacity: 0.85 }} />
           </div>
         </div>
-      </section>
-    </PublicLayout>
+
+        <div />
+      </div>
+
+      {/* Right: form */}
+      <div style={{ flex: 1, background: "white", overflowY: "auto", display: "flex", alignItems: "flex-start", justifyContent: "center", padding: "40px 24px" }}>
+        <div style={{ width: "100%", maxWidth: "520px" }}>
+          {/* Mobile logo */}
+          <div className="lg:hidden" style={{ textAlign: "center", marginBottom: "32px" }}>
+            <Link href="/">
+              <img src={logo} alt="Bank of Blockchain" style={{ height: "44px", objectFit: "contain" }} />
+            </Link>
+          </div>
+
+          <div style={{ marginBottom: "32px" }}>
+            <h2 style={{ fontSize: "26px", fontWeight: "800", color: "#0f1e35", marginBottom: "8px" }}>Créer mon compte</h2>
+            <p style={{ color: "#94a3b8", fontSize: "14px" }}>Tous les champs marqués * sont obligatoires</p>
+          </div>
+
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            {/* Civilité */}
+            <div style={{ marginBottom: "16px" }}>
+              <label style={lbl}>Civilité</label>
+              <select {...form.register("civility")} style={{ ...inp(false), color: "#64748b" }}>
+                <option value="">Sélectionner</option>
+                <option value="M.">M.</option>
+                <option value="Mme">Mme</option>
+                <option value="Dr.">Dr.</option>
+              </select>
+            </div>
+
+            {/* Nom / Prénom */}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px", marginBottom: "16px" }}>
+              <div>
+                <label style={lbl}>Nom *</label>
+                <input type="text" placeholder="Dupont" autoComplete="family-name" {...form.register("lastName")} style={inp(!!errors.lastName)}
+                  onFocus={e => { e.target.style.borderColor = "#225473"; e.target.style.background = "white"; }}
+                  onBlur={e => { e.target.style.borderColor = errors.lastName ? "#ef4444" : "#e2e8f0"; e.target.style.background = "#f8fafd"; }} />
+                {errors.lastName && <p style={errStyle}>{errors.lastName.message}</p>}
+              </div>
+              <div>
+                <label style={lbl}>Prénom *</label>
+                <input type="text" placeholder="Jean" autoComplete="given-name" {...form.register("firstName")} style={inp(!!errors.firstName)}
+                  onFocus={e => { e.target.style.borderColor = "#225473"; e.target.style.background = "white"; }}
+                  onBlur={e => { e.target.style.borderColor = errors.firstName ? "#ef4444" : "#e2e8f0"; e.target.style.background = "#f8fafd"; }} />
+                {errors.firstName && <p style={errStyle}>{errors.firstName.message}</p>}
+              </div>
+            </div>
+
+            {/* Email */}
+            <div style={{ marginBottom: "16px" }}>
+              <label style={lbl}>Adresse email *</label>
+              <input type="email" placeholder="jean.dupont@email.com" autoComplete="email" {...form.register("email")} style={inp(!!errors.email)}
+                onFocus={e => { e.target.style.borderColor = "#225473"; e.target.style.background = "white"; }}
+                onBlur={e => { e.target.style.borderColor = errors.email ? "#ef4444" : "#e2e8f0"; e.target.style.background = "#f8fafd"; }} />
+              {errors.email && <p style={errStyle}>{errors.email.message}</p>}
+            </div>
+
+            {/* Téléphone / Pays */}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px", marginBottom: "16px" }}>
+              <div>
+                <label style={lbl}>Téléphone</label>
+                <input type="tel" placeholder="+33 6 00 00 00 00" autoComplete="tel" {...form.register("phone")} style={inp(false)}
+                  onFocus={e => { e.target.style.borderColor = "#225473"; e.target.style.background = "white"; }}
+                  onBlur={e => { e.target.style.borderColor = "#e2e8f0"; e.target.style.background = "#f8fafd"; }} />
+              </div>
+              <div>
+                <label style={lbl}>Pays *</label>
+                <select {...form.register("country")} style={{ ...inp(!!errors.country), color: form.watch("country") ? "#1a2637" : "#64748b" }}>
+                  <option value="">Sélectionner</option>
+                  {countries.map(c => <option key={c} value={c}>{c}</option>)}
+                </select>
+                {errors.country && <p style={errStyle}>{errors.country.message}</p>}
+              </div>
+            </div>
+
+            {/* Password */}
+            <div style={{ marginBottom: "16px" }}>
+              <label style={lbl}>Mot de passe *</label>
+              <div style={{ position: "relative" }}>
+                <input type={showPassword ? "text" : "password"} placeholder="8 caractères min, 1 majuscule, 1 chiffre" autoComplete="new-password" {...form.register("password")} style={{ ...inp(!!errors.password), paddingRight: "44px" }}
+                  onFocus={e => { e.target.style.borderColor = "#225473"; e.target.style.background = "white"; }}
+                  onBlur={e => { e.target.style.borderColor = errors.password ? "#ef4444" : "#e2e8f0"; e.target.style.background = "#f8fafd"; }} />
+                <button type="button" onClick={() => setShowPassword(!showPassword)}
+                  style={{ position: "absolute", right: "12px", top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: "#94a3b8", padding: 0 }}>
+                  {showPassword ? <EyeOff size={17} /> : <Eye size={17} />}
+                </button>
+              </div>
+              {errors.password && <p style={errStyle}>{errors.password.message}</p>}
+            </div>
+
+            {/* Confirm Password */}
+            <div style={{ marginBottom: "28px" }}>
+              <label style={lbl}>Confirmer le mot de passe *</label>
+              <div style={{ position: "relative" }}>
+                <input type={showConfirm ? "text" : "password"} placeholder="••••••••" autoComplete="new-password" {...form.register("confirmPassword")} style={{ ...inp(!!errors.confirmPassword), paddingRight: "44px" }}
+                  onFocus={e => { e.target.style.borderColor = "#225473"; e.target.style.background = "white"; }}
+                  onBlur={e => { e.target.style.borderColor = errors.confirmPassword ? "#ef4444" : "#e2e8f0"; e.target.style.background = "#f8fafd"; }} />
+                <button type="button" onClick={() => setShowConfirm(!showConfirm)}
+                  style={{ position: "absolute", right: "12px", top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: "#94a3b8", padding: 0 }}>
+                  {showConfirm ? <EyeOff size={17} /> : <Eye size={17} />}
+                </button>
+              </div>
+              {errors.confirmPassword && <p style={errStyle}>{errors.confirmPassword.message}</p>}
+            </div>
+
+            <button type="submit" disabled={registerMutation.isPending}
+              style={{
+                width: "100%",
+                background: "linear-gradient(135deg, #f6a821 0%, #d4891a 100%)",
+                color: "white", border: "none", padding: "15px",
+                borderRadius: "10px", fontWeight: "700", fontSize: "15px",
+                cursor: "pointer", marginBottom: "16px",
+                boxShadow: "0 6px 20px rgba(246,168,33,0.35)",
+                opacity: registerMutation.isPending ? 0.7 : 1,
+                display: "flex", alignItems: "center", justifyContent: "center", gap: "8px"
+              }}>
+              {registerMutation.isPending ? "Création du compte..." : (
+                <><span>Créer mon compte gratuitement</span> <ArrowRight size={18} /></>
+              )}
+            </button>
+
+            <p style={{ textAlign: "center", color: "#94a3b8", fontSize: "12px", marginBottom: "24px" }}>
+              En créant un compte, vous acceptez nos{" "}
+              <Link href="/contact" style={{ color: "#225473" }}>conditions d'utilisation</Link>
+            </p>
+          </form>
+
+          <div style={{ display: "flex", alignItems: "center", gap: "14px", marginBottom: "24px" }}>
+            <div style={{ flex: 1, height: "1px", background: "#f0f4f8" }} />
+            <span style={{ color: "#94a3b8", fontSize: "12px" }}>Déjà client ?</span>
+            <div style={{ flex: 1, height: "1px", background: "#f0f4f8" }} />
+          </div>
+
+          <Link href="/espace-client">
+            <button style={{
+              width: "100%", padding: "13px",
+              background: "transparent", border: "1.5px solid #225473",
+              color: "#225473", borderRadius: "10px",
+              fontWeight: "700", fontSize: "14px", cursor: "pointer"
+            }}>
+              Se connecter
+            </button>
+          </Link>
+
+          <div style={{ textAlign: "center", marginTop: "24px" }}>
+            <Link href="/" style={{ color: "#94a3b8", fontSize: "13px" }} className="hover:text-[#225473] transition-colors">
+              ← Retour à l'accueil
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

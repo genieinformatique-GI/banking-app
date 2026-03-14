@@ -1,41 +1,58 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
-import { ChevronDown, Mail, X, Menu } from "lucide-react";
-import logo from "@assets/logo_1773450356780.jpg";
+import { ChevronDown, Mail, X, Menu, MapPin, Shield, TrendingUp, FileText, Receipt, Lock, Handshake } from "lucide-react";
+import logo from "@assets/logo.jpg";
 
 function PublicHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [pourquoiOpen, setPourquoiOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const [location] = useLocation();
 
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 30);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const isActive = (href: string) => location === href;
+
   return (
-    <header style={{ fontFamily: "'Open Sans', sans-serif" }}>
-      {/* Top Bar */}
-      <div style={{ background: "#225473", color: "white", fontSize: "13px" }}>
-        <div className="max-w-7xl mx-auto px-4 py-2">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
-            <div className="flex items-center gap-6">
-              <Link href="/ouverture-de-compte" className="hover:text-yellow-300 transition-colors font-medium">
-                Activation de compte
-              </Link>
-              <Link href="/espace-client" className="hover:text-yellow-300 transition-colors font-medium">
-                Espace client
-              </Link>
-            </div>
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+    <header style={{ fontFamily: "'Open Sans', sans-serif", position: "sticky", top: 0, zIndex: 1000 }}>
+      {/* Top bar */}
+      <div style={{ background: "#070e1a", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+        <div className="max-w-7xl mx-auto px-6 py-2">
+          <div className="flex items-center justify-between">
+            <div className="hidden md:flex items-center gap-6">
               <div className="flex items-center gap-2">
-                <Mail size={14} />
-                <span>Écrivez-nous:</span>
-                <a href="mailto:infos@bofblockchain.com" className="hover:text-yellow-300 transition-colors">
+                <Mail size={12} style={{ color: "#f6a821" }} />
+                <a href="mailto:infos@bofblockchain.com"
+                  style={{ color: "#8899b0", fontSize: "12px" }}
+                  className="hover:text-white transition-colors">
                   infos@bofblockchain.com
                 </a>
               </div>
+              <span style={{ color: "#1e3a5f", fontSize: "12px" }}>|</span>
+              <Link href="/ouverture-de-compte"
+                style={{ color: "#8899b0", fontSize: "12px" }}
+                className="hover:text-[#f6a821] transition-colors">
+                Activation de compte
+              </Link>
+              <Link href="/espace-client"
+                style={{ color: "#8899b0", fontSize: "12px" }}
+                className="hover:text-[#f6a821] transition-colors">
+                Espace client
+              </Link>
+            </div>
+            <div className="flex items-center gap-3 ml-auto">
               <Link href="/contact">
-                <button
-                  style={{ background: "#f6a821", color: "white", border: "none" }}
-                  className="px-4 py-1.5 rounded text-sm font-semibold hover:opacity-90 transition-opacity"
-                >
+                <button style={{
+                  background: "linear-gradient(135deg, #f6a821 0%, #d4891a 100%)",
+                  color: "white", border: "none", padding: "5px 16px",
+                  borderRadius: "4px", fontSize: "11px", fontWeight: "700",
+                  cursor: "pointer", letterSpacing: "0.5px", textTransform: "uppercase"
+                }}>
                   Discuter avec un agent
                 </button>
               </Link>
@@ -44,53 +61,74 @@ function PublicHeader() {
         </div>
       </div>
 
-      {/* Main Nav */}
-      <div style={{ background: "white", boxShadow: "0 2px 15px rgba(0,0,0,0.08)" }}>
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center justify-between h-20">
-            {/* Logo */}
+      {/* Main nav */}
+      <div style={{
+        background: scrolled ? "rgba(255,255,255,0.98)" : "white",
+        backdropFilter: "blur(20px)",
+        boxShadow: scrolled ? "0 8px 40px rgba(0,0,0,0.12)" : "0 2px 20px rgba(0,0,0,0.06)",
+        transition: "all 0.3s ease",
+      }}>
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex items-center justify-between" style={{ height: "76px" }}>
             <Link href="/">
-              <img
-                src={logo}
-                alt="Bank of Blockchain"
-                style={{ height: "52px", width: "auto", objectFit: "contain" }}
-              />
+              <img src={logo} alt="Bank of Blockchain"
+                style={{ height: "50px", width: "auto", objectFit: "contain" }} />
             </Link>
 
-            {/* Desktop Nav */}
-            <nav className="hidden lg:flex items-center gap-1">
+            {/* Desktop nav */}
+            <nav className="hidden lg:flex items-center gap-0.5">
               {[
                 { href: "/", label: "Accueil" },
                 { href: "/la-banque", label: "La Banque" },
               ].map(({ href, label }) => (
-                <Link
-                  key={href}
-                  href={href}
-                  className="px-4 py-2 text-sm font-semibold transition-colors rounded"
-                  style={{ color: location === href ? "#225473" : "#444", borderBottom: location === href ? "2px solid #225473" : "2px solid transparent" }}
-                >
+                <Link key={href} href={href}
+                  style={{
+                    padding: "8px 14px", fontSize: "14px", fontWeight: "600",
+                    color: isActive(href) ? "#225473" : "#374151",
+                    borderBottom: isActive(href) ? "2px solid #f6a821" : "2px solid transparent",
+                    transition: "all 0.2s", display: "block"
+                  }}
+                  className="hover:text-[#225473]">
                   {label}
                 </Link>
               ))}
 
-              {/* Nos Services Dropdown */}
+              {/* Services dropdown */}
               <div className="relative" onMouseEnter={() => setServicesOpen(true)} onMouseLeave={() => setServicesOpen(false)}>
-                <button className="flex items-center gap-1 px-4 py-2 text-sm font-semibold text-gray-700 hover:text-[#225473] transition-colors rounded">
-                  Nos Services <ChevronDown size={14} className={`transition-transform ${servicesOpen ? "rotate-180" : ""}`} />
+                <button style={{
+                  display: "flex", alignItems: "center", gap: "4px", padding: "8px 14px",
+                  fontSize: "14px", fontWeight: "600", color: "#374151",
+                  background: "none", border: "none", cursor: "pointer",
+                  borderBottom: "2px solid transparent"
+                }} className="hover:text-[#225473]">
+                  Nos Services
+                  <ChevronDown size={13} style={{ transition: "transform 0.2s", transform: servicesOpen ? "rotate(180deg)" : "none" }} />
                 </button>
                 {servicesOpen && (
-                  <div style={{ background: "white", boxShadow: "0 8px 30px rgba(0,0,0,0.12)", border: "1px solid #eee" }}
-                    className="absolute top-full left-0 min-w-[260px] rounded-md z-50 py-2">
+                  <div style={{
+                    position: "absolute", top: "calc(100% + 10px)", left: "50%", transform: "translateX(-50%)",
+                    background: "white", minWidth: "290px", borderRadius: "14px",
+                    boxShadow: "0 25px 60px rgba(0,0,0,0.15)", border: "1px solid #f0f4f8",
+                    padding: "10px", zIndex: 200,
+                  }}>
+                    <div style={{ padding: "8px 12px 10px", borderBottom: "1px solid #f0f4f8", marginBottom: "6px" }}>
+                      <span style={{ fontSize: "11px", fontWeight: "700", color: "#f6a821", letterSpacing: "1px", textTransform: "uppercase" }}>Nos Services</span>
+                    </div>
                     {[
-                      { href: "/nos-services/remboursement-des-pertes", label: "Remboursement des pertes" },
-                      { href: "/nos-services/securisation-des-investissements", label: "Sécurisation des investissements" },
-                      { href: "/nos-services/conseil-et-accompagnement", label: "Conseil et accompagnement" },
-                      { href: "/nos-services/services-de-staking", label: "Services de staking" },
-                      { href: "/nos-services/licence-de-trading", label: "Licence de Trading" },
-                      { href: "/nos-services/taxe-crypto", label: "Taxe Crypto" },
-                    ].map(({ href, label }) => (
+                      { href: "/nos-services/remboursement-des-pertes", label: "Remboursement des pertes", icon: <Handshake size={15} /> },
+                      { href: "/nos-services/securisation-des-investissements", label: "Sécurisation des investissements", icon: <Lock size={15} /> },
+                      { href: "/nos-services/conseil-et-accompagnement", label: "Conseil et accompagnement", icon: <Shield size={15} /> },
+                      { href: "/nos-services/services-de-staking", label: "Services de staking", icon: <TrendingUp size={15} /> },
+                      { href: "/nos-services/licence-de-trading", label: "Licence de Trading", icon: <FileText size={15} /> },
+                      { href: "/nos-services/taxe-crypto", label: "Taxe Crypto", icon: <Receipt size={15} /> },
+                    ].map(({ href, label, icon }) => (
                       <Link key={href} href={href}
-                        className="block px-5 py-2.5 text-sm text-gray-700 hover:bg-[#225473] hover:text-white transition-colors">
+                        style={{
+                          display: "flex", alignItems: "center", gap: "12px", padding: "10px 14px",
+                          borderRadius: "9px", color: "#374151", fontSize: "13.5px", textDecoration: "none"
+                        }}
+                        className="hover:bg-blue-50 hover:text-[#225473] transition-colors">
+                        <span style={{ color: "#f6a821", width: "20px", flexShrink: 0 }}>{icon}</span>
                         {label}
                       </Link>
                     ))}
@@ -98,20 +136,31 @@ function PublicHeader() {
                 )}
               </div>
 
-              {/* Pourquoi Nous Choisir Dropdown */}
+              {/* Pourquoi dropdown */}
               <div className="relative" onMouseEnter={() => setPourquoiOpen(true)} onMouseLeave={() => setPourquoiOpen(false)}>
-                <button className="flex items-center gap-1 px-4 py-2 text-sm font-semibold text-gray-700 hover:text-[#225473] transition-colors rounded">
-                  Pourquoi Nous Choisir <ChevronDown size={14} className={`transition-transform ${pourquoiOpen ? "rotate-180" : ""}`} />
+                <button style={{
+                  display: "flex", alignItems: "center", gap: "4px", padding: "8px 14px",
+                  fontSize: "14px", fontWeight: "600", color: "#374151",
+                  background: "none", border: "none", cursor: "pointer",
+                  borderBottom: "2px solid transparent"
+                }} className="hover:text-[#225473]">
+                  Pourquoi Nous
+                  <ChevronDown size={13} style={{ transition: "transform 0.2s", transform: pourquoiOpen ? "rotate(180deg)" : "none" }} />
                 </button>
                 {pourquoiOpen && (
-                  <div style={{ background: "white", boxShadow: "0 8px 30px rgba(0,0,0,0.12)", border: "1px solid #eee" }}
-                    className="absolute top-full left-0 min-w-[300px] rounded-md z-50 py-2">
+                  <div style={{
+                    position: "absolute", top: "calc(100% + 10px)", left: "50%", transform: "translateX(-50%)",
+                    background: "white", minWidth: "300px", borderRadius: "14px",
+                    boxShadow: "0 25px 60px rgba(0,0,0,0.15)", border: "1px solid #f0f4f8",
+                    padding: "10px", zIndex: 200,
+                  }}>
                     {[
                       { href: "/engagement-securite-et-transparence", label: "Engagement envers la sécurité et la transparence" },
-                      { href: "/partenariats-amf-sec", label: "Partenariats AMF et SEC" },
+                      { href: "/partenariats-amf-sec", label: "Partenariats avec l'AMF et la SEC" },
                     ].map(({ href, label }) => (
                       <Link key={href} href={href}
-                        className="block px-5 py-2.5 text-sm text-gray-700 hover:bg-[#225473] hover:text-white transition-colors">
+                        style={{ display: "block", padding: "11px 14px", borderRadius: "9px", color: "#374151", fontSize: "13.5px" }}
+                        className="hover:bg-blue-50 hover:text-[#225473] transition-colors">
                         {label}
                       </Link>
                     ))}
@@ -120,47 +169,95 @@ function PublicHeader() {
               </div>
 
               <Link href="/nos-services/assurance-crypto"
-                className="px-4 py-2 text-sm font-semibold text-gray-700 hover:text-[#225473] transition-colors rounded">
+                style={{ padding: "8px 14px", fontSize: "14px", fontWeight: "600", color: "#374151", borderBottom: "2px solid transparent", display: "block" }}
+                className="hover:text-[#225473]">
                 Assurance crypto
               </Link>
               <Link href="/nos-services/faqs"
-                className="px-4 py-2 text-sm font-semibold text-gray-700 hover:text-[#225473] transition-colors rounded">
+                style={{ padding: "8px 14px", fontSize: "14px", fontWeight: "600", color: "#374151", borderBottom: "2px solid transparent", display: "block" }}
+                className="hover:text-[#225473]">
                 FAQs
               </Link>
             </nav>
 
-            {/* Mobile Menu Button */}
+            {/* CTA buttons */}
+            <div className="hidden lg:flex items-center gap-3">
+              <Link href="/espace-client">
+                <button
+                  style={{
+                    padding: "9px 22px", fontSize: "13px", fontWeight: "600",
+                    border: "2px solid #225473", color: "#225473", background: "transparent",
+                    borderRadius: "8px", cursor: "pointer", transition: "all 0.2s"
+                  }}
+                  onMouseEnter={e => {
+                    const el = e.currentTarget;
+                    el.style.background = "#225473";
+                    el.style.color = "white";
+                  }}
+                  onMouseLeave={e => {
+                    const el = e.currentTarget;
+                    el.style.background = "transparent";
+                    el.style.color = "#225473";
+                  }}>
+                  Se connecter
+                </button>
+              </Link>
+              <Link href="/ouverture-de-compte">
+                <button style={{
+                  padding: "9px 22px", fontSize: "13px", fontWeight: "700",
+                  background: "linear-gradient(135deg, #f6a821 0%, #d4891a 100%)",
+                  border: "none", color: "white", borderRadius: "8px",
+                  cursor: "pointer", boxShadow: "0 4px 15px rgba(246,168,33,0.35)"
+                }}>
+                  Ouvrir un compte
+                </button>
+              </Link>
+            </div>
+
+            {/* Mobile hamburger */}
             <button className="lg:hidden p-2" onClick={() => setMenuOpen(!menuOpen)}>
               {menuOpen ? <X size={24} style={{ color: "#225473" }} /> : <Menu size={24} style={{ color: "#225473" }} />}
             </button>
           </div>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile menu */}
         {menuOpen && (
-          <div style={{ background: "white", borderTop: "1px solid #eee" }} className="lg:hidden">
-            <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col gap-1">
+          <div style={{ background: "#070e1a", borderTop: "1px solid #1a2e4a" }}>
+            <div className="max-w-7xl mx-auto px-6 py-5 flex flex-col gap-1">
               {[
                 { href: "/", label: "Accueil" },
                 { href: "/la-banque", label: "La Banque" },
-                { href: "/nos-services/remboursement-des-pertes", label: "→ Remboursement des pertes" },
-                { href: "/nos-services/securisation-des-investissements", label: "→ Sécurisation des investissements" },
-                { href: "/nos-services/conseil-et-accompagnement", label: "→ Conseil et accompagnement" },
-                { href: "/nos-services/services-de-staking", label: "→ Services de staking" },
-                { href: "/nos-services/licence-de-trading", label: "→ Licence de Trading" },
-                { href: "/nos-services/taxe-crypto", label: "→ Taxe Crypto" },
-                { href: "/engagement-securite-et-transparence", label: "→ Engagement sécurité & transparence" },
-                { href: "/partenariats-amf-sec", label: "→ Partenariats AMF et SEC" },
+                { href: "/nos-services/remboursement-des-pertes", label: "Remboursement des pertes" },
+                { href: "/nos-services/securisation-des-investissements", label: "Sécurisation des investissements" },
+                { href: "/nos-services/conseil-et-accompagnement", label: "Conseil et accompagnement" },
+                { href: "/nos-services/services-de-staking", label: "Services de staking" },
+                { href: "/nos-services/licence-de-trading", label: "Licence de Trading" },
+                { href: "/nos-services/taxe-crypto", label: "Taxe Crypto" },
+                { href: "/engagement-securite-et-transparence", label: "Sécurité & transparence" },
+                { href: "/partenariats-amf-sec", label: "Partenariats AMF & SEC" },
                 { href: "/nos-services/assurance-crypto", label: "Assurance crypto" },
                 { href: "/nos-services/faqs", label: "FAQs" },
                 { href: "/contact", label: "Contact" },
               ].map(({ href, label }) => (
-                <Link key={href} href={href}
-                  onClick={() => setMenuOpen(false)}
-                  className="block px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-[#225473] rounded transition-colors">
+                <Link key={href} href={href} onClick={() => setMenuOpen(false)}
+                  style={{ display: "block", padding: "10px 14px", color: "#8899b0", fontSize: "14px", borderRadius: "8px" }}
+                  className="hover:bg-[#1a2e4a] hover:text-white transition-colors">
                   {label}
                 </Link>
               ))}
+              <div className="flex gap-3 mt-5 pt-5" style={{ borderTop: "1px solid #1a2e4a" }}>
+                <Link href="/espace-client" className="flex-1" onClick={() => setMenuOpen(false)}>
+                  <button style={{ width: "100%", padding: "11px", background: "transparent", border: "1px solid #225473", color: "#8899b0", borderRadius: "8px", fontSize: "14px" }}>
+                    Se connecter
+                  </button>
+                </Link>
+                <Link href="/ouverture-de-compte" className="flex-1" onClick={() => setMenuOpen(false)}>
+                  <button style={{ width: "100%", padding: "11px", background: "#f6a821", border: "none", color: "white", borderRadius: "8px", fontSize: "14px", fontWeight: "700" }}>
+                    Ouvrir un compte
+                  </button>
+                </Link>
+              </div>
             </div>
           </div>
         )}
@@ -173,96 +270,169 @@ function PublicFooter() {
   const [email, setEmail] = useState("");
 
   return (
-    <footer style={{ background: "#1a1a2e", color: "#ccc", fontFamily: "'Open Sans', sans-serif" }}>
+    <footer style={{ background: "#070e1a", color: "#8899b0", fontFamily: "'Open Sans', sans-serif" }}>
       {/* Newsletter */}
-      <div style={{ background: "#225473" }} className="py-10">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
+      <div style={{
+        background: "linear-gradient(135deg, #1a3d54 0%, #225473 50%, #1a3d54 100%)",
+        padding: "64px 0", position: "relative", overflow: "hidden"
+      }}>
+        <div style={{ position: "absolute", right: "-80px", top: "-80px", width: "360px", height: "360px", borderRadius: "50%", background: "rgba(246,168,33,0.07)", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", left: "-60px", bottom: "-60px", width: "260px", height: "260px", borderRadius: "50%", background: "rgba(246,168,33,0.05)", pointerEvents: "none" }} />
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
             <div>
-              <h2 className="text-2xl font-bold text-white mb-1">Newsletter</h2>
-              <p className="text-blue-100 text-sm">Inscrivez-vous et recevez chaque semaine nos meilleures offres bancaires par e-mail.</p>
+              <div style={{ color: "#f6a821", fontSize: "12px", fontWeight: "700", letterSpacing: "2px", textTransform: "uppercase", marginBottom: "10px" }}>Newsletter</div>
+              <h2 style={{ fontSize: "26px", fontWeight: "800", color: "white", marginBottom: "8px", lineHeight: 1.3 }}>
+                Restez informé de nos actualités
+              </h2>
+              <p style={{ color: "#b8d4e8", fontSize: "14px" }}>
+                Recevez chaque semaine nos meilleures offres et conseils en crypto-finance.
+              </p>
             </div>
-            <form onSubmit={(e) => e.preventDefault()} className="flex gap-2 w-full lg:w-auto">
+            <form onSubmit={(e) => e.preventDefault()}
+              style={{ display: "flex", borderRadius: "10px", overflow: "hidden", width: "100%", maxWidth: "480px", boxShadow: "0 10px 40px rgba(0,0,0,0.25)" }}>
               <input
                 type="email"
+                autoComplete="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="Entrez votre adresse e-mail"
-                className="flex-1 lg:w-72 px-4 py-3 rounded text-gray-900 text-sm focus:outline-none"
-                style={{ border: "none" }}
+                placeholder="Votre adresse email"
+                style={{ flex: 1, padding: "15px 20px", border: "none", outline: "none", fontSize: "14px", background: "white", color: "#1a2637" }}
               />
-              <button
-                type="submit"
-                style={{ background: "#f6a821", color: "white", border: "none" }}
-                className="px-5 py-3 rounded font-semibold text-sm whitespace-nowrap hover:opacity-90 transition-opacity"
-              >
-                Souscrire maintenant →
+              <button type="submit" style={{
+                padding: "15px 28px", background: "#f6a821",
+                color: "white", border: "none", fontWeight: "700", fontSize: "14px",
+                cursor: "pointer", whiteSpace: "nowrap"
+              }}>
+                S'abonner
               </button>
             </form>
           </div>
         </div>
       </div>
 
-      {/* Footer Links */}
-      <div className="max-w-6xl mx-auto px-6 py-14">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-          <div>
-            <img
-              src={logo}
-              alt="Bank of Blockchain"
-              style={{ height: "44px", width: "auto", objectFit: "contain", filter: "brightness(0) invert(1)", marginBottom: "16px" }}
-            />
-            <p style={{ color: "#aaa", fontSize: "14px", lineHeight: "1.7" }}>
-              Depuis plusieurs années, nous proposons à nos internautes nos meilleures offres de financement. Une solution pour chaque situation.
-            </p>
-          </div>
+      {/* Main footer content */}
+      <div style={{ padding: "72px 0 48px" }}>
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+            {/* Brand */}
+            <div>
+              <div style={{ display: "inline-block", background: "rgba(255,255,255,0.08)", borderRadius: "10px", padding: "8px 14px", marginBottom: "22px", border: "1px solid rgba(255,255,255,0.1)" }}>
+                <img src={logo} alt="Bank of Blockchain"
+                  style={{ height: "38px", width: "auto", objectFit: "contain", display: "block" }} />
+              </div>
+              <p style={{ fontSize: "14px", lineHeight: "1.8", color: "#64748b", marginBottom: "24px" }}>
+                Bank of Blockchain protège et accompagne les investisseurs en cryptomonnaies partout dans le monde, grâce à nos partenariats AMF & SEC.
+              </p>
+              <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                {["AMF", "SEC", "ISO 27001"].map(cert => (
+                  <div key={cert} style={{
+                    padding: "4px 10px", background: "#0f1e35",
+                    border: "1px solid #1e3a5f", borderRadius: "4px",
+                    color: "#8899b0", fontSize: "11px", fontWeight: "700"
+                  }}>
+                    {cert}
+                  </div>
+                ))}
+              </div>
+            </div>
 
-          <div>
-            <h3 className="text-white font-bold text-lg mb-5">Liens Utiles</h3>
-            <ul className="space-y-2.5">
-              {[
-                { href: "/", label: "Accueil" },
-                { href: "/la-banque", label: "Qui sommes-nous" },
-                { href: "/nos-services/assurance-crypto", label: "Assurance Crypto" },
-                { href: "/nos-services/remboursement-des-pertes", label: "Nos services" },
-                { href: "/contact", label: "Nous contacter" },
-                { href: "/nos-services/faqs", label: "Faqs" },
-              ].map(({ href, label }) => (
-                <li key={href}>
-                  <Link href={href} style={{ color: "#aaa", fontSize: "14px" }}
-                    className="hover:text-white transition-colors">
-                    {label}
-                  </Link>
+            {/* Services */}
+            <div>
+              <h3 style={{ color: "white", fontWeight: "700", fontSize: "15px", marginBottom: "22px", paddingBottom: "12px", borderBottom: "2px solid #f6a821", display: "inline-block" }}>
+                Nos Services
+              </h3>
+              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "11px" }}>
+                {[
+                  { href: "/nos-services/remboursement-des-pertes", label: "Remboursement des pertes" },
+                  { href: "/nos-services/securisation-des-investissements", label: "Sécurisation des investissements" },
+                  { href: "/nos-services/conseil-et-accompagnement", label: "Conseil & accompagnement" },
+                  { href: "/nos-services/services-de-staking", label: "Services de staking" },
+                  { href: "/nos-services/licence-de-trading", label: "Licence de Trading" },
+                  { href: "/nos-services/taxe-crypto", label: "Taxe Crypto" },
+                ].map(({ href, label }) => (
+                  <li key={href}>
+                    <Link href={href}
+                      style={{ color: "#64748b", fontSize: "13.5px", display: "flex", alignItems: "center", gap: "8px" }}
+                      className="hover:text-[#f6a821] transition-colors">
+                      <span style={{ color: "#f6a821", fontSize: "9px" }}>▶</span> {label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Liens utiles */}
+            <div>
+              <h3 style={{ color: "white", fontWeight: "700", fontSize: "15px", marginBottom: "22px", paddingBottom: "12px", borderBottom: "2px solid #f6a821", display: "inline-block" }}>
+                Liens Utiles
+              </h3>
+              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "11px" }}>
+                {[
+                  { href: "/", label: "Accueil" },
+                  { href: "/la-banque", label: "Qui sommes-nous" },
+                  { href: "/engagement-securite-et-transparence", label: "Engagement & sécurité" },
+                  { href: "/partenariats-amf-sec", label: "Partenariats AMF & SEC" },
+                  { href: "/nos-services/assurance-crypto", label: "Assurance Crypto" },
+                  { href: "/nos-services/faqs", label: "FAQs" },
+                  { href: "/contact", label: "Nous contacter" },
+                ].map(({ href, label }) => (
+                  <li key={href}>
+                    <Link href={href}
+                      style={{ color: "#64748b", fontSize: "13.5px", display: "flex", alignItems: "center", gap: "8px" }}
+                      className="hover:text-[#f6a821] transition-colors">
+                      <span style={{ color: "#f6a821", fontSize: "9px" }}>▶</span> {label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Contact */}
+            <div>
+              <h3 style={{ color: "white", fontWeight: "700", fontSize: "15px", marginBottom: "22px", paddingBottom: "12px", borderBottom: "2px solid #f6a821", display: "inline-block" }}>
+                Contact
+              </h3>
+              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "18px" }}>
+                <li style={{ display: "flex", gap: "14px", alignItems: "flex-start" }}>
+                  <MapPin size={16} style={{ color: "#f6a821", marginTop: "2px", flexShrink: 0 }} />
+                  <span style={{ color: "#64748b", fontSize: "13.5px", lineHeight: "1.7" }}>
+                    ECB Tower, Sonnemannstraße 20,<br />60314 Frankfurt am Main, Allemagne
+                  </span>
                 </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="text-white font-bold text-lg mb-5">Informations de contact</h3>
-            <ul className="space-y-4" style={{ color: "#aaa", fontSize: "14px" }}>
-              <li>
-                <span className="text-white font-semibold">Localisation:</span>
-                <br />ECB Tower, Sonnemannstraße 20, 60314 Frankfurt am Main, Allemagne
-              </li>
-              <li>
-                <span className="text-white font-semibold">Email:</span>
-                <br />
-                <a href="mailto:infos@bofblockchain.com" className="hover:text-white transition-colors">
-                  infos@bofblockchain.com
-                </a>
-              </li>
-            </ul>
+                <li style={{ display: "flex", gap: "14px", alignItems: "center" }}>
+                  <Mail size={16} style={{ color: "#f6a821", flexShrink: 0 }} />
+                  <a href="mailto:infos@bofblockchain.com"
+                    style={{ color: "#64748b", fontSize: "13.5px" }}
+                    className="hover:text-[#f6a821] transition-colors">
+                    infos@bofblockchain.com
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Copyright */}
-      <div style={{ borderTop: "1px solid #333" }} className="py-5">
-        <div className="max-w-6xl mx-auto px-6">
-          <p style={{ color: "#888", fontSize: "13px" }}>
-            <Link href="/" className="hover:text-white transition-colors">© Bank of Blockchain</Link>, 2024 - Tous Droits Réservés
+      {/* Bottom bar */}
+      <div style={{ borderTop: "1px solid #0f1e35", padding: "22px 0" }}>
+        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-3">
+          <p style={{ color: "#374151", fontSize: "13px" }}>
+            © 2024 <Link href="/" className="hover:text-white transition-colors" style={{ color: "#64748b" }}>Bank of Blockchain</Link> — Tous droits réservés
           </p>
+          <div style={{ display: "flex", gap: "24px" }}>
+            {[
+              { href: "/contact", label: "Mentions légales" },
+              { href: "/contact", label: "Politique de confidentialité" },
+              { href: "/contact", label: "CGU" },
+            ].map(({ href, label }) => (
+              <Link key={label} href={href}
+                style={{ color: "#374151", fontSize: "12px" }}
+                className="hover:text-white transition-colors">
+                {label}
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
     </footer>
@@ -285,20 +455,23 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
   );
 }
 
-// Reusable page title section matching the real site's page-title-area style
 export function PageTitle({ title, breadcrumbs }: { title: string; breadcrumbs: { label: string; href?: string }[] }) {
   return (
-    <div style={{ background: "linear-gradient(135deg, #225473 0%, #1a3d54 100%)", padding: "80px 0", textAlign: "center" }}>
-      <div className="max-w-7xl mx-auto px-6">
-        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">{title}</h2>
-        <ul className="flex items-center justify-center gap-2 text-sm" style={{ color: "#b8d4e8" }}>
+    <div style={{
+      background: "linear-gradient(135deg, #070e1a 0%, #0f2040 50%, #1a3d54 100%)",
+      padding: "90px 0 80px", textAlign: "center", position: "relative", overflow: "hidden"
+    }}>
+      <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(circle at 20% 50%, rgba(246,168,33,0.07) 0%, transparent 60%), radial-gradient(circle at 80% 50%, rgba(34,84,115,0.3) 0%, transparent 60%)", pointerEvents: "none" }} />
+      <div className="max-w-7xl mx-auto px-6" style={{ position: "relative" }}>
+        <h1 style={{ fontSize: "38px", fontWeight: "800", color: "white", marginBottom: "18px", letterSpacing: "-0.5px" }}>{title}</h1>
+        <ul style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", listStyle: "none", padding: 0, margin: 0 }}>
           {breadcrumbs.map((b, i) => (
-            <li key={i} className="flex items-center gap-2">
-              {i > 0 && <span style={{ color: "#f6a821" }}>›</span>}
+            <li key={i} style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              {i > 0 && <span style={{ color: "#f6a821", fontSize: "16px" }}>›</span>}
               {b.href ? (
-                <Link href={b.href} className="hover:text-white transition-colors">{b.label}</Link>
+                <Link href={b.href} style={{ color: "#b8d4e8", fontSize: "14px" }} className="hover:text-white transition-colors">{b.label}</Link>
               ) : (
-                <span className="text-white">{b.label}</span>
+                <span style={{ color: "white", fontSize: "14px", fontWeight: "600" }}>{b.label}</span>
               )}
             </li>
           ))}
