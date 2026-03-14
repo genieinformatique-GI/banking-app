@@ -7,20 +7,22 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Filter } from "lucide-react";
+import { Filter, Eye, CheckCircle, XCircle, ArrowUpRight } from "lucide-react";
 
 export default function AdminTransactions() {
   const [filter, setFilter] = useState("all");
   const { data, isLoading } = useGetTransactions({ limit: 100 });
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  
+
   const [rejectModalOpen, setRejectModalOpen] = useState(false);
-  const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [detailModalOpen, setDetailModalOpen] = useState(false);
+  const [selectedTx, setSelectedTx] = useState<any>(null);
   const [rejectReason, setRejectReason] = useState("");
 
   const validateMutation = useValidateTransaction({
@@ -28,6 +30,7 @@ export default function AdminTransactions() {
       onSuccess: () => {
         toast({ title: "Transaction validée", variant: "success" });
         queryClient.invalidateQueries();
+        setDetailModalOpen(false);
       }
     }
   });
@@ -38,21 +41,14 @@ export default function AdminTransactions() {
         toast({ title: "Transaction rejetée" });
         queryClient.invalidateQueries();
         setRejectModalOpen(false);
+        setDetailModalOpen(false);
         setRejectReason("");
       }
     }
   });
 
-  const handleReject = (id: number) => {
-    setSelectedId(id);
-    setRejectModalOpen(true);
-  };
-
-  const confirmReject = () => {
-    if (selectedId) {
-      rejectMutation.mutate({ id: selectedId, data: { reason: rejectReason } });
-    }
-  };
+  const openDetail = (tx: any) => { setSelectedTx(tx); setDetailModalOpen(true); };
+  const openReject = (tx: any) => { setSelectedTx(tx); setRejectReason(""); setRejectModalOpen(true); };
 
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -94,7 +90,7 @@ export default function AdminTransactions() {
       <Card>
         <CardContent className="p-0">
           {isLoading ? (
-            <div className="p-8 flex justify-center"><div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div></div>
+            <div className="p-8 flex justify-center"><div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" /></div>
           ) : (
             <Table>
               <TableHeader>
@@ -103,6 +99,7 @@ export default function AdminTransactions() {
                   <TableHead>Utilisateur</TableHead>
                   <TableHead>Type</TableHead>
                   <TableHead>Montant</TableHead>
+                  <TableHead>Description</TableHead>
                   <TableHead>Date</TableHead>
                   <TableHead>Statut</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
@@ -111,41 +108,36 @@ export default function AdminTransactions() {
               <TableBody>
                 {filteredTx.map(tx => (
                   <TableRow key={tx.id}>
-                    <TableCell className="font-mono text-xs">#{tx.id}</TableCell>
+                    <TableCell className="font-mono text-xs text-muted-foreground">#{tx.id}</TableCell>
                     <TableCell className="font-medium">{tx.user?.firstName} {tx.user?.lastName}</TableCell>
                     <TableCell className="capitalize">{tx.type.replace('_', ' ')}</TableCell>
                     <TableCell className="font-mono font-bold text-foreground">{formatCurrency(tx.amount, tx.currency)}</TableCell>
+                    <TableCell className="text-xs text-muted-foreground max-w-[120px] truncate">{tx.description || "—"}</TableCell>
                     <TableCell className="text-muted-foreground text-sm">{formatDate(tx.createdAt)}</TableCell>
                     <TableCell>{getStatusBadge(tx.status)}</TableCell>
                     <TableCell className="text-right">
-                      {(tx.status === 'pending' || tx.status === 'processing') && (
-                        <div className="flex justify-end gap-2">
-                          <Button 
-                            size="sm" 
-                            variant="outline" 
-                            className="text-emerald-500 border-emerald-500/30 hover:bg-emerald-500/10"
-                            onClick={() => validateMutation.mutate({ id: tx.id })}
-                            disabled={validateMutation.isPending}
-                          >
-                            Valider
-                          </Button>
-                          <Button 
-                            size="sm" 
-                            variant="outline"
-                            className="text-red-500 border-red-500/30 hover:bg-red-500/10"
-                            onClick={() => handleReject(tx.id)}
-                          >
-                            Rejeter
-                          </Button>
-                        </div>
-                      )}
+                      <div className="flex justify-end gap-1">
+                        <Button size="sm" variant="ghost" onClick={() => openDetail(tx)} title="Voir détails">
+                          <Eye className="w-4 h-4" />
+                        </Button>
+                        {(tx.status === 'pending' || tx.status === 'processing') && (
+                          <>
+                            <Button size="sm" variant="outline" className="text-emerald-500 border-emerald-500/30 hover:bg-emerald-500/10"
+                              onClick={() => validateMutation.mutate({ id: tx.id })} disabled={validateMutation.isPending}>
+                              <CheckCircle className="w-3.5 h-3.5 mr-1" /> Valider
+                            </Button>
+                            <Button size="sm" variant="outline" className="text-red-500 border-red-500/30 hover:bg-red-500/10"
+                              onClick={() => openReject(tx)}>
+                              <XCircle className="w-3.5 h-3.5 mr-1" /> Rejeter
+                            </Button>
+                          </>
+                        )}
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))}
                 {filteredTx.length === 0 && (
-                  <TableRow>
-                    <TableCell colSpan={7} className="text-center p-8 text-muted-foreground">Aucune transaction trouvée.</TableCell>
-                  </TableRow>
+                  <TableRow><TableCell colSpan={8} className="text-center p-8 text-muted-foreground">Aucune transaction trouvée.</TableCell></TableRow>
                 )}
               </TableBody>
             </Table>
@@ -153,23 +145,77 @@ export default function AdminTransactions() {
         </CardContent>
       </Card>
 
+      {/* ── Detail Modal ── */}
+      <Dialog open={detailModalOpen} onOpenChange={setDetailModalOpen}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2"><ArrowUpRight className="w-5 h-5 text-primary" /> Transaction #{selectedTx?.id}</DialogTitle>
+          </DialogHeader>
+          {selectedTx && (
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-3">
+                <div className="bg-muted/40 rounded-lg p-3">
+                  <p className="text-xs text-muted-foreground">Client</p>
+                  <p className="font-semibold mt-0.5">{selectedTx.user?.firstName} {selectedTx.user?.lastName}</p>
+                  <p className="text-xs text-muted-foreground">{selectedTx.user?.email}</p>
+                </div>
+                <div className="bg-muted/40 rounded-lg p-3">
+                  <p className="text-xs text-muted-foreground">Montant</p>
+                  <p className="font-mono font-bold text-xl mt-0.5">{formatCurrency(selectedTx.amount, selectedTx.currency)}</p>
+                </div>
+              </div>
+
+              <Separator />
+
+              <div className="space-y-3">
+                {[
+                  { label: "Type", value: selectedTx.type?.replace('_', ' ') },
+                  { label: "Devise", value: selectedTx.currency },
+                  { label: "Description", value: selectedTx.description || "—" },
+                  { label: "Référence", value: selectedTx.reference || "—" },
+                  { label: "Date", value: formatDate(selectedTx.createdAt) },
+                  { label: "Statut", badge: getStatusBadge(selectedTx.status) },
+                  ...(selectedTx.rejectedReason ? [{ label: "Motif du rejet", value: selectedTx.rejectedReason }] : []),
+                ].map((item: any) => (
+                  <div key={item.label} className="flex items-center justify-between gap-4">
+                    <span className="text-sm text-muted-foreground w-28 shrink-0">{item.label}</span>
+                    {item.badge ? item.badge : <span className="text-sm font-medium capitalize text-right">{item.value}</span>}
+                  </div>
+                ))}
+              </div>
+
+              {(selectedTx.status === 'pending' || selectedTx.status === 'processing') && (
+                <>
+                  <Separator />
+                  <div className="flex gap-3">
+                    <Button className="flex-1" onClick={() => validateMutation.mutate({ id: selectedTx.id })} disabled={validateMutation.isPending}>
+                      <CheckCircle className="w-4 h-4 mr-2" /> Valider
+                    </Button>
+                    <Button variant="destructive" className="flex-1" onClick={() => { setDetailModalOpen(false); openReject(selectedTx); }}>
+                      <XCircle className="w-4 h-4 mr-2" /> Rejeter
+                    </Button>
+                  </div>
+                </>
+              )}
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* ── Reject Modal ── */}
       <Dialog open={rejectModalOpen} onOpenChange={setRejectModalOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Motif du rejet</DialogTitle>
+            <DialogTitle>Motif du rejet — Transaction #{selectedTx?.id}</DialogTitle>
           </DialogHeader>
-          <div className="space-y-4 pt-4">
+          <div className="space-y-4 pt-2">
             <div>
               <Label>Raison à communiquer au client</Label>
-              <Input 
-                value={rejectReason} 
-                onChange={e => setRejectReason(e.target.value)} 
-                placeholder="Ex: Fond insuffisants, informations invalides..."
-              />
+              <Input value={rejectReason} onChange={e => setRejectReason(e.target.value)} placeholder="Ex: Fonds insuffisants, informations invalides…" className="mt-1" />
             </div>
-            <div className="flex justify-end gap-3 mt-6">
+            <div className="flex justify-end gap-3">
               <Button variant="outline" onClick={() => setRejectModalOpen(false)}>Annuler</Button>
-              <Button variant="destructive" onClick={confirmReject} disabled={rejectMutation.isPending || !rejectReason}>
+              <Button variant="destructive" onClick={() => selectedTx && rejectMutation.mutate({ id: selectedTx.id, data: { reason: rejectReason } })} disabled={rejectMutation.isPending || !rejectReason}>
                 Confirmer le rejet
               </Button>
             </div>

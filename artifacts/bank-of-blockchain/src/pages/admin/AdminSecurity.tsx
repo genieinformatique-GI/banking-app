@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { useGetUsers, useUpdateUser, useGetMe } from "@workspace/api-client-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
-import { Shield, ShieldAlert, UserIcon } from "lucide-react";
+import { Shield, ShieldAlert, UserIcon, ShieldCheck, Lock } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
+
+const authHeader = () => ({ "Content-Type": "application/json", Authorization: `Bearer ${localStorage.getItem("bob_token")}` });
 
 export default function AdminSecurity() {
   const { data: currentUser } = useGetMe();
@@ -17,6 +20,7 @@ export default function AdminSecurity() {
 
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<{id: number, name: string, newRole: string} | null>(null);
+  const [tfaPolicyLoading, setTfaPolicyLoading] = useState(false);
 
   const updateRoleMutation = useUpdateUser({
     mutation: {
@@ -41,12 +45,32 @@ export default function AdminSecurity() {
 
   const confirmRoleChange = () => {
     if (selectedUser) {
-      updateRoleMutation.mutate({ 
-        id: selectedUser.id, 
-        data: { role: selectedUser.newRole as 'admin' | 'user' } 
+      updateRoleMutation.mutate({
+        id: selectedUser.id,
+        data: { role: selectedUser.newRole as 'admin' | 'user' }
       });
     }
   };
+
+  const handleTfaPolicy = async (requireForAll: boolean) => {
+    setTfaPolicyLoading(true);
+    try {
+      const res = await fetch("/api/admin/2fa-policy", {
+        method: "POST", headers: authHeader(),
+        body: JSON.stringify({ requireForAll }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Erreur");
+      toast({ title: "Politique 2FA mise à jour", description: data.message, variant: "success" });
+      queryClient.invalidateQueries();
+    } catch (err: any) {
+      toast({ title: "Erreur", description: err.message, variant: "destructive" });
+    }
+    setTfaPolicyLoading(false);
+  };
+
+  const adminUsers = usersData?.users?.filter((u: any) => u.role === "admin") || [];
+  const adminsWithout2FA = adminUsers.filter((u: any) => !u.twoFactorEnabled);
 
   return (
     <div className="space-y-8 animate-fade-in">
@@ -54,6 +78,46 @@ export default function AdminSecurity() {
         <h1 className="text-3xl font-display font-bold">Sécurité & Rôles</h1>
         <p className="text-muted-foreground mt-1">Gérez les privilèges d'accès et les administrateurs de la plateforme.</p>
       </div>
+
+      {/* 2FA Policy Card */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2"><Lock className="w-5 h-5 text-primary" /> Politique d'authentification 2FA</CardTitle>
+          <CardDescription>Définissez les règles d'authentification pour tous les administrateurs.</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="flex items-center justify-between p-4 border rounded-lg">
+            <div>
+              <p className="font-medium">Exiger la 2FA pour tous les admins</p>
+              <p className="text-sm text-muted-foreground mt-0.5">
+                {adminsWithout2FA.length > 0
+                  ? `⚠️ ${adminsWithout2FA.length} administrateur(s) n'ont pas encore activé la 2FA`
+                  : "✓ Tous les administrateurs ont la 2FA activée"}
+              </p>
+            </div>
+            <div className="flex gap-3">
+              <Button variant="outline" size="sm" onClick={() => handleTfaPolicy(false)} disabled={tfaPolicyLoading}>
+                Rendre optionnelle
+              </Button>
+              <Button size="sm" onClick={() => handleTfaPolicy(true)} disabled={tfaPolicyLoading} className="gap-1">
+                <ShieldCheck className="w-4 h-4" /> Exiger pour tous
+              </Button>
+            </div>
+          </div>
+          {adminsWithout2FA.length > 0 && (
+            <div className="space-y-2">
+              <p className="text-sm font-medium text-muted-foreground">Admins sans 2FA :</p>
+              {adminsWithout2FA.map((u: any) => (
+                <div key={u.id} className="flex items-center gap-2 text-sm">
+                  <div className="w-2 h-2 rounded-full bg-amber-500" />
+                  <span>{u.firstName} {u.lastName}</span>
+                  <span className="text-muted-foreground">— {u.email}</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </Card>
 
       <Card>
         <CardContent className="p-0">

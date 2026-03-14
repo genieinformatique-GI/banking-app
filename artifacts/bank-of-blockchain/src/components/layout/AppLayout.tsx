@@ -105,6 +105,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     { label: t.nav.admin.notifications, path: "/admin/notifications", icon: Bell },
     { label: t.nav.admin.content, path: "/admin/content", icon: Globe },
     { label: t.nav.admin.logs, path: "/admin/logs", icon: FileText },
+    { label: "Mon Profil", path: "/admin/profile", icon: Settings },
   ];
 
   const userNavItems = [
@@ -174,9 +175,11 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         {/* User info + logout */}
         <div className="p-3 border-t border-sidebar-border">
           <div className="flex items-center gap-3 p-3 bg-sidebar-border/30 rounded-xl mb-2">
-            <div className="w-9 h-9 rounded-full bg-primary flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
-              {user.firstName[0]}{user.lastName[0]}
-            </div>
+            {(user as any).avatarUrl
+              ? <img src={(user as any).avatarUrl} alt="" className="w-9 h-9 rounded-full object-cover flex-shrink-0 border-2 border-primary/30" />
+              : <div className="w-9 h-9 rounded-full bg-primary flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
+                  {user.firstName[0]}{user.lastName[0]}
+                </div>}
             <div className="flex-1 min-w-0">
               <p className="text-sm font-semibold truncate text-sidebar-foreground">{user.firstName} {user.lastName}</p>
               <p className="text-xs text-muted-foreground truncate capitalize">{user.role}</p>

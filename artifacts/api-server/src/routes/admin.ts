@@ -3,6 +3,7 @@ import { db } from "@workspace/db";
 import { usersTable, transactionsTable, bankTransfersTable, cryptoTransfersTable } from "@workspace/db/schema";
 import { eq, count } from "drizzle-orm";
 import { requireAuth, requireAdmin, AuthRequest } from "../middlewares/auth.js";
+import { logAction } from "../lib/logger.js";
 
 const router = Router();
 router.use(requireAuth, requireAdmin);
@@ -36,6 +37,20 @@ router.get("/stats", async (req: AuthRequest, res): Promise<void> => {
       pendingBankTransfers: Number(pendingBankTransfers),
       pendingCryptoTransfers: Number(pendingCryptoTransfers),
     });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+router.post("/2fa-policy", async (req: AuthRequest, res): Promise<void> => {
+  try {
+    const { requireForAll } = req.body;
+    await db.update(usersTable)
+      .set({ twoFactorRequired: !!requireForAll, updatedAt: new Date() })
+      .where(eq(usersTable.role, "admin"));
+    await logAction({ adminId: req.userId, action: "SET_2FA_POLICY", target: "system", targetId: 0 });
+    res.json({ success: true, message: `2FA ${requireForAll ? "requise" : "optionnelle"} pour tous les admins` });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Internal Server Error" });

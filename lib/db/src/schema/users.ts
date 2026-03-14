@@ -16,9 +16,13 @@ export const usersTable = pgTable("users", {
   dateOfBirth: text("date_of_birth"),
   role: userRoleEnum("role").notNull().default("user"),
   status: userStatusEnum("status").notNull().default("pending"),
+  avatarUrl: text("avatar_url"),
+  adminRole: text("admin_role"),
+  adminPermissions: text("admin_permissions"),
   twoFactorEnabled: boolean("two_factor_enabled").notNull().default(false),
   twoFactorSecret: text("two_factor_secret"),
   twoFactorPendingSecret: text("two_factor_pending_secret"),
+  twoFactorRequired: boolean("two_factor_required").notNull().default(false),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });

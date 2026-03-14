@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useGetMe, useGetBankAccounts, useCreateBankAccount, useDeleteBankAccount } from "@workspace/api-client-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -9,7 +9,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
-import { Trash2, Plus, Building2, Shield, User as UserIcon, Eye, EyeOff, Save, Pencil, QrCode, Lock, CheckCircle2, AlertTriangle } from "lucide-react";
+import { Trash2, Plus, Building2, Shield, User as UserIcon, Eye, EyeOff, Save, Pencil, QrCode, Lock, CheckCircle2, AlertTriangle, Camera, Download } from "lucide-react";
+import { exportUserActivityPDF } from "@/lib/pdf";
 
 export default function Settings() {
   const { data: user } = useGetMe();
@@ -29,6 +30,54 @@ export default function Settings() {
   const [pwForm, setPwForm] = useState({ currentPassword: '', newPassword: '', confirmPassword: '' });
   const [showPw, setShowPw] = useState({ current: false, new: false, confirm: false });
   const [savingPw, setSavingPw] = useState(false);
+
+  // Avatar upload state
+  const [uploadingAvatar, setUploadingAvatar] = useState(false);
+  const avatarInputRef = useRef<HTMLInputElement>(null);
+
+  // Export state
+  const [exporting, setExporting] = useState(false);
+
+  const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 1_500_000) { toast({ title: "Image trop lourde", description: "Maximum 1.5 MB", variant: "destructive" }); return; }
+    setUploadingAvatar(true);
+    try {
+      const reader = new FileReader();
+      reader.onload = async (ev) => {
+        const avatarUrl = ev.target?.result as string;
+        const res = await fetch("/api/auth/me/avatar", {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${localStorage.getItem("bob_token")}` },
+          body: JSON.stringify({ avatarUrl }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || "Erreur");
+        toast({ title: "Photo de profil mise à jour", variant: "success" });
+        queryClient.invalidateQueries();
+        setUploadingAvatar(false);
+      };
+      reader.readAsDataURL(file);
+    } catch (err: any) {
+      toast({ title: "Erreur", description: err.message, variant: "destructive" });
+      setUploadingAvatar(false);
+    }
+  };
+
+  const handleExportPDF = async () => {
+    setExporting(true);
+    try {
+      const res = await fetch("/api/auth/export", { headers: authHeader() });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Erreur");
+      exportUserActivityPDF(data);
+      toast({ title: "Export téléchargé", description: "Votre relevé PDF a été généré.", variant: "success" });
+    } catch (err: any) {
+      toast({ title: "Erreur d'export", description: err.message, variant: "destructive" });
+    }
+    setExporting(false);
+  };
 
   // 2FA state
   type TfaStep = "idle" | "setup" | "enable" | "disable";
@@ -219,6 +268,47 @@ export default function Settings() {
 
         {/* === PROFILE TAB === */}
         <TabsContent value="profile" className="space-y-6">
+          {/* Avatar Card */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2"><Camera className="w-5 h-5" /> Photo de profil</CardTitle>
+              <CardDescription>Cliquez sur la photo pour la modifier (PNG, JPG, max 1.5 MB).</CardDescription>
+            </CardHeader>
+            <CardContent className="flex items-center gap-6">
+              <div className="relative group cursor-pointer" onClick={() => avatarInputRef.current?.click()}>
+                {(user as any)?.avatarUrl
+                  ? <img src={(user as any).avatarUrl} alt="Avatar" className="w-24 h-24 rounded-full object-cover border-4 border-primary/30 group-hover:opacity-75 transition-opacity" />
+                  : <div className="w-24 h-24 rounded-full bg-primary/20 flex items-center justify-center text-3xl font-bold text-primary border-4 border-primary/30 group-hover:opacity-75 transition-opacity">
+                      {user?.firstName?.[0]}{user?.lastName?.[0]}
+                    </div>}
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                  <Camera className="w-8 h-8 text-white drop-shadow-lg" />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <p className="font-semibold">{user?.firstName} {user?.lastName}</p>
+                <p className="text-sm text-muted-foreground">{user?.email}</p>
+                <Button size="sm" variant="outline" onClick={() => avatarInputRef.current?.click()} disabled={uploadingAvatar}>
+                  {uploadingAvatar ? "Téléchargement…" : "Changer la photo"}
+                </Button>
+              </div>
+              <input ref={avatarInputRef} type="file" accept="image/*" className="hidden" onChange={handleAvatarChange} />
+            </CardContent>
+          </Card>
+
+          {/* Export Card */}
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between">
+              <div>
+                <CardTitle className="flex items-center gap-2"><Download className="w-5 h-5" /> Export de données</CardTitle>
+                <CardDescription>Téléchargez l'intégralité de votre activité au format PDF.</CardDescription>
+              </div>
+              <Button onClick={handleExportPDF} disabled={exporting} variant="outline" className="gap-2">
+                <Download className="w-4 h-4" /> {exporting ? "Génération…" : "Télécharger PDF"}
+              </Button>
+            </CardHeader>
+          </Card>
+
           <Card>
             <CardHeader className="flex flex-row items-center justify-between">
               <div>
