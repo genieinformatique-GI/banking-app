@@ -69,24 +69,24 @@ function PublicHeader() {
         transition: "all 0.3s ease",
       }}>
         <div className="max-w-7xl mx-auto px-6">
-          <div className="flex items-center justify-between" style={{ height: "76px" }}>
+          <div className="flex items-center justify-between" style={{ height: "80px" }}>
             <Link href="/">
               <img src={logo} alt="Bank of Blockchain"
-                style={{ height: "50px", width: "auto", objectFit: "contain" }} />
+                style={{ height: "52px", width: "auto", objectFit: "contain" }} />
             </Link>
 
-            {/* Desktop nav */}
-            <nav className="hidden lg:flex items-center gap-0.5">
+            {/* Desktop nav — centered */}
+            <nav className="hidden lg:flex items-center gap-1 flex-1 justify-center">
               {[
                 { href: "/", label: "Accueil" },
                 { href: "/la-banque", label: "La Banque" },
               ].map(({ href, label }) => (
                 <Link key={href} href={href}
                   style={{
-                    padding: "8px 14px", fontSize: "14px", fontWeight: "600",
+                    padding: "10px 18px", fontSize: "15px", fontWeight: "600",
                     color: isActive(href) ? "#225473" : "#374151",
                     borderBottom: isActive(href) ? "2px solid #f6a821" : "2px solid transparent",
-                    transition: "all 0.2s", display: "block"
+                    transition: "all 0.2s", display: "block", whiteSpace: "nowrap"
                   }}
                   className="hover:text-[#225473]">
                   {label}
@@ -96,39 +96,39 @@ function PublicHeader() {
               {/* Services dropdown */}
               <div className="relative" onMouseEnter={() => setServicesOpen(true)} onMouseLeave={() => setServicesOpen(false)}>
                 <button style={{
-                  display: "flex", alignItems: "center", gap: "4px", padding: "8px 14px",
-                  fontSize: "14px", fontWeight: "600", color: "#374151",
+                  display: "flex", alignItems: "center", gap: "5px", padding: "10px 18px",
+                  fontSize: "15px", fontWeight: "600", color: "#374151",
                   background: "none", border: "none", cursor: "pointer",
-                  borderBottom: "2px solid transparent"
+                  borderBottom: "2px solid transparent", whiteSpace: "nowrap"
                 }} className="hover:text-[#225473]">
                   Nos Services
-                  <ChevronDown size={13} style={{ transition: "transform 0.2s", transform: servicesOpen ? "rotate(180deg)" : "none" }} />
+                  <ChevronDown size={14} style={{ transition: "transform 0.2s", transform: servicesOpen ? "rotate(180deg)" : "none" }} />
                 </button>
                 {servicesOpen && (
                   <div style={{
-                    position: "absolute", top: "calc(100% + 10px)", left: "50%", transform: "translateX(-50%)",
-                    background: "white", minWidth: "290px", borderRadius: "14px",
-                    boxShadow: "0 25px 60px rgba(0,0,0,0.15)", border: "1px solid #f0f4f8",
-                    padding: "10px", zIndex: 200,
+                    position: "absolute", top: "calc(100% + 8px)", left: "50%", transform: "translateX(-50%)",
+                    background: "white", minWidth: "310px", borderRadius: "16px",
+                    boxShadow: "0 25px 70px rgba(0,0,0,0.14)", border: "1px solid #edf2f7",
+                    padding: "12px", zIndex: 200,
                   }}>
-                    <div style={{ padding: "8px 12px 10px", borderBottom: "1px solid #f0f4f8", marginBottom: "6px" }}>
-                      <span style={{ fontSize: "11px", fontWeight: "700", color: "#f6a821", letterSpacing: "1px", textTransform: "uppercase" }}>Nos Services</span>
+                    <div style={{ padding: "6px 14px 12px", borderBottom: "1px solid #f0f4f8", marginBottom: "8px" }}>
+                      <span style={{ fontSize: "11px", fontWeight: "700", color: "#f6a821", letterSpacing: "1.5px", textTransform: "uppercase" }}>Nos Services</span>
                     </div>
                     {[
-                      { href: "/nos-services/remboursement-des-pertes", label: "Remboursement des pertes", icon: <Handshake size={15} /> },
-                      { href: "/nos-services/securisation-des-investissements", label: "Sécurisation des investissements", icon: <Lock size={15} /> },
-                      { href: "/nos-services/conseil-et-accompagnement", label: "Conseil et accompagnement", icon: <Shield size={15} /> },
-                      { href: "/nos-services/services-de-staking", label: "Services de staking", icon: <TrendingUp size={15} /> },
-                      { href: "/nos-services/licence-de-trading", label: "Licence de Trading", icon: <FileText size={15} /> },
-                      { href: "/nos-services/taxe-crypto", label: "Taxe Crypto", icon: <Receipt size={15} /> },
+                      { href: "/nos-services/remboursement-des-pertes", label: "Remboursement des pertes", icon: <Handshake size={16} /> },
+                      { href: "/nos-services/securisation-des-investissements", label: "Sécurisation des investissements", icon: <Lock size={16} /> },
+                      { href: "/nos-services/conseil-et-accompagnement", label: "Conseil et accompagnement", icon: <Shield size={16} /> },
+                      { href: "/nos-services/services-de-staking", label: "Services de staking", icon: <TrendingUp size={16} /> },
+                      { href: "/nos-services/licence-de-trading", label: "Licence de Trading", icon: <FileText size={16} /> },
+                      { href: "/nos-services/taxe-crypto", label: "Taxe Crypto", icon: <Receipt size={16} /> },
                     ].map(({ href, label, icon }) => (
                       <Link key={href} href={href}
                         style={{
-                          display: "flex", alignItems: "center", gap: "12px", padding: "10px 14px",
-                          borderRadius: "9px", color: "#374151", fontSize: "13.5px", textDecoration: "none"
+                          display: "flex", alignItems: "center", gap: "14px", padding: "11px 16px",
+                          borderRadius: "10px", color: "#374151", fontSize: "14.5px", textDecoration: "none"
                         }}
                         className="hover:bg-blue-50 hover:text-[#225473] transition-colors">
-                        <span style={{ color: "#f6a821", width: "20px", flexShrink: 0 }}>{icon}</span>
+                        <span style={{ color: "#f6a821", width: "22px", flexShrink: 0 }}>{icon}</span>
                         {label}
                       </Link>
                     ))}
@@ -139,28 +139,32 @@ function PublicHeader() {
               {/* Pourquoi dropdown */}
               <div className="relative" onMouseEnter={() => setPourquoiOpen(true)} onMouseLeave={() => setPourquoiOpen(false)}>
                 <button style={{
-                  display: "flex", alignItems: "center", gap: "4px", padding: "8px 14px",
-                  fontSize: "14px", fontWeight: "600", color: "#374151",
+                  display: "flex", alignItems: "center", gap: "5px", padding: "10px 18px",
+                  fontSize: "15px", fontWeight: "600", color: "#374151",
                   background: "none", border: "none", cursor: "pointer",
-                  borderBottom: "2px solid transparent"
+                  borderBottom: "2px solid transparent", whiteSpace: "nowrap"
                 }} className="hover:text-[#225473]">
                   Pourquoi Nous
-                  <ChevronDown size={13} style={{ transition: "transform 0.2s", transform: pourquoiOpen ? "rotate(180deg)" : "none" }} />
+                  <ChevronDown size={14} style={{ transition: "transform 0.2s", transform: pourquoiOpen ? "rotate(180deg)" : "none" }} />
                 </button>
                 {pourquoiOpen && (
                   <div style={{
-                    position: "absolute", top: "calc(100% + 10px)", left: "50%", transform: "translateX(-50%)",
-                    background: "white", minWidth: "300px", borderRadius: "14px",
-                    boxShadow: "0 25px 60px rgba(0,0,0,0.15)", border: "1px solid #f0f4f8",
-                    padding: "10px", zIndex: 200,
+                    position: "absolute", top: "calc(100% + 8px)", left: "50%", transform: "translateX(-50%)",
+                    background: "white", minWidth: "320px", borderRadius: "16px",
+                    boxShadow: "0 25px 70px rgba(0,0,0,0.14)", border: "1px solid #edf2f7",
+                    padding: "12px", zIndex: 200,
                   }}>
                     {[
-                      { href: "/engagement-securite-et-transparence", label: "Engagement envers la sécurité et la transparence" },
-                      { href: "/partenariats-amf-sec", label: "Partenariats avec l'AMF et la SEC" },
-                    ].map(({ href, label }) => (
+                      { href: "/engagement-securite-et-transparence", label: "Engagement envers la sécurité et la transparence", icon: <Shield size={16} /> },
+                      { href: "/partenariats-amf-sec", label: "Partenariats avec l'AMF et la SEC", icon: <Handshake size={16} /> },
+                    ].map(({ href, label, icon }) => (
                       <Link key={href} href={href}
-                        style={{ display: "block", padding: "11px 14px", borderRadius: "9px", color: "#374151", fontSize: "13.5px" }}
+                        style={{
+                          display: "flex", alignItems: "center", gap: "14px", padding: "11px 16px",
+                          borderRadius: "10px", color: "#374151", fontSize: "14.5px"
+                        }}
                         className="hover:bg-blue-50 hover:text-[#225473] transition-colors">
+                        <span style={{ color: "#f6a821", width: "22px", flexShrink: 0 }}>{icon}</span>
                         {label}
                       </Link>
                     ))}
@@ -169,50 +173,16 @@ function PublicHeader() {
               </div>
 
               <Link href="/nos-services/assurance-crypto"
-                style={{ padding: "8px 14px", fontSize: "14px", fontWeight: "600", color: "#374151", borderBottom: "2px solid transparent", display: "block" }}
+                style={{ padding: "10px 18px", fontSize: "15px", fontWeight: "600", color: "#374151", borderBottom: "2px solid transparent", display: "block", whiteSpace: "nowrap" }}
                 className="hover:text-[#225473]">
                 Assurance crypto
               </Link>
               <Link href="/nos-services/faqs"
-                style={{ padding: "8px 14px", fontSize: "14px", fontWeight: "600", color: "#374151", borderBottom: "2px solid transparent", display: "block" }}
+                style={{ padding: "10px 18px", fontSize: "15px", fontWeight: "600", color: "#374151", borderBottom: "2px solid transparent", display: "block", whiteSpace: "nowrap" }}
                 className="hover:text-[#225473]">
                 FAQs
               </Link>
             </nav>
-
-            {/* CTA buttons */}
-            <div className="hidden lg:flex items-center gap-3">
-              <Link href="/espace-client">
-                <button
-                  style={{
-                    padding: "9px 22px", fontSize: "13px", fontWeight: "600",
-                    border: "2px solid #225473", color: "#225473", background: "transparent",
-                    borderRadius: "8px", cursor: "pointer", transition: "all 0.2s"
-                  }}
-                  onMouseEnter={e => {
-                    const el = e.currentTarget;
-                    el.style.background = "#225473";
-                    el.style.color = "white";
-                  }}
-                  onMouseLeave={e => {
-                    const el = e.currentTarget;
-                    el.style.background = "transparent";
-                    el.style.color = "#225473";
-                  }}>
-                  Se connecter
-                </button>
-              </Link>
-              <Link href="/ouverture-de-compte">
-                <button style={{
-                  padding: "9px 22px", fontSize: "13px", fontWeight: "700",
-                  background: "linear-gradient(135deg, #f6a821 0%, #d4891a 100%)",
-                  border: "none", color: "white", borderRadius: "8px",
-                  cursor: "pointer", boxShadow: "0 4px 15px rgba(246,168,33,0.35)"
-                }}>
-                  Ouvrir un compte
-                </button>
-              </Link>
-            </div>
 
             {/* Mobile hamburger */}
             <button className="lg:hidden p-2" onClick={() => setMenuOpen(!menuOpen)}>
@@ -248,13 +218,13 @@ function PublicHeader() {
               ))}
               <div className="flex gap-3 mt-5 pt-5" style={{ borderTop: "1px solid #1a2e4a" }}>
                 <Link href="/espace-client" className="flex-1" onClick={() => setMenuOpen(false)}>
-                  <button style={{ width: "100%", padding: "11px", background: "transparent", border: "1px solid #225473", color: "#8899b0", borderRadius: "8px", fontSize: "14px" }}>
-                    Se connecter
+                  <button style={{ width: "100%", padding: "11px", background: "transparent", border: "1px solid #f6a821", color: "#f6a821", borderRadius: "8px", fontSize: "14px", fontWeight: "600" }}>
+                    Espace client
                   </button>
                 </Link>
-                <Link href="/ouverture-de-compte" className="flex-1" onClick={() => setMenuOpen(false)}>
+                <Link href="/contact" className="flex-1" onClick={() => setMenuOpen(false)}>
                   <button style={{ width: "100%", padding: "11px", background: "#f6a821", border: "none", color: "white", borderRadius: "8px", fontSize: "14px", fontWeight: "700" }}>
-                    Ouvrir un compte
+                    Nous contacter
                   </button>
                 </Link>
               </div>
