@@ -1,0 +1,23 @@
+packages:
+  "framer-motion": "For page transitions, smooth modal appearances, and beautiful micro-interactions"
+  "recharts": "For portfolio balance charts and admin analytics visualization"
+  "date-fns": "For formatting transaction and user registration dates"
+  "clsx": "Utility for conditionally joining classNames"
+  "tailwind-merge": "Utility for merging tailwind classes without style conflicts"
+  "react-hook-form": "For robust form state management"
+  "@hookform/resolvers": "For Zod validation integration with react-hook-form"
+  "lucide-react": "For crisp, modern icons across the platform"
+  "jwt-decode": "For decoding and inspecting the auth token if needed"
+
+images:
+  - path: "artifacts/bank-of-blockchain/public/images/hero-bg.png"
+    description: "Abstract deep navy blue and emerald green geometric mesh with soft light leaks, corporate banking aesthetic, high-end professional"
+    aspect_ratio: "16:9"
+  - path: "artifacts/bank-of-blockchain/public/images/logo.png"
+    description: "Minimalist modern logo for 'Bank of Blockchain', incorporating a stylized B and geometric block, solid white icon on transparent background"
+    aspect_ratio: "1:1"
+
+notes:
+  - Assumes custom fetch interceptor for setting the Authorization Bearer token from localStorage
+  - Generated API hooks from @workspace/api-client-react are used for all data fetching
+  - Dark mode default design with navy/slate colors

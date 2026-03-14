@@ -1,22 +1,39 @@
 openapi: 3.1.0
 info:
-  # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: Bank of Blockchain API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: auth
+    description: Authentication
+  - name: users
+    description: User management
+  - name: balances
+    description: Balance management
+  - name: transactions
+    description: Transactions
+  - name: bank-transfers
+    description: Bank wire transfers
+  - name: crypto-transfers
+    description: Crypto transfers
+  - name: notifications
+    description: Notifications
+  - name: logs
+    description: System logs
+  - name: bank-accounts
+    description: Bank accounts
+
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,7 +41,772 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /auth/register:
+    post:
+      operationId: register
+      tags: [auth]
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterRequest"
+      responses:
+        "201":
+          description: User registered
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "400":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /auth/login:
+    post:
+      operationId: login
+      tags: [auth]
+      summary: Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+      responses:
+        "200":
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "401":
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /auth/me:
+    get:
+      operationId: getMe
+      tags: [auth]
+      summary: Get current user info
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Current user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /users:
+    get:
+      operationId: getUsers
+      tags: [users]
+      summary: Get all users (admin)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          schema:
+            type: integer
+        - name: search
+          in: query
+          schema:
+            type: string
+        - name: status
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Users list
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsersListResponse"
+
+  /users/{id}:
+    get:
+      operationId: getUserById
+      tags: [users]
+      summary: Get user by ID (admin)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: User
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserDetail"
+    patch:
+      operationId: updateUser
+      tags: [users]
+      summary: Update user (admin)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateUserRequest"
+      responses:
+        "200":
+          description: Updated user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+    delete:
+      operationId: deleteUser
+      tags: [users]
+      summary: Delete user (admin)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+
+  /users/{id}/activate:
+    post:
+      operationId: activateUser
+      tags: [users]
+      summary: Activate user account (admin)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Activated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+
+  /users/{id}/suspend:
+    post:
+      operationId: suspendUser
+      tags: [users]
+      summary: Suspend user account (admin)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Suspended
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+
+  /balances/me:
+    get:
+      operationId: getMyBalances
+      tags: [balances]
+      summary: Get current user balances
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Balances
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BalancesResponse"
+
+  /balances/{userId}:
+    get:
+      operationId: getUserBalances
+      tags: [balances]
+      summary: Get user balances (admin)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Balances
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BalancesResponse"
+    patch:
+      operationId: updateUserBalances
+      tags: [balances]
+      summary: Update user balances (admin)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateBalancesRequest"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BalancesResponse"
+
+  /transactions:
+    get:
+      operationId: getTransactions
+      tags: [transactions]
+      summary: Get transactions
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          schema:
+            type: integer
+        - name: status
+          in: query
+          schema:
+            type: string
+        - name: type
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Transactions
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TransactionsListResponse"
+
+  /transactions/{id}:
+    get:
+      operationId: getTransactionById
+      tags: [transactions]
+      summary: Get transaction by ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Transaction
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Transaction"
+
+  /transactions/{id}/validate:
+    post:
+      operationId: validateTransaction
+      tags: [transactions]
+      summary: Validate transaction (admin)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Validated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+
+  /transactions/{id}/reject:
+    post:
+      operationId: rejectTransaction
+      tags: [transactions]
+      summary: Reject transaction (admin)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RejectRequest"
+      responses:
+        "200":
+          description: Rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+
+  /bank-transfers:
+    get:
+      operationId: getBankTransfers
+      tags: [bank-transfers]
+      summary: Get bank wire transfers
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          schema:
+            type: integer
+        - name: status
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Bank transfers
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BankTransfersListResponse"
+    post:
+      operationId: createBankTransfer
+      tags: [bank-transfers]
+      summary: Request a bank wire transfer
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateBankTransferRequest"
+      responses:
+        "201":
+          description: Bank transfer created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BankTransfer"
+
+  /bank-transfers/{id}:
+    get:
+      operationId: getBankTransferById
+      tags: [bank-transfers]
+      summary: Get bank transfer by ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Bank transfer
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BankTransfer"
+
+  /bank-transfers/{id}/validate:
+    post:
+      operationId: validateBankTransfer
+      tags: [bank-transfers]
+      summary: Validate bank transfer (admin)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Validated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+
+  /bank-transfers/{id}/reject:
+    post:
+      operationId: rejectBankTransfer
+      tags: [bank-transfers]
+      summary: Reject bank transfer (admin)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RejectRequest"
+      responses:
+        "200":
+          description: Rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+
+  /crypto-transfers:
+    get:
+      operationId: getCryptoTransfers
+      tags: [crypto-transfers]
+      summary: Get crypto transfers
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          schema:
+            type: integer
+        - name: status
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Crypto transfers
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CryptoTransfersListResponse"
+    post:
+      operationId: createCryptoTransfer
+      tags: [crypto-transfers]
+      summary: Request a crypto transfer
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateCryptoTransferRequest"
+      responses:
+        "201":
+          description: Crypto transfer created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CryptoTransfer"
+
+  /crypto-transfers/{id}:
+    get:
+      operationId: getCryptoTransferById
+      tags: [crypto-transfers]
+      summary: Get crypto transfer by ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Crypto transfer
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CryptoTransfer"
+
+  /crypto-transfers/{id}/validate:
+    post:
+      operationId: validateCryptoTransfer
+      tags: [crypto-transfers]
+      summary: Validate crypto transfer (admin)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Validated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+
+  /crypto-transfers/{id}/reject:
+    post:
+      operationId: rejectCryptoTransfer
+      tags: [crypto-transfers]
+      summary: Reject crypto transfer (admin)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RejectRequest"
+      responses:
+        "200":
+          description: Rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+
+  /bank-accounts:
+    get:
+      operationId: getBankAccounts
+      tags: [bank-accounts]
+      summary: Get user bank accounts
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Bank accounts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/BankAccount"
+    post:
+      operationId: createBankAccount
+      tags: [bank-accounts]
+      summary: Add a bank account
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateBankAccountRequest"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BankAccount"
+
+  /bank-accounts/{id}:
+    delete:
+      operationId: deleteBankAccount
+      tags: [bank-accounts]
+      summary: Delete a bank account
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+
+  /notifications:
+    get:
+      operationId: getNotifications
+      tags: [notifications]
+      summary: Get notifications
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Notifications
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Notification"
+    post:
+      operationId: createNotification
+      tags: [notifications]
+      summary: Create notification (admin)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateNotificationRequest"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Notification"
+
+  /notifications/{id}/read:
+    post:
+      operationId: markNotificationRead
+      tags: [notifications]
+      summary: Mark notification as read
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Marked as read
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+
+  /logs:
+    get:
+      operationId: getLogs
+      tags: [logs]
+      summary: Get system logs (admin)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          schema:
+            type: integer
+        - name: action
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Logs
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LogsListResponse"
+
+  /admin/stats:
+    get:
+      operationId: getAdminStats
+      tags: [users]
+      summary: Get admin dashboard stats
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminStats"
+
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
   schemas:
     HealthStatus:
       type: object
@@ -34,3 +816,631 @@ components:
       required:
         - status
 
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+      required:
+        - error
+
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+      required:
+        - success
+
+    RegisterRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          minLength: 8
+        firstName:
+          type: string
+        lastName:
+          type: string
+        phone:
+          type: string
+        country:
+          type: string
+        dateOfBirth:
+          type: string
+      required:
+        - email
+        - password
+        - firstName
+        - lastName
+
+    LoginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      required:
+        - email
+        - password
+
+    AuthResponse:
+      type: object
+      properties:
+        token:
+          type: string
+        user:
+          $ref: "#/components/schemas/User"
+      required:
+        - token
+        - user
+
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        email:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        phone:
+          type: string
+        country:
+          type: string
+        dateOfBirth:
+          type: string
+        role:
+          type: string
+          enum: [user, admin]
+        status:
+          type: string
+          enum: [pending, active, suspended]
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - email
+        - firstName
+        - lastName
+        - role
+        - status
+        - createdAt
+
+    UserDetail:
+      allOf:
+        - $ref: "#/components/schemas/User"
+        - type: object
+          properties:
+            balances:
+              $ref: "#/components/schemas/Balances"
+            bankAccounts:
+              type: array
+              items:
+                $ref: "#/components/schemas/BankAccount"
+
+    UpdateUserRequest:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        phone:
+          type: string
+        country:
+          type: string
+        status:
+          type: string
+          enum: [pending, active, suspended]
+        role:
+          type: string
+          enum: [user, admin]
+
+    UsersListResponse:
+      type: object
+      properties:
+        users:
+          type: array
+          items:
+            $ref: "#/components/schemas/User"
+        total:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
+      required:
+        - users
+        - total
+        - page
+        - limit
+
+    Balances:
+      type: object
+      properties:
+        eur:
+          type: number
+        usd:
+          type: number
+        btc:
+          type: number
+      required:
+        - eur
+        - usd
+        - btc
+
+    BalancesResponse:
+      type: object
+      properties:
+        userId:
+          type: integer
+        balances:
+          $ref: "#/components/schemas/Balances"
+      required:
+        - userId
+        - balances
+
+    UpdateBalancesRequest:
+      type: object
+      properties:
+        eur:
+          type: number
+        usd:
+          type: number
+        btc:
+          type: number
+
+    Transaction:
+      type: object
+      properties:
+        id:
+          type: integer
+        userId:
+          type: integer
+        type:
+          type: string
+          enum: [bank_transfer, crypto_transfer, credit, debit]
+        amount:
+          type: number
+        currency:
+          type: string
+          enum: [EUR, USD, BTC]
+        status:
+          type: string
+          enum: [pending, processing, completed, rejected]
+        description:
+          type: string
+        rejectionReason:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        user:
+          type: object
+          properties:
+            firstName:
+              type: string
+            lastName:
+              type: string
+            email:
+              type: string
+      required:
+        - id
+        - userId
+        - type
+        - amount
+        - currency
+        - status
+        - createdAt
+
+    TransactionsListResponse:
+      type: object
+      properties:
+        transactions:
+          type: array
+          items:
+            $ref: "#/components/schemas/Transaction"
+        total:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
+      required:
+        - transactions
+        - total
+        - page
+        - limit
+
+    RejectRequest:
+      type: object
+      properties:
+        reason:
+          type: string
+
+    BankTransfer:
+      type: object
+      properties:
+        id:
+          type: integer
+        userId:
+          type: integer
+        amount:
+          type: number
+        currency:
+          type: string
+          enum: [EUR, USD]
+        beneficiaryName:
+          type: string
+        iban:
+          type: string
+        bic:
+          type: string
+        bankName:
+          type: string
+        reference:
+          type: string
+        status:
+          type: string
+          enum: [pending, processing, completed, rejected]
+        rejectionReason:
+          type: string
+        transactionId:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        user:
+          type: object
+          properties:
+            firstName:
+              type: string
+            lastName:
+              type: string
+            email:
+              type: string
+      required:
+        - id
+        - userId
+        - amount
+        - currency
+        - beneficiaryName
+        - iban
+        - status
+        - createdAt
+
+    BankTransfersListResponse:
+      type: object
+      properties:
+        transfers:
+          type: array
+          items:
+            $ref: "#/components/schemas/BankTransfer"
+        total:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
+      required:
+        - transfers
+        - total
+        - page
+        - limit
+
+    CreateBankTransferRequest:
+      type: object
+      properties:
+        amount:
+          type: number
+        currency:
+          type: string
+          enum: [EUR, USD]
+        beneficiaryName:
+          type: string
+        iban:
+          type: string
+        bic:
+          type: string
+        bankName:
+          type: string
+        reference:
+          type: string
+        bankAccountId:
+          type: integer
+      required:
+        - amount
+        - currency
+        - beneficiaryName
+        - iban
+
+    CryptoTransfer:
+      type: object
+      properties:
+        id:
+          type: integer
+        userId:
+          type: integer
+        amount:
+          type: number
+        cryptocurrency:
+          type: string
+          enum: [BTC, ETH, USDT]
+        walletAddress:
+          type: string
+        network:
+          type: string
+        status:
+          type: string
+          enum: [pending, processing, completed, rejected]
+        rejectionReason:
+          type: string
+        txHash:
+          type: string
+        transactionId:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        user:
+          type: object
+          properties:
+            firstName:
+              type: string
+            lastName:
+              type: string
+            email:
+              type: string
+      required:
+        - id
+        - userId
+        - amount
+        - cryptocurrency
+        - walletAddress
+        - status
+        - createdAt
+
+    CryptoTransfersListResponse:
+      type: object
+      properties:
+        transfers:
+          type: array
+          items:
+            $ref: "#/components/schemas/CryptoTransfer"
+        total:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
+      required:
+        - transfers
+        - total
+        - page
+        - limit
+
+    CreateCryptoTransferRequest:
+      type: object
+      properties:
+        amount:
+          type: number
+        cryptocurrency:
+          type: string
+          enum: [BTC, ETH, USDT]
+        walletAddress:
+          type: string
+        network:
+          type: string
+      required:
+        - amount
+        - cryptocurrency
+        - walletAddress
+
+    BankAccount:
+      type: object
+      properties:
+        id:
+          type: integer
+        userId:
+          type: integer
+        beneficiaryName:
+          type: string
+        iban:
+          type: string
+        bic:
+          type: string
+        bankName:
+          type: string
+        country:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - userId
+        - beneficiaryName
+        - iban
+        - createdAt
+
+    CreateBankAccountRequest:
+      type: object
+      properties:
+        beneficiaryName:
+          type: string
+        iban:
+          type: string
+        bic:
+          type: string
+        bankName:
+          type: string
+        country:
+          type: string
+      required:
+        - beneficiaryName
+        - iban
+
+    Notification:
+      type: object
+      properties:
+        id:
+          type: integer
+        userId:
+          type: integer
+        title:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+          enum: [info, success, warning, error]
+        isRead:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - userId
+        - title
+        - message
+        - type
+        - isRead
+        - createdAt
+
+    CreateNotificationRequest:
+      type: object
+      properties:
+        userId:
+          type: integer
+        title:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+          enum: [info, success, warning, error]
+        sendToAll:
+          type: boolean
+      required:
+        - title
+        - message
+        - type
+
+    SystemLog:
+      type: object
+      properties:
+        id:
+          type: integer
+        adminId:
+          type: integer
+        action:
+          type: string
+        target:
+          type: string
+        targetId:
+          type: integer
+        details:
+          type: string
+        ipAddress:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        admin:
+          type: object
+          properties:
+            firstName:
+              type: string
+            lastName:
+              type: string
+            email:
+              type: string
+      required:
+        - id
+        - action
+        - createdAt
+
+    LogsListResponse:
+      type: object
+      properties:
+        logs:
+          type: array
+          items:
+            $ref: "#/components/schemas/SystemLog"
+        total:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
+      required:
+        - logs
+        - total
+        - page
+        - limit
+
+    AdminStats:
+      type: object
+      properties:
+        totalUsers:
+          type: integer
+        activeUsers:
+          type: integer
+        pendingUsers:
+          type: integer
+        suspendedUsers:
+          type: integer
+        totalTransactions:
+          type: integer
+        pendingTransactions:
+          type: integer
+        completedTransactions:
+          type: integer
+        rejectedTransactions:
+          type: integer
+        totalBankTransfers:
+          type: integer
+        totalCryptoTransfers:
+          type: integer
+        pendingBankTransfers:
+          type: integer
+        pendingCryptoTransfers:
+          type: integer
+      required:
+        - totalUsers
+        - activeUsers
+        - pendingUsers
+        - suspendedUsers
+        - totalTransactions
+        - pendingTransactions
+        - completedTransactions
+        - rejectedTransactions
+        - totalBankTransfers
+        - totalCryptoTransfers
+        - pendingBankTransfers
+        - pendingCryptoTransfers

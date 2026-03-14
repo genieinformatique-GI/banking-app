@@ -1,0 +1,69 @@
+tu es ingénieur développeur d'applications web fullstack, voilà un projet ouvert, deux dashboards et un frontend principal, tu dois créer une application web qui respecte ce projet, ses designs ses couleurs, les dispositions des éléments, ajuster tout comme il faut, tu dois créer tout exactement comme le projet actuellement ouvert car c'est commeça que le coté frontend est et en reactjs biensur. tu feras le backend avec nodjs/expressjs, la bd avec nodejs, tu doit tout concevoir, tout créer, en évitant de melanger les projets, connecter le projet à la bd postgreSQL et importer le fichier de la base de données pour tout crée. le frontend doit respecter tout  ce qui est ouvert, le backend doit respecter le frontend, etre parfaitement lié, l'integration client-serveur, les routes, tout doit etre parfait. dans les textes de mon prompt qui suivent, donc tu dois créer une application web complète avec une sécurité niveau bancaire, un design parfaitement respecté, des couleurs respectées avec les memes textes respectés
+Tu es ingénieur développeur d'application web fullstack, tu es chargé de réer le frontend d'une application web de bank-of-blockchain en réactJS. les différents designs des pages du frontend qu'un utilisateur peut parcourrir avant de créer son compte est joint et appelé frontend.zip que tu doit reproduire exactement sans modifier le fond ni la forme, ni les couleurs, ni les textes, tu n'as rien à changer sur le design de ces pages du frontend avant inscription ou connexion d'un user/admin. maintenant, tu dois implémenter et créer le dashboard user de telle sorte que une fois qu'un utilisateur crée un compte, il est redirigé vers son dashboard mais ne peut pas utiliser les fonctionnalités tant que l'admin n'a pas activé son compte. le design du dashboard user t'est donné en pdf appelé App Desin User.pdf, tu dois respecter ce design, respecter ses fonctionnalité, respecter le fond et la forme présenté dans ce pdf. Tu dois également implémenter le dashboard admin de telle sorte que si un admin entre les informations de type admin pour se connecter il est redirigé vers le dashboard admin et avoir toutes les fonctionnalités admin comme le design en pdf du dashboard admin le présente. e design du dashboard admin t'est donné en pdf appelé App Desin Admin.pdf, tu dois respecter ce design, respecter ses fonctionnalité, respecter le fond et la forme présenté dans ce pdf et établir la liaison frontend existante entre tout le projet frontend. le résultat attendu est le frontend complet de l'application contenant les pages consultables avant inscription ou connexion, les différents dashboard après inscription ou connexion avec la stack demandée et le respect du fond et de la forme (design et autres...) comme demandé. Le texte qui suit t’explique exactement comment le projet doit etre et les langages à respecter . Il est interdit de modifier le design d’une quelconque façcon, peu importe la raison.
+PROJET : PLATEFORME WEB FINANCIÈRE & BLOCKCHAIN D
+1. PRÉSENTATION GÉNÉRALE DU PROJET
+Le présent document constitue une étude de faisabilité détaillée pour la
+Conception et le développement d’une plateforme web financière inspirée du
+modèle du site bofblockchain.com, intégrant des fonctionnalités avancées de
+gestion de comptes clients, de soldes multidevises et de transactions financières
+supervisées. La plateforme sera accessible via navigateur web et destinée à des
+utilisateurs finaux souhaitant gérer leurs comptes, consulter leurs soldes et
+effectuer des demandes de transactions financières de manière sécurisée.
+2. DESCRIPTION DU BESOIN
+Le client souhaite mettre en place une solution web permettant :
+L’enregistrement des utilisateurs via un formulaire sécurisé
+L’activation manuelle des comptes par un administrateur
+La gestion d’un espace client personnalisé
+La consultation de soldes en plusieurs devises (EUR, USD, BTC)
+L’ajout de coordonnées bancaires
+La demande de virements bancaires
+La demande de transferts de cryptomonnaies
+Le suivi en temps réel de l’état des transactions
+L’administration complète de la plateforme via un tableau de bord
+sécurisé
+3. ANALYSE TECHNIQUE DU PROJET
+3.1 Nature du projet
+Le projet est une application web dynamique et non un simple site vitrine.
+3.2 Technologies utilisées
+Frontend : Réact & Bootstrap (mise en forme et responsive design)
+JavaScript (interactions utilisateur, validations, affichage dynamique),
+AXIOS (communications API)
+Backend : Node.js/Express.js, API Rest sécurisée, authentification JWT
+Base de données : postgreSQL
+3.3 Répartition Frontend / Backend
+JavaScript côté frontend sera utilisé uniquement pour l’interface
+utilisateur
+Toutes les opérations sensibles (authentification, gestion des soldes,
+transactions, permissions) seront gérées côté backend en Nodejs/Expressjs pour
+garantir la sécurité.
+4. FONCTIONNALITÉS DÉTAILLÉES
+4.1 Fonctionnalités côté client
+Création de compte utilisateur
+Connexion sécurisée
+Activation du compte par l’administrateur
+Accès à un tableau de bord personnel
+Consultation du solde disponible (EUR, USD, BTC)
+Ajout et gestion des coordonnées bancaires
+Soumission de demandes de virements bancaires
+Soumission de demandes de transferts en cryptomonnaies
+Suivi de l’état des transactions (en attente, en cours, validé, rejeté)
+Réception de messages automatiques de notification
+4.2 Fonctionnalités côté administrateur
+Accès à un dashboard sécurisé réservé à l’administrateur
+Gestion des utilisateurs (activation, suspension, suppression)
+Gestion et ajustement des soldes clients
+Validation ou rejet des transactions
+Consultation de l’historique complet des opérations Journalisation (logs)
+des actions administratives
+5. SÉCURITÉ, LIMITES ET RESPONSABILITÉS
+5.1 Sécurité
+Hashage sécurisé des mots de passe
+Protection contre les injections SQL Sécurisation des sessions utilisateur
+Accès restreint aux interfaces sensibles
+Utilisation obligatoire du protocole HTTPS
+5.2 Limites légales
+La plateforme ne constitue pas une banque officielle
+Elle ne remplace pas un établissement financier agréé
+Les transactions peuvent être : simulées (gestion interne) ou soumises à
+validation manuelle Toute intégration d’API bancaires ou crypto
+officielles fera l’objet d’un développement et d’un coût supplémentaire.
