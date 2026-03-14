@@ -66,6 +66,16 @@ export default defineConfig({
       strict: true,
       deny: ["**/.*"],
     },
+    ...(process.env.VITE_API_PORT
+      ? {
+          proxy: {
+            "/api": {
+              target: `http://localhost:${process.env.VITE_API_PORT}`,
+              changeOrigin: true,
+            },
+          },
+        }
+      : {}),
   },
   preview: {
     port,
