@@ -2,6 +2,7 @@ import { Switch, Route, Router as WouterRouter } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { ThemeProvider } from "@/contexts/ThemeContext";
 
 // Public Pages
 import NotFound from "@/pages/not-found";
@@ -26,6 +27,7 @@ import Transfers from "@/pages/user/Transfers";
 import Portfolio from "@/pages/user/Portfolio";
 import Transactions from "@/pages/user/Transactions";
 import Settings from "@/pages/user/Settings";
+import UserNotifications from "@/pages/user/Notifications";
 import AdminDashboard from "@/pages/admin/AdminDashboard";
 import AdminUsers from "@/pages/admin/Users";
 import AdminTransactions from "@/pages/admin/AdminTransactions";
@@ -95,6 +97,9 @@ function Router() {
       <Route path="/dashboard/transactions">
         <AppLayout><Transactions /></AppLayout>
       </Route>
+      <Route path="/dashboard/notifications">
+        <AppLayout><UserNotifications /></AppLayout>
+      </Route>
       <Route path="/dashboard/settings">
         <AppLayout><Settings /></AppLayout>
       </Route>
@@ -136,12 +141,14 @@ function Router() {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-          <Router />
-        </WouterRouter>
-        <Toaster />
-      </TooltipProvider>
+      <ThemeProvider>
+        <TooltipProvider>
+          <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
+            <Router />
+          </WouterRouter>
+          <Toaster />
+        </TooltipProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }

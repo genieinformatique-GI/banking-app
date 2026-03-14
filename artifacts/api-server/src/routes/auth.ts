@@ -83,4 +83,51 @@ router.get("/me", requireAuth, async (req: AuthRequest, res): Promise<void> => {
   }
 });
 
+router.patch("/me", requireAuth, async (req: AuthRequest, res): Promise<void> => {
+  try {
+    const { firstName, lastName, phone, country } = req.body || {};
+    const updates: Record<string, unknown> = { updatedAt: new Date() };
+    if (firstName !== undefined) updates["firstName"] = firstName;
+    if (lastName !== undefined) updates["lastName"] = lastName;
+    if (phone !== undefined) updates["phone"] = phone;
+    if (country !== undefined) updates["country"] = country;
+
+    const [updated] = await db.update(usersTable).set(updates).where(eq(usersTable.id, req.userId!)).returning();
+    if (!updated) { res.status(404).json({ error: "Not Found" }); return; }
+    const { passwordHash: _, ...safeUser } = updated;
+    res.json(safeUser);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+router.patch("/me/password", requireAuth, async (req: AuthRequest, res): Promise<void> => {
+  try {
+    const { currentPassword, newPassword } = req.body || {};
+    if (!currentPassword || !newPassword) {
+      res.status(400).json({ error: "Bad Request", message: "Current and new password required" });
+      return;
+    }
+    const [user] = await db.select().from(usersTable).where(eq(usersTable.id, req.userId!)).limit(1);
+    if (!user) { res.status(404).json({ error: "Not Found" }); return; }
+
+    const valid = await bcrypt.compare(currentPassword, user.passwordHash);
+    if (!valid) {
+      res.status(401).json({ error: "Unauthorized", message: "Mot de passe actuel incorrect" });
+      return;
+    }
+    if (newPassword.length < 8) {
+      res.status(400).json({ error: "Bad Request", message: "Le nouveau mot de passe doit contenir au moins 8 caractères" });
+      return;
+    }
+    const newHash = await bcrypt.hash(newPassword, 10);
+    await db.update(usersTable).set({ passwordHash: newHash, updatedAt: new Date() }).where(eq(usersTable.id, req.userId!));
+    res.json({ success: true, message: "Mot de passe mis à jour avec succès" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 export default router;

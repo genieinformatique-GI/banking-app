@@ -46,39 +46,77 @@ body {
   --animate-fade-in: fade-in 0.3s ease-out;
 }
 
-:root {
-  /* DARK MODE DEFAULT FOR PROFESSIONAL BANKING */
-  --background: 222 47% 4%; /* Extremely dark navy */
-  --foreground: 210 40% 98%;
-  
-  --card: 222 47% 7%; /* Slightly lighter than bg */
-  --card-foreground: 210 40% 98%;
-  
-  --popover: 222 47% 7%;
-  --popover-foreground: 210 40% 98%;
-  
-  --primary: 217 91% 60%; /* Vibrant Blue */
-  --primary-foreground: 210 40% 98%;
-  
-  --secondary: 217 32% 17%;
-  --secondary-foreground: 210 40% 98%;
-  
-  --muted: 217 32% 17%;
-  --muted-foreground: 215 20.2% 65.1%;
-  
-  --accent: 142 71% 45%; /* Emerald Green */
-  --accent-foreground: 210 40% 98%;
-  
-  --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: 210 40% 98%;
-  
-  --border: 217 32% 17%;
-  --input: 217 32% 17%;
-  --ring: 217 91% 60%;
-  
-  --sidebar: 222 47% 3%;
-  --sidebar-foreground: 210 40% 98%;
-  --sidebar-border: 217 32% 12%;
+/* ====== DARK THEME (default) ====== */
+:root,
+[data-theme="dark"] {
+  --background: 215 45% 6%;       /* Very dark navy */
+  --foreground: 210 40% 96%;
+
+  --card: 215 45% 9%;
+  --card-foreground: 210 40% 96%;
+
+  --popover: 215 45% 9%;
+  --popover-foreground: 210 40% 96%;
+
+  --primary: 205 65% 38%;         /* #225473 navy blue */
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 215 35% 15%;
+  --secondary-foreground: 210 40% 96%;
+
+  --muted: 215 35% 15%;
+  --muted-foreground: 215 20% 60%;
+
+  --accent: 37 92% 55%;           /* #f6a821 gold */
+  --accent-foreground: 0 0% 10%;
+
+  --destructive: 0 72% 51%;
+  --destructive-foreground: 0 0% 100%;
+
+  --border: 215 30% 16%;
+  --input: 215 30% 16%;
+  --ring: 205 65% 38%;
+
+  --sidebar: 215 48% 4%;
+  --sidebar-foreground: 210 40% 92%;
+  --sidebar-border: 215 30% 11%;
+
+  --radius: 0.75rem;
+}
+
+/* ====== LIGHT THEME ====== */
+[data-theme="light"] {
+  --background: 0 0% 97%;
+  --foreground: 215 45% 12%;
+
+  --card: 0 0% 100%;
+  --card-foreground: 215 45% 12%;
+
+  --popover: 0 0% 100%;
+  --popover-foreground: 215 45% 12%;
+
+  --primary: 205 65% 38%;         /* #225473 same navy blue */
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 215 25% 93%;
+  --secondary-foreground: 215 45% 18%;
+
+  --muted: 215 20% 93%;
+  --muted-foreground: 215 20% 45%;
+
+  --accent: 37 92% 55%;
+  --accent-foreground: 0 0% 10%;
+
+  --destructive: 0 72% 51%;
+  --destructive-foreground: 0 0% 100%;
+
+  --border: 215 20% 88%;
+  --input: 215 20% 88%;
+  --ring: 205 65% 38%;
+
+  --sidebar: 0 0% 100%;
+  --sidebar-foreground: 215 45% 14%;
+  --sidebar-border: 215 20% 90%;
 
   --radius: 0.75rem;
 }
