@@ -23,12 +23,15 @@ import {
 import { useGetMe } from "@workspace/api-client-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTheme } from "@/contexts/ThemeContext";
+import { useLanguage } from "@/contexts/LanguageContext";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 import logo from "@assets/logo.jpg";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const [location, setLocation] = useLocation();
   const queryClient = useQueryClient();
   const { theme, toggleTheme } = useTheme();
+  const { t } = useLanguage();
   const { data: user, isLoading, isError } = useGetMe({ query: { retry: false } });
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -60,7 +63,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           onClick={() => { localStorage.removeItem("bob_token"); window.location.href = "/login"; }}
           className="mt-8 text-primary hover:underline font-medium"
         >
-          Retour à la connexion
+          {t.common.back}
         </button>
       </div>
     );
@@ -93,24 +96,24 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   };
 
   const adminNavItems = [
-    { label: "Dashboard", path: "/admin", icon: LayoutDashboard },
-    { label: "Utilisateurs", path: "/admin/users", icon: Users },
-    { label: "Transactions", path: "/admin/transactions", icon: ListOrdered },
-    { label: "Virements", path: "/admin/bank-transfers", icon: Building },
-    { label: "Crypto", path: "/admin/crypto-transfers", icon: Bitcoin },
-    { label: "Soldes", path: "/admin/balances", icon: Wallet },
-    { label: "Notifications", path: "/admin/notifications", icon: Bell },
-    { label: "Contenu du Site", path: "/admin/content", icon: Globe },
-    { label: "Logs Système", path: "/admin/logs", icon: FileText },
+    { label: t.nav.admin.dashboard, path: "/admin", icon: LayoutDashboard },
+    { label: t.nav.admin.users, path: "/admin/users", icon: Users },
+    { label: t.nav.admin.transactions, path: "/admin/transactions", icon: ListOrdered },
+    { label: t.nav.admin.bankTransfers, path: "/admin/bank-transfers", icon: Building },
+    { label: t.nav.admin.cryptoTransfers, path: "/admin/crypto-transfers", icon: Bitcoin },
+    { label: t.nav.admin.balances, path: "/admin/balances", icon: Wallet },
+    { label: t.nav.admin.notifications, path: "/admin/notifications", icon: Bell },
+    { label: t.nav.admin.content, path: "/admin/content", icon: Globe },
+    { label: t.nav.admin.logs, path: "/admin/logs", icon: FileText },
   ];
 
   const userNavItems = [
-    { label: "Dashboard", path: "/dashboard", icon: LayoutDashboard },
-    { label: "Soldes & Portfolio", path: "/dashboard/portfolio", icon: Wallet },
-    { label: "Virements", path: "/dashboard/transfers", icon: ArrowRightLeft },
-    { label: "Transactions", path: "/dashboard/transactions", icon: ListOrdered },
-    { label: "Notifications", path: "/dashboard/notifications", icon: Bell },
-    { label: "Paramètres", path: "/dashboard/settings", icon: Settings },
+    { label: t.nav.dashboard, path: "/dashboard", icon: LayoutDashboard },
+    { label: t.nav.balances, path: "/dashboard/portfolio", icon: Wallet },
+    { label: t.nav.transfers, path: "/dashboard/transfers", icon: ArrowRightLeft },
+    { label: t.nav.transactions, path: "/dashboard/transactions", icon: ListOrdered },
+    { label: t.nav.notifications, path: "/dashboard/notifications", icon: Bell },
+    { label: t.nav.settings, path: "/dashboard/settings", icon: Settings },
   ];
 
   const navItems = isAdmin ? adminNavItems : userNavItems;
@@ -184,7 +187,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             className="flex items-center gap-3 px-3 py-2.5 w-full rounded-xl text-sm font-medium text-red-400 hover:bg-red-500/10 transition-colors"
           >
             <LogOut className="w-4 h-4" />
-            Déconnexion
+            {t.nav.logout}
           </button>
         </div>
       </aside>
@@ -210,6 +213,9 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
               Opérationnel
             </div>
+
+            {/* Language Switcher */}
+            <LanguageSwitcher />
 
             {/* Dark/Light toggle */}
             <button

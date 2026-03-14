@@ -11,7 +11,7 @@ export default function UserNotifications() {
   const markRead = useMarkNotificationRead();
   const queryClient = useQueryClient();
 
-  const notifications = data?.notifications ?? [];
+  const notifications = Array.isArray(data) ? data : (data as any)?.notifications ?? [];
   const unread = notifications.filter(n => !n.isRead);
 
   const getIcon = (type: string) => {

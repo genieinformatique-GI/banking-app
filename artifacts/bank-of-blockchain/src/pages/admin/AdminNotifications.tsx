@@ -48,14 +48,16 @@ export default function AdminNotifications() {
       return;
     }
     
-    // Si on veut envoyer à tous, dans l'API on passe null ou un format spécifique,
-    // mais selon les types, userId est optionnel.
-    const payload = {
-      userId: form.sendToAll ? undefined : Number(form.userId),
+    const payload: any = {
       title: form.title,
       message: form.message,
       type: form.type
     };
+    if (form.sendToAll) {
+      payload.sendToAll = true;
+    } else {
+      payload.userId = Number(form.userId);
+    }
 
     createMutation.mutate({ data: payload });
   };
@@ -161,7 +163,7 @@ export default function AdminNotifications() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {(notificationsData?.notifications ?? []).map(n => (
+                  {(Array.isArray(notificationsData) ? notificationsData : (notificationsData as any)?.notifications ?? []).map(n => (
                     <TableRow key={n.id}>
                       <TableCell>{getTypeIcon(n.type)}</TableCell>
                       <TableCell className="font-medium max-w-[200px] truncate" title={n.message}>
@@ -176,7 +178,7 @@ export default function AdminNotifications() {
                       <TableCell className="text-muted-foreground text-sm">{formatDate(n.createdAt)}</TableCell>
                     </TableRow>
                   ))}
-                  {(!notificationsData?.notifications || notificationsData.notifications.length === 0) && (
+                  {(Array.isArray(notificationsData) ? notificationsData : (notificationsData as any)?.notifications ?? []).length === 0 && (
                     <TableRow>
                       <TableCell colSpan={5} className="text-center p-8 text-muted-foreground">Aucune notification envoyée.</TableCell>
                     </TableRow>

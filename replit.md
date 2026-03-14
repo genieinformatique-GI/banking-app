@@ -36,7 +36,22 @@ artifacts-monorepo/
 ## Test Accounts
 
 - **Admin**: admin@bankofblockchain.com / Admin@2026!
-- **User**: jean@example.com / User@2026!
+- **User**: user@example.com / User@2026! (ID: 2, has full test data)
+- **User 2**: jean@example.com / User@2026! (ID: 3)
+
+## Multi-Language Support (i18n)
+
+The app includes a full i18n system supporting 10 languages:
+- 🇫🇷 Français (default), 🇬🇧 English, 🇪🇸 Español, 🇩🇪 Deutsch, 🇮🇹 Italiano
+- 🇧🇷 Português, 🇸🇦 العربية (RTL), 🇨🇳 中文, 🇷🇺 Русский, 🇹🇷 Türkçe
+
+Architecture:
+- `src/i18n/index.ts` — central config with `LangCode` type and locale map
+- `src/i18n/locales/{fr,en,es,de,it,pt,ar,zh,ru,tr}.ts` — translation files
+- `src/contexts/LanguageContext.tsx` — React context with `useLanguage()` hook
+- `src/components/LanguageSwitcher.tsx` — dropdown with flags in header
+- Language preference stored in `localStorage("bob_language")`
+- Arabic automatically sets `dir="rtl"` on the `<html>` element
 
 ## Authentication Flow
 
@@ -67,9 +82,10 @@ artifacts-monorepo/
 - `/admin/transactions` — Validate/reject transactions
 - `/admin/bank-transfers` — Validate/reject bank wire transfers
 - `/admin/crypto-transfers` — Validate/reject crypto transfers
-- `/admin/balances` — Edit user EUR/USD/BTC balances
-- `/admin/notifications` — Send notifications to users
-- `/admin/logs` — System action logs
+- `/admin/balances` — Edit user EUR/USD/BTC balances (set/credit/debit)
+- `/admin/notifications` — Send notifications to individual users or all users
+- `/admin/content` — Edit public site content (hero title, stats, contact, services)
+- `/admin/logs` — System action audit trail
 - `/admin/security` — User role management
 
 ## API Routes
