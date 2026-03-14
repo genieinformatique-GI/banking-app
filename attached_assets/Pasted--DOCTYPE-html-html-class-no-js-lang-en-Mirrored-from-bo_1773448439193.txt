@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+    
+<!-- Mirrored from bofblockchain.com/contact by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 09 Mar 2026 16:09:34 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+        <!-- Meta tag -->
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="keywords" content="Banque, Credit, pret personnel, simulation de credit, financement, investissement, credit auto, credit personnel, credit immobilier, compte bancaire, banque en ligne, " />
+		<meta name="description" content="Plateforme de financement vous proposant des crédits privés dès 2% ainsi que des solutions bancaires pour tous. Simulez votre crédit en ligne et obtenez votre financement en quelques minutes." />
+		<meta name="robots" content="noindex, nofollow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+		<link rel="canonical" href="https://bofblockchain.com/" />
+		<meta property="og:locale" content="fr_FR" />
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content="La Bank of Blockchain - Investissement, Financement, Simulation de crédit, Banque en ligne" />
+		<meta property="og:description" content="Plateforme de financement vous proposant des crédits privés dès 2% ainsi que des solutions bancaires pour tous. Simulez votre crédit en ligne et obtenez votre financement en quelques minutes." />
+		<meta property="og:url" content="https://bofblockchain.com/" />
+		<meta property="og:image" content="https://bofblockchain.com/template/img/BOB.png" />
+		
+		<!-- Title Tag -->
+        <title>Nous Contacter - La Bank of Blockchain - Investissement, Financement, Simulation de crédit, Banque en ligne</title>
+		
+		<!-- Favicon -->
+		<link rel="icon" type="image/png" href="https://bofblockchain.com/favicon.ico">	
+		
+        <link rel="stylesheet" href="https://bofblockchain.com/template/css/bootstrap.min.css">
+
+		<link rel="stylesheet" href="https://bofblockchain.com/template/css/animate.min.css">
+
+		<link rel="stylesheet" href="https://bofblockchain.com/template/css/fontawesome.min.css">
+
+		<link rel="stylesheet" href="https://bofblockchain.com/template/css/flaticon.css">
+
+		<link rel="stylesheet" href="https://bofblockchain.com/template/css/owl.carousel.min.css">
+
+		<link rel="stylesheet" href="https://bofblockchain.com/template/css/slick.min.css">
+
+		<link rel="stylesheet" href="https://bofblockchain.com/template/css/meanmenu.css">
+
+		<link rel="stylesheet" href="https://bofblockchain.com/template/css/magnific-popup.min.css">
+
+		<link rel="stylesheet" href="https://bofblockchain.com/template/css/odometer.min.css">
+
+		<link rel="stylesheet" href="https://bofblockchain.com/template/css/nice-select.min.css">
+
+		<link rel="stylesheet" href="https://bofblockchain.com/template/css/style.css">
+
+		<link rel="stylesheet" href="https://bofblockchain.com/template/css/responsive.css">
+        <style>
+            .flashy {
+                z-index: 10000 !important;
+            }
+            
+        </style>
+        <style>
+            .flashy {
+                z-index: 10000 !important;
+            }
+            
+        </style>
+        <style type="text/css">
+			a.gflag {vertical-align:middle;font-size:16px;padding:1px 0;background-repeat:no-repeat;background-image:url(http://gtranslate.net/flags/16.png);}
+			a.gflag img {border:0;}
+			a.gflag:hover {background-image:url(http://gtranslate.net/flags/16a.png);}
+			#goog-gt-tt {display:none !important;}
+			.goog-te-banner-frame {display:none !important;}
+			.goog-te-menu-value:hover {text-decoration:none !important;}
+			body {top:0 !important;}
+			#google_translate_element2 {display:none!important;}
+			</style>
+
+			<div id="google_translate_element2"></div>
+			<script type="text/javascript">
+			function googleTranslateElementInit2() {new google.translate.TranslateElement({pageLanguage: 'fr',autoDisplay: false}, 'google_translate_element2');}
+			</script><script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit2"></script>
+
+
+			<script type="text/javascript">
+			/* <![CDATA[ */
+			eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--)r[e(c)]=k[c]||e(c);k=[function(e){return r[e]}];e=function(){return'\\w+'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}('6 7(a,b){n{4(2.9){3 c=2.9("o");c.p(b,f,f);a.q(c)}g{3 c=2.r();a.s(\'t\'+b,c)}}u(e){}}6 h(a){4(a.8)a=a.8;4(a==\'\')v;3 b=a.w(\'|\')[1];3 c;3 d=2.x(\'y\');z(3 i=0;i<d.5;i++)4(d[i].A==\'B-C-D\')c=d[i];4(2.j(\'k\')==E||2.j(\'k\').l.5==0||c.5==0||c.l.5==0){F(6(){h(a)},G)}g{c.8=b;7(c,\'m\');7(c,\'m\')}}',43,43,'||document|var|if|length|function|GTranslateFireEvent|value|createEvent||||||true|else|doGTranslate||getElementById|google_translate_element2|innerHTML|change|try|HTMLEvents|initEvent|dispatchEvent|createEventObject|fireEvent|on|catch|return|split|getElementsByTagName|select|for|className|goog|te|combo|null|setTimeout|500'.split('|'),0,{}))
+			/* ]]> */
+			</script>
+		<style>
+			.float{
+				position:fixed;
+				width:60px;
+				height:60px;
+				bottom:60px;
+				right:10px;
+				background-color:#25d366;
+				color:#FFF;
+				border-radius:50px;
+				text-align:center;
+				font-size:30px;
+				box-shadow: 2px 2px 3px #999;
+				z-index:100;
+			}
+
+			.my-float{
+				margin-top:16px;
+			}
+		</style>
+        
+    </head>
+    <body >
+		
+		<header class="header-area">
+  <div class="top-header">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-5 col-md-12">
+          <ul class="top-header-nav">
+                        <li><a href="https://bofblockchain.com/ouverture-de-compte">Activation de compte</a></li>
+            <li><a href="https://bofblockchain.com/espace-client">Espace client</a></li>
+                      </ul>
+        </div>
+        <div class="col-lg-7 col-md-12">
+          <div class="top-header-right-side">
+            <ul>
+              <li>
+                <div class="icon">
+                  <i class="flaticon-email"></i>
+                </div>
+                <span>Écrivez-nous:</span>
+                <a href="mailto:infos@bofblockchain.com"><span class="__cf_email__" data-cfemail="4c25222a230c3c292d3e23622f2321">infos@bofblockchain.com</span></a>
+              </li>
+              <li>
+                <a href="https://bofblockchain.com/contact" class="default-btn">Discuter avec un agent <span></span></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="navbar-area">
+    <div class="pearo-responsive-nav">
+      <div class="container">
+        <div class="pearo-responsive-menu">
+          <div class="logo">
+            <a href="https://bofblockchain.com/"><img src="https://bofblockchain.com/template/img/logo_black.png" alt="logo" style="width:150px;"></a>
+          </div>
+        </div>
+      </div>
+    </div> 
+    <div class="pearo-nav">
+      <div class="container">
+        <nav class="navbar navbar-expand-md navbar-light">
+          <a class="navbar-brand" href="https://bofblockchain.com/"><img src="https://bofblockchain.com/template/img/logo_black.png" alt="logo" style="width:150px;"></a>
+          <div class="collapse navbar-collapse mean-menu" id="navbarSupportedContent">
+            <ul class="navbar-nav">
+              <li class="nav-item"><a href="https://bofblockchain.com/" class="nav-link">Accueil</a></li>
+              <li class="nav-item"><a href="https://bofblockchain.com/la-banque" class="nav-link">La Banque</a></li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">Nos Services <i class="flaticon-down-arrow"></i></a>
+                <ul class="dropdown-menu">
+                  <li class="nav-item"><a href="https://bofblockchain.com/nos-services/remboursement-des-pertes" class="nav-link">Remboursement des pertes</a></li>
+                  <li class="nav-item"><a href="https://bofblockchain.com/nos-services/securisation-des-investissements" class="nav-link">Sécurisation des investissements</a></li>
+                  <li class="nav-item"><a href="https://bofblockchain.com/nos-services/conseil-et-accompagnement" class="nav-link">Conseil et accompagnement</a></li>
+                  <li class="nav-item"><a href="https://bofblockchain.com/nos-services/services-de-staking" class="nav-link">Services de staking</a></li>
+                  <li class="nav-item"><a href="https://bofblockchain.com/nos-services/licence-de-trading" class="nav-link">Licence de Trading</a></li>
+                  <li class="nav-item"><a href="https://bofblockchain.com/nos-services/taxe-crypto" class="nav-link">Taxe Crypto</a></li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">Pourquoi Nous Choisir <i class="flaticon-down-arrow"></i></a>
+                <ul class="dropdown-menu">
+                  <li class="nav-item"><a href="https://bofblockchain.com/engagement-securite-et-transparence" class="nav-link">Engagement envers la sécurité et la transparence</a></li>
+                  <li class="nav-item"><a href="https://bofblockchain.com/partenariats-amf-sec" class="nav-link">Partenariats AMF et SEC</a></li>
+                </ul>
+              </li>
+              <li class="nav-item"><a href="https://bofblockchain.com/nos-services/assurancecrypto" class="nav-link">Assurance crypto</a></li>
+              <li class="nav-item"><a href="https://bofblockchain.com/nos-services/faqs" class="nav-link">FAQs</a></li>
+              
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="sidebar-modal">
+  <div class="sidebar-modal-inner">
+    <div class="sidebar-about-area">
+      <div class="title">
+        <h2>About Us</h2>
+        <p>
+          We believe brand interaction is key in communication. Real innovations and a positive customer experience are the heart of successful communication. No fake products and services. The customer is king, their lives and needs are the inspiration.
+        </p>
+      </div>
+    </div>
+    <div class="sidebar-instagram-feed">
+      <h2>Instagram</h2>
+      <ul>
+        <li>
+          <a href="https://bofblockchain.com/single-blog.html"><img src="https://bofblockchain.com/assets/img/blog-image/1.jpg" alt="image"></a>
+        </li>
+        <li>
+          <a href="https://bofblockchain.com/single-blog.html"><img src="https://bofblockchain.com/assets/img/blog-image/2.jpg" alt="image"></a>
+        </li>
+        <li>
+          <a href="https://bofblockchain.com/single-blog.html"><img src="https://bofblockchain.com/assets/img/blog-image/3.jpg" alt="image"></a>
+        </li>
+        <li>
+          <a href="https://bofblockchain.com/single-blog.html"><img src="https://bofblockchain.com/assets/img/blog-image/4.jpg" alt="image"></a>
+        </li>
+        <li>
+          <a href="https://bofblockchain.com/single-blog.html"><img src="https://bofblockchain.com/assets/img/blog-image/5.jpg" alt="image"></a>
+        </li>
+        <li>
+          <a href="https://bofblockchain.com/single-blog.html"><img src="https://bofblockchain.com/assets/img/blog-image/6.jpg" alt="image"></a>
+        </li>
+        <li>
+          <a href="https://bofblockchain.com/single-blog.html"><img src="https://bofblockchain.com/assets/img/blog-image/7.jpg" alt="image"></a>
+        </li>
+        <li>
+          <a href="https://bofblockchain.com/single-blog.html"><img src="https://bofblockchain.com/assets/img/blog-image/8.jpg" alt="image"></a>
+        </li>
+      </ul>
+    </div>
+    <div class="sidebar-contact-area">
+      <div class="sidebar-contact-info">
+        <div class="contact-info-content">
+          <h2>
+            <a href="tel:+0881306298615">+088 130 629 8615</a>
+            <span>OR</span>
+            <a href="https://bofblockchain.com/cdn-cgi/l/email-protection#90e0f5f1e2ffd0f7fdf1f9fcbef3fffd"><span class="__cf_email__" data-cfemail="bcccd9ddced3fcdbd1ddd5d092dfd3d1">[email&#160;protected]</span></a>
+          </h2>
+          <ul class="social">
+            <li>
+              <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+            </li>
+            <li>
+              <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+            </li>
+            <li>
+              <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            </li>
+            <li>
+              <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+            </li>
+            <li>
+              <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <span class="close-btn sidebar-modal-close-btn"><i class="flaticon-cross-out"></i></span>
+  </div>
+</div>
+
+		<div class="page-title-area page-title-bg3">
+	<div class="d-table">
+		<div class="d-table-cell">
+			<div class="container">
+				<div class="page-title-content">
+					<h2>Contact</h2>
+					<ul>
+						<li><a href="https://bofblockchain.com/">Accueil</a></li>
+						<li>Contact</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<section class="contact-area ptb-100">
+	<div class="container">
+		<div class="section-title">
+			<span class="sub-title">Nous Contacter</span>
+			<h2>Avez-vous une question?</h2>
+			<p>
+				Remplissez ce formulaire et un de nos agents vous répond dans les plus brefs delais.
+			</p>
+		</div>
+		<div class="row">
+			<div class="col-lg-6 col-md-12">
+				<div class="contact-form">
+					<form id="" method="post" action="https://bofblockchain.com/contact">
+						<input type="hidden" name="_token" value="HsAk29AdzlF7GUGWabXITwtCxAkz7lMahz2g0xME">
+						<div class="row">
+							<div class="col-lg-12 col-md-6">
+								<div class="form-group">
+									<input type="text" name="nom" id="nom" class="form-control"  required data-error="Nom & Prenoms obligatoires" placeholder="Nom & Prénoms" value="">
+									<div class="help-block with-errors"></div>
+								</div>
+							</div>
+							<div class="col-lg-12 col-md-6">
+								<div class="form-group">
+									<input type="email" name="email" id="email" class="form-control"  required data-error="Email obligatoire"  placeholder="Email" value="">
+									<div class="help-block with-errors"></div>
+								</div>
+							</div>
+							<div class="col-lg-12 col-md-12">
+								<div class="form-group">
+									<input type="text" name="motif" id="motif"  class="form-control" required data-error="Renseignez le sujet de votre message" placeholder="Sujet"  value="">
+									<div class="help-block with-errors"></div>
+								</div>
+							</div>
+							<div class="col-lg-12 col-md-12">
+								<div class="form-group">
+									<textarea name="messages" class="form-control" id="messages" cols="30" required data-error="Tapez votre message" rows="6" placeholder="Votre Message"></textarea>
+									<div class="help-block with-errors"></div>
+								</div>
+							</div>
+							<div class="col-lg-12 col-md-12">
+								<button type="submit" class="default-btn">Envoyer mon message <span></span></button>
+								
+								<div class="clearfix"></div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="col-lg-6 col-md-12">
+				<div id="map">
+					<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d40940.42760192939!2d8.703113!3d50.109186!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47bd0ea97ee09d53%3A0xce2e404638193ffd!2sBanque%20centrale%20europ%C3%A9enne%20(BOB)!5e0!3m2!1sfr!2sbj!4v1706544180459!5m2!1sfr!2sbj" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+				</div>
+			</div>
+		</div>
+		<div class="contact-info">
+			<div class="contact-info-content">
+				<h3>Contactez-nous par E-mail</h3>
+				<h2>
+					<a href="mailto:infos@bofblockchain.com">infos@bofblockchain.com</a>
+				</h2>
+				<ul class="social">
+					<li>
+						<a href="javascript:;" target="_blank"><i class="fab fa-twitter"></i></a>
+					</li>
+					<li>
+						<a href="javascript:;" target="_blank"><i class="fab fa-youtube"></i></a>
+					</li>
+					<li>
+						<a href="https://www.facebook.com/UnitedCreditPartnerx" target="_blank"><i class="fab fa-facebook-f"></i></a>
+					</li>
+					<li>
+						<a href="javascript:;" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+					</li>
+					<li>
+						<a href="https://www.instagram.com/united.credit.partners/" target="_blank"><i class="fab fa-instagram"></i></a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="bg-map">
+		<img src="https://bofblockchain.com/template/img/bg-map.png" alt="image">
+	</div>
+</section>
+
+
+		<footer class="footer-area">
+  <div class="container">
+    <div class="subscribe-area">
+      <div class="row align-items-center">
+        <div class="col-lg-5 col-md-12">
+          <div class="subscribe-content">
+            <h2>Newsletter</h2>
+            <p>
+              Inscrivez-vous et recevez chaque semaine nos meilleures offres bancaires par e-mail.
+            </p>
+          </div>
+        </div>
+        <div class="col-lg-7 col-md-12">
+          <div class="subscribe-form">
+            <form class="newsletter-form" method="POST" action="https://bofblockchain.com/newsletter">
+              <input type="hidden" name="_token" value="HsAk29AdzlF7GUGWabXITwtCxAkz7lMahz2g0xME">
+              <input type="email" class="input-newsletter" placeholder="Entrez votre adresse e-mail" name="email" required>
+              <button type="submit">Souscrire maintenant <i class="flaticon-right-chevron"></i></button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-4 col-md-6 col-sm-6">
+        <div class="single-footer-widget">
+          <div class="logo">
+            <p>
+              Depuis plusieurs années, nous proposons à nos internautes nos meilleures offres de financement. Une solution pour chaque situation.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6 col-sm-6">
+        <div class="single-footer-widget">
+          <h3>Liens Utiles</h3>
+          <ul class="footer-quick-links">
+            <li><a href="https://bofblockchain.com/">Accueil</a></li>
+            <li><a href="https://bofblockchain.com/la-banque">Qui sommes-nous</a></li>
+            <li><a href="https://bofblockchain.com/la-banque">Assurance Crypto</a></li>
+            <li><a href="#">Nos services</a></li>
+            <li><a href="https://bofblockchain.com/contact">Nous contacter</a></li>
+            <li><a href="https://bofblockchain.com/contact">Faqs</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6 col-sm-6 offset-lg-0 offset-sm-3 offset-md-3">
+        <div class="single-footer-widget">
+          <h3>Informations de contact</h3>
+          <ul class="footer-contact-info">
+            <li><span>Localisation:</span> ECB Tower, Sonnemannstraße 20, 60314 Frankfurt am Main, Allemagne</li>
+            <li>
+              <span>Email:</span>
+              <a href="#"><span class="__cf_email__" data-cfemail="1a6a7f7b68755a7d777b737634797577">infos@bofblockchain.com</span></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="copyright-area">
+      <div class="row ">
+        <div class="col-lg-6 col-sm-6 col-md-6">
+          <p>
+            <a href="https://bofblockchain.com/" target="_blank">© Bank of Blockchain</a>, 2024 - Tous Droits Réservés
+          </p>
+          <div class="gtranslate_wrapper"></div>
+<script>window.gtranslateSettings = {"default_language":"fr","languages":["fr","en","de","nl","es","sk","ru"],"wrapper_selector":".gtranslate_wrapper","switcher_horizontal_position":"right","flag_style":"3d"}</script>
+<script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>		<div class="go-top"><i class="fas fa-chevron-up"></i><i class="fas fa-chevron-up"></i></div>
+
+		<script data-cfasync="false" src="https://bofblockchain.com/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://bofblockchain.com/template/js/jquery.min.js"></script>
+
+		<script src="https://bofblockchain.com/template/js/popper.min.js"></script>
+
+		<script src="https://bofblockchain.com/template/js/bootstrap.min.js"></script>
+
+		<script src="https://bofblockchain.com/template/js/parallax.min.js"></script>
+
+		<script src="https://bofblockchain.com/template/js/owl.carousel.min.js"></script>
+
+		<script src="https://bofblockchain.com/template/js/slick.min.js"></script>
+
+		<script src="https://bofblockchain.com/template/js/jquery.meanmenu.js"></script>
+
+		<script src="https://bofblockchain.com/template/js/jquery.appear.min.js"></script>
+
+		<script src="https://bofblockchain.com/template/js/odometer.min.js"></script>
+
+		<script src="https://bofblockchain.com/template/js/jquery.nice-select.min.js"></script>
+
+		<script src="https://bofblockchain.com/template/js/jquery.magnific-popup.min.js"></script>
+
+		<script src="https://bofblockchain.com/template/js/wow.min.js"></script>
+
+		<script src="https://bofblockchain.com/template/js/jquery.ajaxchimp.min.js"></script>
+
+		<script src="https://bofblockchain.com/template/js/form-validator.min.js"></script>
+
+		<script src="https://bofblockchain.com/template/js/contact-form-script.js"></script>
+
+		<script src="https://bofblockchain.com/template/js/main.js"></script>
+		<style>
+.flashy {
+    font-family: Arial, sans-serif;
+    padding: 11px 30px;
+    border-radius: 4px;
+    font-weight: 400;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-size: 16px;
+    color: #fff;
+}
+
+.flashy--success {
+    background-color: #99c93d;
+    color: #fff;
+}
+
+.flashy--warning {
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+    border-color: #faebcc;
+}
+
+.flashy--muted {
+    background: #eee;
+    color: #3a3a3a;
+    border: 1px solid #e2e2e2;
+}
+
+.flashy--muted-dark {
+    background: #133259;
+    color: #e2e1e7;
+}
+
+.flashy--info a,
+.flashy--primary-dark a {
+    color: #fff;
+}
+
+.flashy--error {
+    background: #d14130;
+    color: #fff;
+}
+
+.flashy--primary {
+    background: #573e81;
+}
+
+.flashy--primary-dark {
+    background: linear-gradient(to right, #133259 30%, #0d233e);
+}
+
+.flashy--info {
+    background: #00baf3;
+}
+
+.flashy > ul {
+    padding-left: 15px;
+}
+
+.flashy > p:only-of-type {
+    margin-bottom: 0;
+}
+
+.flashy i {
+    margin-right: 8px;
+    position: relative;
+    top: 6px;
+}
+
+.flashy .flashy__body {
+    color: inherit;
+}
+
+@media  only screen and (max-width:1050px) {
+    .flashy {
+        text-align: center;
+        right: 0;
+        left: 50%;
+        width: 300px;
+        margin-left: -150px;
+    }
+}
+</style>
+
+<script>
+    function flashy(message, link) {
+        var template = $($("#flashy-template").html());
+        $(".flashy").remove();
+        template.find(".flashy__body").html(message).attr("href", link || "#").end()
+         .appendTo("body").hide().fadeIn(300).delay(2800).animate({
+            marginRight: "-100%"
+        }, 300, "swing", function() {
+            $(this).remove();
+        });
+    }
+</script>
+
+				
+    </body>
+
+
+<!-- Mirrored from bofblockchain.com/contact by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 09 Mar 2026 16:09:34 GMT -->
+</html>

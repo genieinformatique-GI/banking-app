@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+    
+<!-- Mirrored from bofblockchain.com/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 09 Mar 2026 16:06:57 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+        <!-- Meta tag -->
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="keywords" content="Banque, Credit, pret personnel, simulation de credit, financement, investissement, credit auto, credit personnel, credit immobilier, compte bancaire, banque en ligne, " />
+		<meta name="description" content="Plateforme de financement vous proposant des crédits privés dès 2% ainsi que des solutions bancaires pour tous. Simulez votre crédit en ligne et obtenez votre financement en quelques minutes." />
+		<meta name="robots" content="noindex, nofollow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+		<link rel="canonical" href="https://bofblockchain.com/" />
+		<meta property="og:locale" content="fr_FR" />
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content="La Bank of Blockchain - Investissement, Financement, Simulation de crédit, Banque en ligne" />
+		<meta property="og:description" content="Plateforme de financement vous proposant des crédits privés dès 2% ainsi que des solutions bancaires pour tous. Simulez votre crédit en ligne et obtenez votre financement en quelques minutes." />
+		<meta property="og:url" content="https://bofblockchain.com/" />
+		<meta property="og:image" content="https://bofblockchain.com/template/img/BOB.png" />
+		
+		<!-- Title Tag -->
+        <title>Accueil - La Bank of Blockchain - Investissement, Financement, Simulation de crédit, Banque en ligne</title>
+		
+		<!-- Favicon -->
+		<link rel="icon" type="image/png" href="https://bofblockchain.com/favicon.ico">	
+		
+        <link rel="stylesheet" href="https://bofblockchain.com/template/css/bootstrap.min.css">
+
+		<link rel="stylesheet" href="https://bofblockchain.com/template/css/animate.min.css">
+
+		<link rel="stylesheet" href="https://bofblockchain.com/template/css/fontawesome.min.css">
+
+		<link rel="stylesheet" href="https://bofblockchain.com/template/css/flaticon.css">
+
+		<link rel="stylesheet" href="https://bofblockchain.com/template/css/owl.carousel.min.css">
+
+		<link rel="stylesheet" href="https://bofblockchain.com/template/css/slick.min.css">
+
+		<link rel="stylesheet" href="https://bofblockchain.com/template/css/meanmenu.css">
+
+		<link rel="stylesheet" href="https://bofblockchain.com/template/css/magnific-popup.min.css">
+
+		<link rel="stylesheet" href="https://bofblockchain.com/template/css/odometer.min.css">
+
+		<link rel="stylesheet" href="https://bofblockchain.com/template/css/nice-select.min.css">
+
+		<link rel="stylesheet" href="https://bofblockchain.com/template/css/style.css">
+
+		<link rel="stylesheet" href="https://bofblockchain.com/template/css/responsive.css">
+        <style>
+            .flashy {
+                z-index: 10000 !important;
+            }
+            
+        </style>
+        <style>
+            .flashy {
+                z-index: 10000 !important;
+            }
+            
+        </style>
+        <style type="text/css">
+			a.gflag {vertical-align:middle;font-size:16px;padding:1px 0;background-repeat:no-repeat;background-image:url(http://gtranslate.net/flags/16.png);}
+			a.gflag img {border:0;}
+			a.gflag:hover {background-image:url(http://gtranslate.net/flags/16a.png);}
+			#goog-gt-tt {display:none !important;}
+			.goog-te-banner-frame {display:none !important;}
+			.goog-te-menu-value:hover {text-decoration:none !important;}
+			body {top:0 !important;}
+			#google_translate_element2 {display:none!important;}
+			</style>
+
+			<div id="google_translate_element2"></div>
+			<script type="text/javascript">
+			function googleTranslateElementInit2() {new google.translate.TranslateElement({pageLanguage: 'fr',autoDisplay: false}, 'google_translate_element2');}
+			</script><script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit2"></script>
+
+
+			<script type="text/javascript">
+			/* <![CDATA[ */
+			eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--)r[e(c)]=k[c]||e(c);k=[function(e){return r[e]}];e=function(){return'\\w+'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}('6 7(a,b){n{4(2.9){3 c=2.9("o");c.p(b,f,f);a.q(c)}g{3 c=2.r();a.s(\'t\'+b,c)}}u(e){}}6 h(a){4(a.8)a=a.8;4(a==\'\')v;3 b=a.w(\'|\')[1];3 c;3 d=2.x(\'y\');z(3 i=0;i<d.5;i++)4(d[i].A==\'B-C-D\')c=d[i];4(2.j(\'k\')==E||2.j(\'k\').l.5==0||c.5==0||c.l.5==0){F(6(){h(a)},G)}g{c.8=b;7(c,\'m\');7(c,\'m\')}}',43,43,'||document|var|if|length|function|GTranslateFireEvent|value|createEvent||||||true|else|doGTranslate||getElementById|google_translate_element2|innerHTML|change|try|HTMLEvents|initEvent|dispatchEvent|createEventObject|fireEvent|on|catch|return|split|getElementsByTagName|select|for|className|goog|te|combo|null|setTimeout|500'.split('|'),0,{}))
+			/* ]]> */
+			</script>
+		<style>
+			.float{
+				position:fixed;
+				width:60px;
+				height:60px;
+				bottom:60px;
+				right:10px;
+				background-color:#25d366;
+				color:#FFF;
+				border-radius:50px;
+				text-align:center;
+				font-size:30px;
+				box-shadow: 2px 2px 3px #999;
+				z-index:100;
+			}
+
+			.my-float{
+				margin-top:16px;
+			}
+		</style>
+                 <style>
+	.slidecontainer {
+	  width: 100%;
+	}
+	
+	.slider {
+	  -webkit-appearance: none;
+	  width: 100%;
+	  height: 25px;
+	  border-radius: 5px;
+	  background: #eeeeee;
+	  -webkit-box-shadow: 1px 2px 9px -1px rgba(0,0,0,0.21);
+		-moz-box-shadow: 1px 2px 9px -1px rgba(0,0,0,0.21);
+		box-shadow: 1px 2px 9px -1px rgba(0,0,0,0.21);
+	  outline: none;
+	  opacity: 0.7;
+	  -webkit-transition: .2s;
+	  transition: opacity .2s;
+	}
+	
+	.slider:hover {
+	  opacity: 1;
+	}
+	
+	.slider::-webkit-slider-thumb {
+	  -webkit-appearance: none;
+	  appearance: none;
+	  width: 35px;
+	  height: 35px;
+	  border-radius: 50%;
+	  background: #225473;
+	  cursor: pointer;
+	}
+	
+	.slider::-moz-range-thumb {
+	  width: 35px;
+	  height: 35px;
+	  border-radius: 50%;
+	  background: #225473;
+	  cursor: pointer;
+	}
+	</style>
+        
+    </head>
+    <body >
+		
+		<header class="header-area">
+  <div class="top-header">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-5 col-md-12">
+          <ul class="top-header-nav">
+                        <li><a href="https://bofblockchain.com/ouverture-de-compte">Activation de compte</a></li>
+            <li><a href="https://bofblockchain.com/espace-client">Espace client</a></li>
+                      </ul>
+        </div>
+        <div class="col-lg-7 col-md-12">
+          <div class="top-header-right-side">
+            <ul>
+              <li>
+                <div class="icon">
+                  <i class="flaticon-email"></i>
+                </div>
+                <span>Écrivez-nous:</span>
+                <a href="mailto:infos@bofblockchain.com"><span class="__cf_email__" data-cfemail="4c25222a230c3c292d3e23622f2321">infos@bofblockchain.com</span></a>
+              </li>
+              <li>
+                <a href="https://bofblockchain.com/contact" class="default-btn">Discuter avec un agent <span></span></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="navbar-area">
+    <div class="pearo-responsive-nav">
+      <div class="container">
+        <div class="pearo-responsive-menu">
+          <div class="logo">
+            <a href="https://bofblockchain.com/"><img src="https://bofblockchain.com/template/img/logo_black.png" alt="logo" style="width:150px;"></a>
+          </div>
+        </div>
+      </div>
+    </div> 
+    <div class="pearo-nav">
+      <div class="container">
+        <nav class="navbar navbar-expand-md navbar-light">
+          <a class="navbar-brand" href="https://bofblockchain.com/"><img src="https://bofblockchain.com/template/img/logo_black.png" alt="logo" style="width:150px;"></a>
+          <div class="collapse navbar-collapse mean-menu" id="navbarSupportedContent">
+            <ul class="navbar-nav">
+              <li class="nav-item"><a href="https://bofblockchain.com/" class="nav-link">Accueil</a></li>
+              <li class="nav-item"><a href="https://bofblockchain.com/la-banque" class="nav-link">La Banque</a></li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">Nos Services <i class="flaticon-down-arrow"></i></a>
+                <ul class="dropdown-menu">
+                  <li class="nav-item"><a href="https://bofblockchain.com/nos-services/remboursement-des-pertes" class="nav-link">Remboursement des pertes</a></li>
+                  <li class="nav-item"><a href="https://bofblockchain.com/nos-services/securisation-des-investissements" class="nav-link">Sécurisation des investissements</a></li>
+                  <li class="nav-item"><a href="https://bofblockchain.com/nos-services/conseil-et-accompagnement" class="nav-link">Conseil et accompagnement</a></li>
+                  <li class="nav-item"><a href="https://bofblockchain.com/nos-services/services-de-staking" class="nav-link">Services de staking</a></li>
+                  <li class="nav-item"><a href="https://bofblockchain.com/nos-services/licence-de-trading" class="nav-link">Licence de Trading</a></li>
+                  <li class="nav-item"><a href="https://bofblockchain.com/nos-services/taxe-crypto" class="nav-link">Taxe Crypto</a></li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">Pourquoi Nous Choisir <i class="flaticon-down-arrow"></i></a>
+                <ul class="dropdown-menu">
+                  <li class="nav-item"><a href="https://bofblockchain.com/engagement-securite-et-transparence" class="nav-link">Engagement envers la sécurité et la transparence</a></li>
+                  <li class="nav-item"><a href="https://bofblockchain.com/partenariats-amf-sec" class="nav-link">Partenariats AMF et SEC</a></li>
+                </ul>
+              </li>
+              <li class="nav-item"><a href="https://bofblockchain.com/nos-services/assurancecrypto" class="nav-link">Assurance crypto</a></li>
+              <li class="nav-item"><a href="https://bofblockchain.com/nos-services/faqs" class="nav-link">FAQs</a></li>
+              
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="sidebar-modal">
+  <div class="sidebar-modal-inner">
+    <div class="sidebar-about-area">
+      <div class="title">
+        <h2>About Us</h2>
+        <p>
+          We believe brand interaction is key in communication. Real innovations and a positive customer experience are the heart of successful communication. No fake products and services. The customer is king, their lives and needs are the inspiration.
+        </p>
+      </div>
+    </div>
+    <div class="sidebar-instagram-feed">
+      <h2>Instagram</h2>
+      <ul>
+        <li>
+          <a href="https://bofblockchain.com/single-blog.html"><img src="https://bofblockchain.com/assets/img/blog-image/1.jpg" alt="image"></a>
+        </li>
+        <li>
+          <a href="https://bofblockchain.com/single-blog.html"><img src="https://bofblockchain.com/assets/img/blog-image/2.jpg" alt="image"></a>
+        </li>
+        <li>
+          <a href="https://bofblockchain.com/single-blog.html"><img src="https://bofblockchain.com/assets/img/blog-image/3.jpg" alt="image"></a>
+        </li>
+        <li>
+          <a href="https://bofblockchain.com/single-blog.html"><img src="https://bofblockchain.com/assets/img/blog-image/4.jpg" alt="image"></a>
+        </li>
+        <li>
+          <a href="https://bofblockchain.com/single-blog.html"><img src="https://bofblockchain.com/assets/img/blog-image/5.jpg" alt="image"></a>
+        </li>
+        <li>
+          <a href="https://bofblockchain.com/single-blog.html"><img src="https://bofblockchain.com/assets/img/blog-image/6.jpg" alt="image"></a>
+        </li>
+        <li>
+          <a href="https://bofblockchain.com/single-blog.html"><img src="https://bofblockchain.com/assets/img/blog-image/7.jpg" alt="image"></a>
+        </li>
+        <li>
+          <a href="https://bofblockchain.com/single-blog.html"><img src="https://bofblockchain.com/assets/img/blog-image/8.jpg" alt="image"></a>
+        </li>
+      </ul>
+    </div>
+    <div class="sidebar-contact-area">
+      <div class="sidebar-contact-info">
+        <div class="contact-info-content">
+          <h2>
+            <a href="tel:+0881306298615">+088 130 629 8615</a>
+            <span>OR</span>
+            <a href="https://bofblockchain.com/cdn-cgi/l/email-protection#90e0f5f1e2ffd0f7fdf1f9fcbef3fffd"><span class="__cf_email__" data-cfemail="bcccd9ddced3fcdbd1ddd5d092dfd3d1">[email&#160;protected]</span></a>
+          </h2>
+          <ul class="social">
+            <li>
+              <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+            </li>
+            <li>
+              <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+            </li>
+            <li>
+              <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            </li>
+            <li>
+              <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+            </li>
+            <li>
+              <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <span class="close-btn sidebar-modal-close-btn"><i class="flaticon-cross-out"></i></span>
+  </div>
+</div>
+
+		<div class="home-area home-slides-two owl-carousel owl-theme">
+  <div class="banner-section item-bg3">
+    <div class="d-table">
+      <div class="d-table-cell">
+        <div class="container">
+          <div class="main-banner-content">
+            <span class="sub-title">Chez Bank of Blockchain</span>
+            <h1>Ici, votre rêve devient réalité!</h1>
+            <p>
+              La première plateforme qui rembourse les investisseurs victimes de fraudes et de faillites en cryptomonnaie.
+            </p>
+            <div class="btn-box">
+              <a href="https://bofblockchain.com/la-banque" class="default-btn">Qui sommes-nous? <span></span></a>
+              <a href="https://bofblockchain.com/contact" class="optional-btn">Nous Contacter <span></span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="banner-section item-bg1">
+    <div class="d-table">
+      <div class="d-table-cell">
+        <div class="container">
+          <div class="main-banner-content">
+            <span class="sub-title">Notre Solution</span>
+            <h1>Une banque basée sur la blockchain</h1>
+            <p>
+              Nous Analysons, validons les pertes des investisseurs & Remboursons en cryptomonnaie grâce à un fonds décentralisé
+            </p>
+            <div class="btn-box">
+              <a href="https://bofblockchain.com/ouverture-de-compte" class="optional-btn">Ouvrir mon compte de Remboursement<span></span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<section class="about-area ptb-100 bg-f8f8f8">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6 col-md-12">
+        <div class="about-title">
+          <span>A propos de la BOB</span>
+          <h4><em>Un écosystème de confiance pour les investisseurs</em></h4>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-12">
+        <div class="about-text">
+          <p>
+            La banque blockchain est l’organisme de régulation des transactions de cryptomonnaie sur le marché financier. Nous travaillons en collaboration avec l’AMF et la SEC.
+          </p>
+          <a href="https://bofblockchain.com/la-banque" class="read-more-btn">En Savoir Plus <i class="flaticon-right-chevron"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="about-boxes-area">
+      <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-6">
+          <div class="single-about-box">
+            <div class="icon">
+              <i class="fa fa-chart-line"></i>
+            </div>
+            <h3>Analyse de vos pertes</h3>
+            <p>
+              Nous examinons votre dossier et analysons vos pertes grâce à la blockchain pour garantir l’authenticité de votre réclamation.
+            </p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6">
+          <div class="single-about-box">
+            <div class="icon">
+              <i class="fab fa-btc"></i>
+            </div>
+            <h3>Remboursement en cryptomonnaie</h3>
+            <p>
+              Une fois votre dossier validé, nous vous remboursons en cryptomonnaie via un processus automatisé et sécurisé.
+            </p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6">
+          <div class="single-about-box">
+            <div class="icon">
+              <i class="fas fa-user-shield"></i>
+            </div>
+            <h3>Sécurité et transparence</h3>
+            <p>
+              Nos smart contracts garantissent un remboursement équitable et traçable, sans intermédiaires ni risques de fraude.
+            </p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 offset-lg-0 offset-md-3 offset-sm-3 col-sm-6">
+          <div class="single-about-box">
+            <div class="icon">
+              <i class="fas fa-people-carry"></i>
+            </div>
+            <h3>Une communauté engagée</h3>
+            <p>
+              Rejoignez une communauté qui défend la justice financière et protège les investisseurs dans l’univers crypto.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="our-mission-area">
+	<div class="container-fluid p-0">
+		<div class="row m-0">
+			<div class="col-lg-3 col-md-6 p-0">
+				<div class="mission-image bg-1">
+					<img src="https://bofblockchain.com/template/img/vision-BOB.jpg" alt="image">
+				</div>
+			</div>
+			<div class="col-lg-3 col-md-6 p-0">
+				<div class="mission-text">
+					<div class="icon">
+						<i class="fas fa-landmark"></i>
+					</div>
+					<h3>Notre Vision</h3>
+					<p>
+						Nous voulons révolutionner le monde de l’investissement crypto en rendant la finance plus sûre et transparente pour tous.
+					</p>
+					<div class="shape">
+						<img src="https://bofblockchain.com/template/img/bg-dot2.png" alt="image">
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-3 col-md-6 p-0">
+				<div class="mission-image bg-2">
+					<img src="https://bofblockchain.com/template/img/mission-img2.jpg" alt="image">
+				</div>
+			</div>
+			<div class="col-lg-3 col-md-6 p-0">
+				<div class="mission-text">
+					<div class="icon">
+						<i class="flaticon-medal"></i>
+					</div>
+					<h3>L’expérience</h3>
+					<p>
+						Nous avons cette culture qui nous permet de défendre les meilleures conditions pour un dossier.
+					</p>
+					<div class="shape">
+						<img src="https://bofblockchain.com/template/img/bg-dot2.png" alt="image">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+<section class="find-agent-area ptb-100">
+  <div class="container">
+    <div class="section-title">
+      <h2>Discuter avec un agent</h2>
+    </div>
+    <div class="row align-items-center">
+      <div class="col-lg-6 col-md-12">
+        <div class="find-agent-content">
+          <div class="row">
+            <div class="col-lg-12 col-md-6 col-sm-6">
+              <div class="box">
+                <div class="icon">
+                  <i class="far fa-question-circle"></i>
+                </div>
+                <h3>Besoin d’aide immédiate ?</h3>
+                <p>
+                  Nos agents sont disponibles pour vous guider dans votre demande de remboursement.
+                </p>
+              </div>
+            </div>
+            <div class="col-lg-12 col-md-6 col-sm-6">
+              <div class="box">
+                <div class="icon">
+                  <i class="far fa-comment-dots"></i>
+                </div>
+                <h3>Assistance rapide et personnalisée</h3>
+                <p>
+                  Discutez avec un conseiller qui analysera votre dossier et vous aidera à récupérer vos fonds en toute sérénité.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-12">
+        <div class="find-agent-contact-info">
+          <ul>
+            
+            <li>
+              <div class="icon">
+                <i class="flaticon-email"></i>
+              </div>
+              <span>Envoyez un Email</span>
+              <a href="mailto:infos@bofblockchain.com"><span class="__cf_email__" data-cfemail="33404643435c414773435652415c1d505c5e">infos@bofblockchain.com</span></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="feedback-area ptb-100">
+  <div class="container">
+    <div class="section-title">
+      <span class="sub-title">Témoignages</span>
+      <h2>Nos clients parlent de nous</h2>
+      <p>
+        Satisfaits de nos services, ils nous ont laissé des avis...
+      </p>
+    </div>
+    <div class="feedback-item-slides owl-carousel owl-theme">
+      <div class="single-feedback-item">
+        <div class="feedback-desc">
+          <p>
+            J’avais perdu toutes mes économies sur une plateforme frauduleuse. Grâce à BOB, j’ai pu récupérer une partie de mes fonds en crypto en toute transparence !
+          </p>
+        </div>
+        <div class="client-info">
+          <img src="https://bofblockchain.com/template//img/client-image/Antoine.jpg" alt="image">
+          <h3>Antoine</h3>
+          <span>Client</span>
+        </div>
+      </div>
+      <div class="single-feedback-item">
+        <div class="feedback-desc">
+          <p>
+            BOB m’a sauvé ! J’étais désespérée après la faillite d’un exchange, mais leur équipe a analysé ma situation et m’a remboursée rapidement.
+          </p>
+        </div>
+        <div class="client-info">
+          <img src="https://bofblockchain.com/template//img/client-image/Élodie.jpg" alt="image">
+          <h3>Élodie</h3>
+          <span>Cliente</span>
+        </div>
+      </div>
+      <div class="single-feedback-item">
+        <div class="feedback-desc">
+          <p>
+            Je pensais que mon argent était perdu à jamais. Grâce à BOB et à leur technologie blockchain, j’ai reçu un remboursement sécurisé en Bitcoin !
+          </p>
+        </div>
+        <div class="client-info">
+          <img src="https://bofblockchain.com/template//img/client-image/Julie.jpg" alt="image">
+          <h3>Julie</h3>
+          <span>Cliente</span>
+        </div>
+      </div>
+      <div class="single-feedback-item">
+        <div class="feedback-desc">
+          <p>
+            Une solution unique et indispensable ! Enfin un service qui protège les investisseurs contre les arnaques et les faillites.
+          </p>
+        </div>
+        <div class="client-info">
+          <img src="https://bofblockchain.com/template//img/client-image/Léa.jpg" alt="image">
+          <h3>Lea</h3>
+          <span>Cliente</span>
+        </div>
+      </div>
+      <div class="single-feedback-item">
+        <div class="feedback-desc">
+          <p>
+            Le processus est simple, rapide et totalement sécurisé. J’ai récupéré mes pertes en quelques jours grâce à BOB.
+          </p>
+        </div>
+        <div class="client-info">
+          <img src="https://bofblockchain.com/template//img/client-image/Marc.jpg" alt="image">
+          <h3>Marc</h3>
+          <span>Client</span>
+        </div>
+      </div>
+      <div class="single-feedback-item">
+        <div class="feedback-desc">
+          <p>
+            J’étais sceptique au début, mais tout est transparent et automatisé via la blockchain. Une vraie révolution pour la protection des investisseurs !
+          </p>
+        </div>
+        <div class="client-info">
+          <img src="https://bofblockchain.com/template//img/client-image/Pierre.jpg" alt="image">
+          <h3>Pierre</h3>
+          <span>Client</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section><section class="ctr-area">
+  <div class="container">
+    <div class="ctr-content">
+      <h2>Reprenez le contrôle de vos investissements!</h2>
+      <p>
+        Créez votre compte en quelques clics et commencez le processus de remboursement.
+      </p>
+      <a href="https://bofblockchain.com/ouverture-de-compte" class="default-btn">
+        Créer mon compte maintenant
+        <i class="flaticon-right-chevron"></i>
+        <span></span>
+      </a>
+    </div>
+    <div class="ctr-image">
+      <img src="https://bofblockchain.com/template/img/ctr-img.jpg" alt="image">
+    </div>
+    <div class="shape">
+      <img src="https://bofblockchain.com/template/img/bg-dot3.png" alt="image">
+    </div>
+  </div>
+</section>
+<section class="quote-area ptb-100">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6 col-md-12">
+        <div class="quote-content">
+          <h2>Ouvrez votre compte en toute simplicité</h2>
+          <p>
+            Accédez à notre plateforme sécurisée et commencez votre demande de remboursement en quelques minutes.
+          </p>
+          <div class="image">
+            <img src="https://bofblockchain.com/template/img/BOB_crypto-portfolio_cat6.svg" alt="image">
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-12">
+        <div class="tab quote-list-tab">
+          <div class="tab_content">
+            <div class="tabs_item">
+
+              <form method="POST"  id="" class="signup-form" action="https://bofblockchain.com/register">
+                <input type="hidden" name="_token" value="HsAk29AdzlF7GUGWabXITwtCxAkz7lMahz2g0xME">
+                
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group ">
+                            <select name="civilite" id="civilite" class="form-control">
+                                <option value="">- Civilité -</option>
+                                <option value="M.">Monsieur</option>
+                                <option value="Mlle">Mademoiselle</option>
+                                <option value="Mme">Madame</option>
+                            </select>
+                                                    </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group ">
+                            <input type="text" class="form-control" name="nom" id="nom" placeholder="Nom" value=""/>
+
+                                                    </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group ">
+                            <input type="text" class="form-control" name="prenom" id="prenom" placeholder="Prénom" value=""/>
+
+                                                    </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group ">
+                            <input type="text" class="form-control" name="email" id="email" placeholder="Email" value=""/>
+                                                    </div>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <div class="form-group ">
+                            <input type="text" class="form-control" name="telephone" id="telephone" placeholder="Téléphone  portable" value=""/>
+
+                                                    </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group ">
+                            <select name="pays" id="pays" class="form-control">
+                                <option value="">- Pays -</option>
+                                                                    <option value="Afghanistan">Afghanistan</option>
+                                                                    <option value="Albanie">Albanie</option>
+                                                                    <option value="Antarctique">Antarctique</option>
+                                                                    <option value="Algérie">Algérie</option>
+                                                                    <option value="Samoa Américaines">Samoa Américaines</option>
+                                                                    <option value="Andorre">Andorre</option>
+                                                                    <option value="Angola">Angola</option>
+                                                                    <option value="Antigua-et-Barbuda">Antigua-et-Barbuda</option>
+                                                                    <option value="Azerbaïdjan">Azerbaïdjan</option>
+                                                                    <option value="Argentine">Argentine</option>
+                                                                    <option value="Australie">Australie</option>
+                                                                    <option value="Autriche">Autriche</option>
+                                                                    <option value="Bahamas">Bahamas</option>
+                                                                    <option value="Bahreïn">Bahreïn</option>
+                                                                    <option value="Bangladesh">Bangladesh</option>
+                                                                    <option value="Arménie">Arménie</option>
+                                                                    <option value="Barbade">Barbade</option>
+                                                                    <option value="Belgique">Belgique</option>
+                                                                    <option value="Bermudes">Bermudes</option>
+                                                                    <option value="Bhoutan">Bhoutan</option>
+                                                                    <option value="Bolivie">Bolivie</option>
+                                                                    <option value="Bosnie-Herzégovine">Bosnie-Herzégovine</option>
+                                                                    <option value="Botswana">Botswana</option>
+                                                                    <option value="Île Bouvet">Île Bouvet</option>
+                                                                    <option value="Brésil">Brésil</option>
+                                                                    <option value="Belize">Belize</option>
+                                                                    <option value="Territoire Britannique de l&#039;Océan Indien">Territoire Britannique de l&#039;Océan Indien</option>
+                                                                    <option value="Îles Salomon">Îles Salomon</option>
+                                                                    <option value="Îles Vierges Britanniques">Îles Vierges Britanniques</option>
+                                                                    <option value="Brunéi Darussalam">Brunéi Darussalam</option>
+                                                                    <option value="Bulgarie">Bulgarie</option>
+                                                                    <option value="Myanmar">Myanmar</option>
+                                                                    <option value="Burundi">Burundi</option>
+                                                                    <option value="Bélarus">Bélarus</option>
+                                                                    <option value="Cambodge">Cambodge</option>
+                                                                    <option value="Cameroun">Cameroun</option>
+                                                                    <option value="Canada">Canada</option>
+                                                                    <option value="Cap-vert">Cap-vert</option>
+                                                                    <option value="Îles Caïmanes">Îles Caïmanes</option>
+                                                                    <option value="République Centrafricaine">République Centrafricaine</option>
+                                                                    <option value="Sri Lanka">Sri Lanka</option>
+                                                                    <option value="Tchad">Tchad</option>
+                                                                    <option value="Chili">Chili</option>
+                                                                    <option value="Chine">Chine</option>
+                                                                    <option value="Taïwan">Taïwan</option>
+                                                                    <option value="Île Christmas">Île Christmas</option>
+                                                                    <option value="Îles Cocos (Keeling)">Îles Cocos (Keeling)</option>
+                                                                    <option value="Colombie">Colombie</option>
+                                                                    <option value="Comores">Comores</option>
+                                                                    <option value="Mayotte">Mayotte</option>
+                                                                    <option value="République du Congo">République du Congo</option>
+                                                                    <option value="République Démocratique du Congo">République Démocratique du Congo</option>
+                                                                    <option value="Îles Cook">Îles Cook</option>
+                                                                    <option value="Costa Rica">Costa Rica</option>
+                                                                    <option value="Croatie">Croatie</option>
+                                                                    <option value="Cuba">Cuba</option>
+                                                                    <option value="Chypre">Chypre</option>
+                                                                    <option value="République Tchèque">République Tchèque</option>
+                                                                    <option value="Bénin">Bénin</option>
+                                                                    <option value="Danemark">Danemark</option>
+                                                                    <option value="Dominique">Dominique</option>
+                                                                    <option value="République Dominicaine">République Dominicaine</option>
+                                                                    <option value="Équateur">Équateur</option>
+                                                                    <option value="El Salvador">El Salvador</option>
+                                                                    <option value="Guinée Équatoriale">Guinée Équatoriale</option>
+                                                                    <option value="Éthiopie">Éthiopie</option>
+                                                                    <option value="Érythrée">Érythrée</option>
+                                                                    <option value="Estonie">Estonie</option>
+                                                                    <option value="Îles Féroé">Îles Féroé</option>
+                                                                    <option value="Îles (malvinas) Falkland">Îles (malvinas) Falkland</option>
+                                                                    <option value="Géorgie du Sud et les Îles Sandwich du Sud">Géorgie du Sud et les Îles Sandwich du Sud</option>
+                                                                    <option value="Fidji">Fidji</option>
+                                                                    <option value="Finlande">Finlande</option>
+                                                                    <option value="Îles Åland">Îles Åland</option>
+                                                                    <option value="France">France</option>
+                                                                    <option value="Guyane Française">Guyane Française</option>
+                                                                    <option value="Polynésie Française">Polynésie Française</option>
+                                                                    <option value="Terres Australes Françaises">Terres Australes Françaises</option>
+                                                                    <option value="Djibouti">Djibouti</option>
+                                                                    <option value="Gabon">Gabon</option>
+                                                                    <option value="Géorgie">Géorgie</option>
+                                                                    <option value="Gambie">Gambie</option>
+                                                                    <option value="Territoire Palestinien Occupé">Territoire Palestinien Occupé</option>
+                                                                    <option value="Allemagne">Allemagne</option>
+                                                                    <option value="Ghana">Ghana</option>
+                                                                    <option value="Gibraltar">Gibraltar</option>
+                                                                    <option value="Kiribati">Kiribati</option>
+                                                                    <option value="Grèce">Grèce</option>
+                                                                    <option value="Groenland">Groenland</option>
+                                                                    <option value="Grenade">Grenade</option>
+                                                                    <option value="Guadeloupe">Guadeloupe</option>
+                                                                    <option value="Guam">Guam</option>
+                                                                    <option value="Guatemala">Guatemala</option>
+                                                                    <option value="Guinée">Guinée</option>
+                                                                    <option value="Guyana">Guyana</option>
+                                                                    <option value="Haïti">Haïti</option>
+                                                                    <option value="Îles Heard et Mcdonald">Îles Heard et Mcdonald</option>
+                                                                    <option value="Saint-Siège (état de la Cité du Vatican)">Saint-Siège (état de la Cité du Vatican)</option>
+                                                                    <option value="Honduras">Honduras</option>
+                                                                    <option value="Hong-Kong">Hong-Kong</option>
+                                                                    <option value="Hongrie">Hongrie</option>
+                                                                    <option value="Islande">Islande</option>
+                                                                    <option value="Inde">Inde</option>
+                                                                    <option value="Indonésie">Indonésie</option>
+                                                                    <option value="République Islamique d&#039;Iran">République Islamique d&#039;Iran</option>
+                                                                    <option value="Iraq">Iraq</option>
+                                                                    <option value="Irlande">Irlande</option>
+                                                                    <option value="Israël">Israël</option>
+                                                                    <option value="Italie">Italie</option>
+                                                                    <option value="Côte d&#039;Ivoire">Côte d&#039;Ivoire</option>
+                                                                    <option value="Jamaïque">Jamaïque</option>
+                                                                    <option value="Japon">Japon</option>
+                                                                    <option value="Kazakhstan">Kazakhstan</option>
+                                                                    <option value="Jordanie">Jordanie</option>
+                                                                    <option value="Kenya">Kenya</option>
+                                                                    <option value="République Populaire Démocratique de Corée">République Populaire Démocratique de Corée</option>
+                                                                    <option value="République de Corée">République de Corée</option>
+                                                                    <option value="Koweït">Koweït</option>
+                                                                    <option value="Kirghizistan">Kirghizistan</option>
+                                                                    <option value="République Démocratique Populaire Lao">République Démocratique Populaire Lao</option>
+                                                                    <option value="Liban">Liban</option>
+                                                                    <option value="Lesotho">Lesotho</option>
+                                                                    <option value="Lettonie">Lettonie</option>
+                                                                    <option value="Libéria">Libéria</option>
+                                                                    <option value="Jamahiriya Arabe Libyenne">Jamahiriya Arabe Libyenne</option>
+                                                                    <option value="Liechtenstein">Liechtenstein</option>
+                                                                    <option value="Lituanie">Lituanie</option>
+                                                                    <option value="Luxembourg">Luxembourg</option>
+                                                                    <option value="Macao">Macao</option>
+                                                                    <option value="Madagascar">Madagascar</option>
+                                                                    <option value="Malawi">Malawi</option>
+                                                                    <option value="Malaisie">Malaisie</option>
+                                                                    <option value="Maldives">Maldives</option>
+                                                                    <option value="Mali">Mali</option>
+                                                                    <option value="Malte">Malte</option>
+                                                                    <option value="Martinique">Martinique</option>
+                                                                    <option value="Mauritanie">Mauritanie</option>
+                                                                    <option value="Maurice">Maurice</option>
+                                                                    <option value="Mexique">Mexique</option>
+                                                                    <option value="Monaco">Monaco</option>
+                                                                    <option value="Mongolie">Mongolie</option>
+                                                                    <option value="République de Moldova">République de Moldova</option>
+                                                                    <option value="Montserrat">Montserrat</option>
+                                                                    <option value="Maroc">Maroc</option>
+                                                                    <option value="Mozambique">Mozambique</option>
+                                                                    <option value="Oman">Oman</option>
+                                                                    <option value="Namibie">Namibie</option>
+                                                                    <option value="Nauru">Nauru</option>
+                                                                    <option value="Népal">Népal</option>
+                                                                    <option value="Pays-Bas">Pays-Bas</option>
+                                                                    <option value="Antilles Néerlandaises">Antilles Néerlandaises</option>
+                                                                    <option value="Aruba">Aruba</option>
+                                                                    <option value="Nouvelle-Calédonie">Nouvelle-Calédonie</option>
+                                                                    <option value="Vanuatu">Vanuatu</option>
+                                                                    <option value="Nouvelle-Zélande">Nouvelle-Zélande</option>
+                                                                    <option value="Nicaragua">Nicaragua</option>
+                                                                    <option value="Niger">Niger</option>
+                                                                    <option value="Nigéria">Nigéria</option>
+                                                                    <option value="Niué">Niué</option>
+                                                                    <option value="Île Norfolk">Île Norfolk</option>
+                                                                    <option value="Norvège">Norvège</option>
+                                                                    <option value="Îles Mariannes du Nord">Îles Mariannes du Nord</option>
+                                                                    <option value="Îles Mineures Éloignées des États-Unis">Îles Mineures Éloignées des États-Unis</option>
+                                                                    <option value="États Fédérés de Micronésie">États Fédérés de Micronésie</option>
+                                                                    <option value="Îles Marshall">Îles Marshall</option>
+                                                                    <option value="Palaos">Palaos</option>
+                                                                    <option value="Pakistan">Pakistan</option>
+                                                                    <option value="Panama">Panama</option>
+                                                                    <option value="Papouasie-Nouvelle-Guinée">Papouasie-Nouvelle-Guinée</option>
+                                                                    <option value="Paraguay">Paraguay</option>
+                                                                    <option value="Pérou">Pérou</option>
+                                                                    <option value="Philippines">Philippines</option>
+                                                                    <option value="Pitcairn">Pitcairn</option>
+                                                                    <option value="Pologne">Pologne</option>
+                                                                    <option value="Portugal">Portugal</option>
+                                                                    <option value="Guinée-Bissau">Guinée-Bissau</option>
+                                                                    <option value="Timor-Leste">Timor-Leste</option>
+                                                                    <option value="Porto Rico">Porto Rico</option>
+                                                                    <option value="Qatar">Qatar</option>
+                                                                    <option value="Réunion">Réunion</option>
+                                                                    <option value="Roumanie">Roumanie</option>
+                                                                    <option value="Fédération de Russie">Fédération de Russie</option>
+                                                                    <option value="Rwanda">Rwanda</option>
+                                                                    <option value="Sainte-Hélène">Sainte-Hélène</option>
+                                                                    <option value="Saint-Kitts-et-Nevis">Saint-Kitts-et-Nevis</option>
+                                                                    <option value="Anguilla">Anguilla</option>
+                                                                    <option value="Sainte-Lucie">Sainte-Lucie</option>
+                                                                    <option value="Saint-Pierre-et-Miquelon">Saint-Pierre-et-Miquelon</option>
+                                                                    <option value="Saint-Vincent-et-les Grenadines">Saint-Vincent-et-les Grenadines</option>
+                                                                    <option value="Saint-Marin">Saint-Marin</option>
+                                                                    <option value="Sao Tomé-et-Principe">Sao Tomé-et-Principe</option>
+                                                                    <option value="Arabie Saoudite">Arabie Saoudite</option>
+                                                                    <option value="Sénégal">Sénégal</option>
+                                                                    <option value="Seychelles">Seychelles</option>
+                                                                    <option value="Sierra Leone">Sierra Leone</option>
+                                                                    <option value="Singapour">Singapour</option>
+                                                                    <option value="Slovaquie">Slovaquie</option>
+                                                                    <option value="Viet Nam">Viet Nam</option>
+                                                                    <option value="Slovénie">Slovénie</option>
+                                                                    <option value="Somalie">Somalie</option>
+                                                                    <option value="Afrique du Sud">Afrique du Sud</option>
+                                                                    <option value="Zimbabwe">Zimbabwe</option>
+                                                                    <option value="Espagne">Espagne</option>
+                                                                    <option value="Sahara Occidental">Sahara Occidental</option>
+                                                                    <option value="Soudan">Soudan</option>
+                                                                    <option value="Suriname">Suriname</option>
+                                                                    <option value="Svalbard etÎle Jan Mayen">Svalbard etÎle Jan Mayen</option>
+                                                                    <option value="Swaziland">Swaziland</option>
+                                                                    <option value="Suède">Suède</option>
+                                                                    <option value="Suisse">Suisse</option>
+                                                                    <option value="République Arabe Syrienne">République Arabe Syrienne</option>
+                                                                    <option value="Tadjikistan">Tadjikistan</option>
+                                                                    <option value="Thaïlande">Thaïlande</option>
+                                                                    <option value="Togo">Togo</option>
+                                                                    <option value="Tokelau">Tokelau</option>
+                                                                    <option value="Tonga">Tonga</option>
+                                                                    <option value="Trinité-et-Tobago">Trinité-et-Tobago</option>
+                                                                    <option value="Émirats Arabes Unis">Émirats Arabes Unis</option>
+                                                                    <option value="Tunisie">Tunisie</option>
+                                                                    <option value="Turquie">Turquie</option>
+                                                                    <option value="Turkménistan">Turkménistan</option>
+                                                                    <option value="Îles Turks et Caïques">Îles Turks et Caïques</option>
+                                                                    <option value="Tuvalu">Tuvalu</option>
+                                                                    <option value="Ouganda">Ouganda</option>
+                                                                    <option value="Ukraine">Ukraine</option>
+                                                                    <option value="L&#039;ex-République Yougoslave de Macédoine">L&#039;ex-République Yougoslave de Macédoine</option>
+                                                                    <option value="Égypte">Égypte</option>
+                                                                    <option value="Royaume-Uni">Royaume-Uni</option>
+                                                                    <option value="Île de Man">Île de Man</option>
+                                                                    <option value="République-Unie de Tanzanie">République-Unie de Tanzanie</option>
+                                                                    <option value="États-Unis">États-Unis</option>
+                                                                    <option value="Îles Vierges des États-Unis">Îles Vierges des États-Unis</option>
+                                                                    <option value="Burkina Faso">Burkina Faso</option>
+                                                                    <option value="Uruguay">Uruguay</option>
+                                                                    <option value="Ouzbékistan">Ouzbékistan</option>
+                                                                    <option value="Venezuela">Venezuela</option>
+                                                                    <option value="Wallis et Futuna">Wallis et Futuna</option>
+                                                                    <option value="Samoa">Samoa</option>
+                                                                    <option value="Yémen">Yémen</option>
+                                                                    <option value="Serbie-et-Monténégro">Serbie-et-Monténégro</option>
+                                                                    <option value="Zambie">Zambie</option>
+                                                            </select>
+
+                                                    </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group ">
+                            <input type="text" class="form-control" name="adresse" id="adresse" placeholder="Adresse" value=""/>
+
+                                                    </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group ">
+                            <input type="text" class="form-control" name="code_postal" id="code_postal" placeholder="Code postal" value=""/>
+
+                                                    </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group ">
+                            <select name="type_de_compte" id="" class="form-control">
+                                <option value="">- Type de compte -</option>
+                                <option value="Compte Epargne">Compte Epargne</option>
+                                <option value="Compte Courant">Compte Courant</option>
+                            </select>
+
+                                                    </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group ">
+                            <input type="password" class="form-control" name="mot_de_passe" id="mot_de_passe" placeholder="Mot de passe"/>
+                                                    </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input type="password" class="form-control" name="mot_de_passe_confirmation" id="mot_de_pase_confirmation" placeholder="Confirmation du mot de passe"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12">
+                    <button type="submit" class="default-btn">Créer mon compte <span></span></button>
+                    <div class="clearfix"></div>
+                </div>
+            </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="achievements-area">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-6 col-md-12">
+        <div class="achievements-content">
+          <div class="title">
+            <span class="sub-title">Statistiques</span>
+            <h2>Notre impact social</h2>
+            <p>
+              Retrouvez les chiffres clés de nos activités. Bank of Blockchain toujours et encore plus près de sa clientèle!
+            </p>
+          </div>
+          <div class="row">
+            <div class="col-lg-4 col-md-4 col-6 col-sm-4">
+              <div class="single-funfact">
+                <i class="flaticon-flag"></i>
+                <h3><span class="odometer" data-count="65">00</span></h3>
+                <p>
+                  Pays
+                </p>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-6 col-sm-4">
+              <div class="single-funfact">
+                <i class="flaticon-group"></i>
+                <h3>
+                  <span class="odometer" data-count="77817">00</span>
+                </h3>
+                <p>
+                  Clients
+                </p>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-12 col-sm-4">
+              <div class="single-funfact">
+                <i class="flaticon-medal"></i>
+                <h3><span class="odometer" data-count="18657">00</span></h3>
+                <p>
+                  Remboursements en cours
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="bg-dot">
+            <img src="https://bofblockchain.com/template/img/bg-dot.png" alt="image">
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-12">
+        <div class="divider"></div>
+        <div class="achievements-image-slides owl-carousel owl-theme">
+          <div class="single-achievements-image bg1">
+            <img src="https://bofblockchain.com/template/img/Impact1.jpg" alt="image">
+          </div>
+          <div class="single-achievements-image bg2">
+            <img src="https://bofblockchain.com/template/img/Impact2.jpg" alt="image">
+          </div>
+          <div class="single-achievements-image bg3">
+            <img src="https://bofblockchain.com/template/img/Impact3.jpg" alt="image">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="partner-area">
+	<div class="container">
+		<div class="partner-title">
+			<h2>Banques partenaires</h2>
+		</div>
+		<div class="partner-slides owl-carousel owl-theme">
+			<div class="single-partner-item">
+				<a href="#"><img src="https://bofblockchain.com/partners/ubs.png" alt="image"></a>
+			</div>
+			<div class="single-partner-item">
+				<a href="#"><img src="https://bofblockchain.com/partners/credit-suisse.png" alt="image"></a>
+			</div>
+			<div class="single-partner-item">
+				<a href="#"><img src="https://bofblockchain.com/partners/post-finance.png" alt="image"></a>
+			</div>
+			<div class="single-partner-item">
+				<a href="#"><img src="https://bofblockchain.com/partners/PIctet.png" alt="image"></a>
+			</div>
+			<div class="single-partner-item">
+				<a href="#"><img src="https://bofblockchain.com/partners/zkb.png" alt="image"></a>
+			</div>
+			<div class="single-partner-item">
+				<a href="#"><img src="https://bofblockchain.com/partners/axa-banque.png" alt="image"></a>
+			</div>
+			<div class="single-partner-item">
+				<a href="#"><img src="https://bofblockchain.com/partners/bank1.jpg" alt="image"></a>
+			</div>
+			<div class="single-partner-item">
+				<a href="#"><img src="https://bofblockchain.com/partners/bank2.jpg" alt="image"></a>
+			</div>
+			<div class="single-partner-item">
+				<a href="#"><img src="https://bofblockchain.com/partners/bbva.jpg" alt="image"></a>
+			</div>
+			<div class="single-partner-item">
+				<a href="#"><img src="https://bofblockchain.com/partners/bnp.jpg" alt="image"></a>
+			</div>
+			<div class="single-partner-item">
+				<a href="#"><img src="https://bofblockchain.com/partners/unicredit.jpg" alt="image"></a>
+			</div>
+		</div>
+	</div>
+</section><section class="join-area">
+	<div class="container">
+		<div class="row align-items-center">
+			<div class="col-lg-5 col-md-12">
+				<div class="join-image text-center">
+					<img src="https://bofblockchain.com/template/img/woman.png" alt="image">
+				</div>
+			</div>
+			<div class="col-lg-7 col-md-12">
+				<div class="join-content">
+					<h2>Besoin d'un renseignement ?</h2>
+					<p>
+						Envoyez-nous un message et votre demande sera traitée dans les meilleurs délais.
+					</p>
+					<a href="https://bofblockchain.com/contact" class="default-btn">
+						Nous Ecrire
+						<i class="flaticon-right-chevron"></i>
+						<span></span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+		<footer class="footer-area">
+  <div class="container">
+    <div class="subscribe-area">
+      <div class="row align-items-center">
+        <div class="col-lg-5 col-md-12">
+          <div class="subscribe-content">
+            <h2>Newsletter</h2>
+            <p>
+              Inscrivez-vous et recevez chaque semaine nos meilleures offres bancaires par e-mail.
+            </p>
+          </div>
+        </div>
+        <div class="col-lg-7 col-md-12">
+          <div class="subscribe-form">
+            <form class="newsletter-form" method="POST" action="https://bofblockchain.com/newsletter">
+              <input type="hidden" name="_token" value="HsAk29AdzlF7GUGWabXITwtCxAkz7lMahz2g0xME">
+              <input type="email" class="input-newsletter" placeholder="Entrez votre adresse e-mail" name="email" required>
+              <button type="submit">Souscrire maintenant <i class="flaticon-right-chevron"></i></button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-4 col-md-6 col-sm-6">
+        <div class="single-footer-widget">
+          <div class="logo">
+            <p>
+              Depuis plusieurs années, nous proposons à nos internautes nos meilleures offres de financement. Une solution pour chaque situation.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6 col-sm-6">
+        <div class="single-footer-widget">
+          <h3>Liens Utiles</h3>
+          <ul class="footer-quick-links">
+            <li><a href="https://bofblockchain.com/">Accueil</a></li>
+            <li><a href="https://bofblockchain.com/la-banque">Qui sommes-nous</a></li>
+            <li><a href="https://bofblockchain.com/la-banque">Assurance Crypto</a></li>
+            <li><a href="#">Nos services</a></li>
+            <li><a href="https://bofblockchain.com/contact">Nous contacter</a></li>
+            <li><a href="https://bofblockchain.com/contact">Faqs</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6 col-sm-6 offset-lg-0 offset-sm-3 offset-md-3">
+        <div class="single-footer-widget">
+          <h3>Informations de contact</h3>
+          <ul class="footer-contact-info">
+            <li><span>Localisation:</span> ECB Tower, Sonnemannstraße 20, 60314 Frankfurt am Main, Allemagne</li>
+            <li>
+              <span>Email:</span>
+              <a href="#"><span class="__cf_email__" data-cfemail="1a6a7f7b68755a7d777b737634797577">infos@bofblockchain.com</span></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="copyright-area">
+      <div class="row ">
+        <div class="col-lg-6 col-sm-6 col-md-6">
+          <p>
+            <a href="https://bofblockchain.com/" target="_blank">© Bank of Blockchain</a>, 2024 - Tous Droits Réservés
+          </p>
+          <div class="gtranslate_wrapper"></div>
+<script>window.gtranslateSettings = {"default_language":"fr","languages":["fr","en","de","nl","es","sk","ru"],"wrapper_selector":".gtranslate_wrapper","switcher_horizontal_position":"right","flag_style":"3d"}</script>
+<script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>		<div class="go-top"><i class="fas fa-chevron-up"></i><i class="fas fa-chevron-up"></i></div>
+
+		<script data-cfasync="false" src="https://bofblockchain.com/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://bofblockchain.com/template/js/jquery.min.js"></script>
+
+		<script src="https://bofblockchain.com/template/js/popper.min.js"></script>
+
+		<script src="https://bofblockchain.com/template/js/bootstrap.min.js"></script>
+
+		<script src="https://bofblockchain.com/template/js/parallax.min.js"></script>
+
+		<script src="https://bofblockchain.com/template/js/owl.carousel.min.js"></script>
+
+		<script src="https://bofblockchain.com/template/js/slick.min.js"></script>
+
+		<script src="https://bofblockchain.com/template/js/jquery.meanmenu.js"></script>
+
+		<script src="https://bofblockchain.com/template/js/jquery.appear.min.js"></script>
+
+		<script src="https://bofblockchain.com/template/js/odometer.min.js"></script>
+
+		<script src="https://bofblockchain.com/template/js/jquery.nice-select.min.js"></script>
+
+		<script src="https://bofblockchain.com/template/js/jquery.magnific-popup.min.js"></script>
+
+		<script src="https://bofblockchain.com/template/js/wow.min.js"></script>
+
+		<script src="https://bofblockchain.com/template/js/jquery.ajaxchimp.min.js"></script>
+
+		<script src="https://bofblockchain.com/template/js/form-validator.min.js"></script>
+
+		<script src="https://bofblockchain.com/template/js/contact-form-script.js"></script>
+
+		<script src="https://bofblockchain.com/template/js/main.js"></script>
+		<style>
+.flashy {
+    font-family: Arial, sans-serif;
+    padding: 11px 30px;
+    border-radius: 4px;
+    font-weight: 400;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-size: 16px;
+    color: #fff;
+}
+
+.flashy--success {
+    background-color: #99c93d;
+    color: #fff;
+}
+
+.flashy--warning {
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+    border-color: #faebcc;
+}
+
+.flashy--muted {
+    background: #eee;
+    color: #3a3a3a;
+    border: 1px solid #e2e2e2;
+}
+
+.flashy--muted-dark {
+    background: #133259;
+    color: #e2e1e7;
+}
+
+.flashy--info a,
+.flashy--primary-dark a {
+    color: #fff;
+}
+
+.flashy--error {
+    background: #d14130;
+    color: #fff;
+}
+
+.flashy--primary {
+    background: #573e81;
+}
+
+.flashy--primary-dark {
+    background: linear-gradient(to right, #133259 30%, #0d233e);
+}
+
+.flashy--info {
+    background: #00baf3;
+}
+
+.flashy > ul {
+    padding-left: 15px;
+}
+
+.flashy > p:only-of-type {
+    margin-bottom: 0;
+}
+
+.flashy i {
+    margin-right: 8px;
+    position: relative;
+    top: 6px;
+}
+
+.flashy .flashy__body {
+    color: inherit;
+}
+
+@media  only screen and (max-width:1050px) {
+    .flashy {
+        text-align: center;
+        right: 0;
+        left: 50%;
+        width: 300px;
+        margin-left: -150px;
+    }
+}
+</style>
+
+<script>
+    function flashy(message, link) {
+        var template = $($("#flashy-template").html());
+        $(".flashy").remove();
+        template.find(".flashy__body").html(message).attr("href", link || "#").end()
+         .appendTo("body").hide().fadeIn(300).delay(2800).animate({
+            marginRight: "-100%"
+        }, 300, "swing", function() {
+            $(this).remove();
+        });
+    }
+</script>
+
+						<script>
+		$( document ).ready(function() {
+			$('#devise').on('change', function() {
+					$('#devise_mens').empty();
+				if( this.value =="CHF"){
+					$('#devise_mens').val("Franc Suisse (CHF)");
+				}
+				if( this.value =="€"){
+					$('#devise_mens').val("Euro (€)");
+				}
+				if( this.value =="$"){
+					$('#devise_mens').val("Dollar ($)");
+				}
+			});
+		});
+	</script>
+	<script language="JavaScript">
+		<!--
+		function calculer()
+		{
+			var paiement = '';
+			var total = '';
+			var f = document.frm;
+			var iMontant = parseInt(f.montant.value);
+			regExp = /\,/g;
+			f.interet.value = f.interet.value.replace(regExp,'.');
+			var fInteret = parseFloat(f.interet.value);
+			var iDuree = parseInt(f.duree.value);
+		
+			if(f.montant.value == iMontant &&
+			   f.interet.value == fInteret &&
+			   f.duree.value   == iDuree &&
+			   fInteret > 0 && fInteret < 100 && iMontant > 0 &&
+			   iDuree > 0 && iDuree < 1200)
+			{
+				// 1200 mois = 100 ans
+				var tauxPeriode = fInteret/100/12;
+				paiement = Math.floor((iMontant*tauxPeriode)/(1-Math.pow((1+tauxPeriode),(-1*iDuree)))*100)/100;
+				total = Math.ceil((paiement*iDuree-iMontant)*100)/100;
+			}
+		
+			$('#mensualite').val(paiement);
+			$('#recap_mensualites').val(paiement);
+			$('#recap_interets').val(total);
+			$('#recap_montant').val(iMontant);
+			$('#recap_duree').val(iDuree);
+			$('#recap_total').val(iMontant + total);
+		
+			return false;
+		}
+		//-->
+	</script>
+	<script language="JavaScript">
+		<!--
+		function calculer2()
+		{
+			var paiement = '';
+			var total = '';
+			var f = document.frm2;
+			var iMontant = parseInt(f.montant.value);
+			regExp = /\,/g;
+			f.interet.value = f.interet.value.replace(regExp,'.');
+			var fInteret = parseFloat(f.interet.value);
+			var iDuree = parseInt(f.duree.value);
+		
+			if(f.montant.value == iMontant &&
+			f.interet.value == fInteret &&
+			f.duree.value   == iDuree &&
+			fInteret > 0 && fInteret < 100 && iMontant > 0 &&
+			iDuree > 0 && iDuree < 1200)
+			{
+				// 1200 mois = 100 ans
+				var tauxPeriode = fInteret/100/12;
+				paiement = Math.floor((iMontant*tauxPeriode)/(1-Math.pow((1+tauxPeriode),(-1*iDuree)))*100)/100;
+				total = Math.ceil((paiement*iDuree-iMontant)*100)/100;
+			}
+		
+			document.getElementById('reponsePaiement2').innerHTML = paiement;
+			document.getElementById('reponseTotal2').innerHTML = total;
+			document.getElementById('reponseCout2').innerHTML = total + iMontant;
+
+			$('#recap_mensualites2').val(paiement);
+			$('#recap_interets2').val(total);
+			$('#recap_total2').val(total + iMontant);
+		
+			return false;
+		}
+		//-->
+	</script>
+	<script>
+		var slider1 = document.getElementById("montantRange");
+		var output1 = document.getElementById("montant2");
+		var slider2 = document.getElementById("moisRange");
+		var output2 = document.getElementById("mois2");
+		output1.innerHTML = slider1.value;
+		output2.innerHTML = slider2.value;
+		
+		slider1.oninput = function() {
+		output1.innerHTML = this.value;
+		$('#recap_montant2').val(this.value);
+		$('#recap_duree2').val($('#moisRange').val());
+		calculer2();
+		}
+		slider2.oninput = function() {
+		output2.innerHTML = this.value;
+		$('#recap_duree2').val(this.value);
+		calculer2();
+		}
+	</script>
+		
+				
+    </body>
+
+
+<!-- Mirrored from bofblockchain.com/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 09 Mar 2026 16:06:57 GMT -->
+</html>
