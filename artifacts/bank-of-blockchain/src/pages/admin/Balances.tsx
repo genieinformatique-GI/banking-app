@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useGetUsers, useUpdateUserBalances } from "@workspace/api-client-react";
+import { useGetUsers } from "@workspace/api-client-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
@@ -26,19 +26,7 @@ export default function Balances() {
   const [eur, setEur] = useState("");
   const [usd, setUsd] = useState("");
   const [btc, setBtc] = useState("");
-
-  const updateMutation = useUpdateUserBalances({
-    mutation: {
-      onSuccess: () => {
-        toast({ title: "Soldes mis à jour avec succès", variant: "success" });
-        queryClient.invalidateQueries();
-        setModalOpen(false);
-      },
-      onError: (err: any) => {
-        toast({ title: "Erreur", description: err?.message || "Impossible de mettre à jour les soldes", variant: "destructive" });
-      }
-    }
-  });
+  const [saving, setSaving] = useState(false);
 
   const handleEdit = async (user: any) => {
     setSelectedUser(user);
@@ -49,7 +37,10 @@ export default function Balances() {
     setUsd("0");
     setBtc("0");
     try {
-      const res = await fetch(`/api/balances/${user.id}`);
+      const token = localStorage.getItem('bob_token');
+      const res = await fetch(`/api/balances/${user.id}`, {
+        headers: { 'Authorization': `Bearer ${token}` },
+      });
       const data = await res.json();
       const b = data.balances || { eur: 0, usd: 0, btc: 0 };
       setCurrentBalances(b);
@@ -79,14 +70,33 @@ export default function Balances() {
     };
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!selectedUser) return;
     const newBalances = computeNewBalances();
     if (!newBalances) return;
-    updateMutation.mutate({
-      userId: selectedUser.id,
-      data: { eur: newBalances.eur, usd: newBalances.usd, btc: newBalances.btc }
-    });
+    setSaving(true);
+    try {
+      const token = localStorage.getItem('bob_token');
+      const res = await fetch(`/api/balances/${selectedUser.id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ eur: newBalances.eur, usd: newBalances.usd, btc: newBalances.btc }),
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.message || err.error || `HTTP ${res.status}`);
+      }
+      toast({ title: "Soldes mis à jour avec succès", variant: "success" });
+      queryClient.invalidateQueries();
+      setModalOpen(false);
+    } catch (err: any) {
+      toast({ title: "Erreur", description: err.message || "Impossible de mettre à jour les soldes", variant: "destructive" });
+    } finally {
+      setSaving(false);
+    }
   };
 
   const preview = computeNewBalances();
@@ -259,13 +269,13 @@ export default function Balances() {
                   )}
 
                   <div className="flex justify-end gap-3 mt-6">
-                    <Button variant="outline" onClick={() => setModalOpen(false)}>Annuler</Button>
+                    <Button variant="outline" onClick={() => setModalOpen(false)} disabled={saving}>Annuler</Button>
                     <Button
                       onClick={handleSave}
-                      disabled={updateMutation.isPending}
+                      disabled={saving}
                       className={mode === "add" ? "bg-emerald-600 hover:bg-emerald-700" : mode === "subtract" ? "bg-red-600 hover:bg-red-700" : ""}
                     >
-                      {updateMutation.isPending ? "Traitement..." :
+                      {saving ? "Traitement..." :
                         mode === "add" ? `Créditer le compte` :
                         mode === "subtract" ? `Débiter le compte` :
                         "Enregistrer les soldes"}
