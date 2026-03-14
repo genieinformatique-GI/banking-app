@@ -111,3 +111,19 @@ All routes are under `/api`:
 - JWT authentication, 7-day expiry
 - Role-based access: admin-only routes protected
 - SQL injection prevention via Drizzle ORM parameterized queries
+- **Password reset**: Token-based via `password_reset_tokens` table (1h expiry, single-use). Emails sent via Resend when `RESEND_API_KEY` env var is set. Without it, the reset link is logged to the API server console.
+- **Two-factor authentication (2FA)**: TOTP via `speakeasy`. Users enable/disable from Settings > Sécurité tab. Login triggers 2FA step when enabled (10-min temp token). Columns `two_factor_enabled`, `two_factor_secret`, `two_factor_pending_secret` on `users` table.
+
+## Email (Resend)
+
+**NOTE**: The Resend integration was dismissed by the user. Currently password reset links are only logged to the API server console (visible in workflow logs). To enable real email sending, set the `RESEND_API_KEY` secret environment variable. The `FROM_EMAIL` env var controls the sender address (default: `noreply@bankofblockchain.com`).
+
+## New Routes
+
+- `POST /api/auth/forgot-password` — Request password reset email
+- `GET /api/auth/reset-password/validate?token=` — Check if token is valid
+- `POST /api/auth/reset-password` — Set new password with token
+- `POST /api/auth/2fa/setup` — Generate TOTP secret + QR code (auth required)
+- `POST /api/auth/2fa/enable` — Confirm and activate 2FA with code (auth required)
+- `POST /api/auth/2fa/disable` — Deactivate 2FA (password + code required)
+- `POST /api/auth/login/2fa` — Complete login with 2FA code (temp token required)
