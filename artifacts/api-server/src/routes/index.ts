@@ -11,11 +11,15 @@ import notificationsRouter from "./notifications.js";
 import logsRouter from "./logs.js";
 import adminRouter from "./admin.js";
 import contentRouter from "./content.js";
+import passwordResetRouter from "./password_reset.js";
+import twoFactorRouter from "./two_factor.js";
 
 const router: IRouter = Router();
 
 router.use(healthRouter);
 router.use("/auth", authRouter);
+router.use("/auth", passwordResetRouter);
+router.use("/auth/2fa", twoFactorRouter);
 router.use("/users", usersRouter);
 router.use("/balances", balancesRouter);
 router.use("/transactions", transactionsRouter);

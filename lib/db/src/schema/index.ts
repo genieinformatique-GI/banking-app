@@ -7,3 +7,4 @@ export * from "./bank_accounts";
 export * from "./notifications";
 export * from "./system_logs";
 export * from "./site_content";
+export * from "./password_reset_tokens";

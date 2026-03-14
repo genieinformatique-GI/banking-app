@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useGetMe, useGetBankAccounts, useCreateBankAccount, useDeleteBankAccount } from "@workspace/api-client-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -9,7 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
-import { Trash2, Plus, Building2, Shield, User as UserIcon, Eye, EyeOff, Save, Pencil } from "lucide-react";
+import { Trash2, Plus, Building2, Shield, User as UserIcon, Eye, EyeOff, Save, Pencil, QrCode, Lock, CheckCircle2, AlertTriangle } from "lucide-react";
 
 export default function Settings() {
   const { data: user } = useGetMe();
@@ -29,6 +29,78 @@ export default function Settings() {
   const [pwForm, setPwForm] = useState({ currentPassword: '', newPassword: '', confirmPassword: '' });
   const [showPw, setShowPw] = useState({ current: false, new: false, confirm: false });
   const [savingPw, setSavingPw] = useState(false);
+
+  // 2FA state
+  type TfaStep = "idle" | "setup" | "enable" | "disable";
+  const [tfaStep, setTfaStep] = useState<TfaStep>("idle");
+  const [tfaEnabled, setTfaEnabled] = useState(false);
+  const [tfaQr, setTfaQr] = useState("");
+  const [tfaSecret, setTfaSecret] = useState("");
+  const [tfaVerifyCode, setTfaVerifyCode] = useState("");
+  const [tfaDisableForm, setTfaDisableForm] = useState({ password: "", code: "" });
+  const [tfaLoading, setTfaLoading] = useState(false);
+
+  useEffect(() => {
+    if (user && "twoFactorEnabled" in user) {
+      setTfaEnabled(!!(user as any).twoFactorEnabled);
+    }
+  }, [user]);
+
+  const authHeader = () => ({ "Content-Type": "application/json", Authorization: `Bearer ${localStorage.getItem("bob_token")}` });
+
+  const startSetup2FA = async () => {
+    setTfaLoading(true);
+    try {
+      const res = await fetch("/api/auth/2fa/setup", { method: "POST", headers: authHeader() });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Erreur");
+      setTfaQr(data.qrCode);
+      setTfaSecret(data.secret);
+      setTfaStep("setup");
+    } catch (err: any) {
+      toast({ title: "Erreur", description: err.message, variant: "destructive" });
+    } finally {
+      setTfaLoading(false);
+    }
+  };
+
+  const enable2FA = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setTfaLoading(true);
+    try {
+      const res = await fetch("/api/auth/2fa/enable", { method: "POST", headers: authHeader(), body: JSON.stringify({ code: tfaVerifyCode }) });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Erreur");
+      toast({ title: "2FA activée !", description: "L'authentification à deux facteurs est maintenant active.", variant: "success" });
+      setTfaEnabled(true);
+      setTfaStep("idle");
+      setTfaVerifyCode("");
+      queryClient.invalidateQueries();
+    } catch (err: any) {
+      toast({ title: "Code invalide", description: err.message, variant: "destructive" });
+    } finally {
+      setTfaLoading(false);
+    }
+  };
+
+  const disable2FA = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setTfaLoading(true);
+    try {
+      const res = await fetch("/api/auth/2fa/disable", { method: "POST", headers: authHeader(), body: JSON.stringify(tfaDisableForm) });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Erreur");
+      toast({ title: "2FA désactivée", description: "L'authentification à deux facteurs a été désactivée." });
+      setTfaEnabled(false);
+      setTfaStep("idle");
+      setTfaDisableForm({ password: "", code: "" });
+      queryClient.invalidateQueries();
+    } catch (err: any) {
+      toast({ title: "Erreur", description: err.message, variant: "destructive" });
+    } finally {
+      setTfaLoading(false);
+    }
+  };
 
   const createAccountMutation = useCreateBankAccount({
     mutation: {
@@ -224,13 +296,7 @@ export default function Settings() {
                 <div className="space-y-2">
                   <Label htmlFor="currentPw">Mot de passe actuel</Label>
                   <div className="relative">
-                    <Input
-                      id="currentPw"
-                      type={showPw.current ? "text" : "password"}
-                      value={pwForm.currentPassword}
-                      onChange={e => setPwForm({ ...pwForm, currentPassword: e.target.value })}
-                      required
-                    />
+                    <Input id="currentPw" type={showPw.current ? "text" : "password"} value={pwForm.currentPassword} onChange={e => setPwForm({ ...pwForm, currentPassword: e.target.value })} required />
                     <button type="button" className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground" onClick={() => setShowPw(s => ({ ...s, current: !s.current }))}>
                       {showPw.current ? <EyeOff size={16} /> : <Eye size={16} />}
                     </button>
@@ -239,13 +305,7 @@ export default function Settings() {
                 <div className="space-y-2">
                   <Label htmlFor="newPw">Nouveau mot de passe</Label>
                   <div className="relative">
-                    <Input
-                      id="newPw"
-                      type={showPw.new ? "text" : "password"}
-                      value={pwForm.newPassword}
-                      onChange={e => setPwForm({ ...pwForm, newPassword: e.target.value })}
-                      required
-                    />
+                    <Input id="newPw" type={showPw.new ? "text" : "password"} value={pwForm.newPassword} onChange={e => setPwForm({ ...pwForm, newPassword: e.target.value })} required />
                     <button type="button" className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground" onClick={() => setShowPw(s => ({ ...s, new: !s.new }))}>
                       {showPw.new ? <EyeOff size={16} /> : <Eye size={16} />}
                     </button>
@@ -254,22 +314,135 @@ export default function Settings() {
                 <div className="space-y-2">
                   <Label htmlFor="confirmPw">Confirmer le nouveau mot de passe</Label>
                   <div className="relative">
-                    <Input
-                      id="confirmPw"
-                      type={showPw.confirm ? "text" : "password"}
-                      value={pwForm.confirmPassword}
-                      onChange={e => setPwForm({ ...pwForm, confirmPassword: e.target.value })}
-                      required
-                    />
+                    <Input id="confirmPw" type={showPw.confirm ? "text" : "password"} value={pwForm.confirmPassword} onChange={e => setPwForm({ ...pwForm, confirmPassword: e.target.value })} required />
                     <button type="button" className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground" onClick={() => setShowPw(s => ({ ...s, confirm: !s.confirm }))}>
                       {showPw.confirm ? <EyeOff size={16} /> : <Eye size={16} />}
                     </button>
                   </div>
                 </div>
-                <Button type="submit" disabled={savingPw}>
-                  {savingPw ? "Mise à jour..." : "Mettre à jour le mot de passe"}
-                </Button>
+                <Button type="submit" disabled={savingPw}>{savingPw ? "Mise à jour..." : "Mettre à jour le mot de passe"}</Button>
               </form>
+            </CardContent>
+          </Card>
+
+          {/* === 2FA CARD === */}
+          <Card>
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <div>
+                  <CardTitle className="flex items-center gap-2">
+                    <Shield className="w-5 h-5" /> Authentification à deux facteurs (2FA)
+                  </CardTitle>
+                  <CardDescription>Protégez votre compte avec une couche de sécurité supplémentaire.</CardDescription>
+                </div>
+                <div className={`px-3 py-1 rounded-full text-xs font-bold ${tfaEnabled ? "bg-green-500/15 text-green-500 border border-green-500/30" : "bg-amber-500/15 text-amber-500 border border-amber-500/30"}`}>
+                  {tfaEnabled ? "✓ Activée" : "✗ Désactivée"}
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent>
+              {tfaStep === "idle" && (
+                <div>
+                  {tfaEnabled ? (
+                    <div className="space-y-4">
+                      <div className="flex items-start gap-3 p-4 rounded-xl bg-green-500/5 border border-green-500/20">
+                        <CheckCircle2 className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                        <div>
+                          <p className="font-semibold text-sm text-green-600">La 2FA est activée sur votre compte</p>
+                          <p className="text-xs text-muted-foreground mt-1">Vous devez saisir un code à chaque connexion. Votre compte bénéficie d'une protection renforcée.</p>
+                        </div>
+                      </div>
+                      <Button variant="destructive" size="sm" onClick={() => setTfaStep("disable")}>
+                        <Lock className="w-4 h-4 mr-2" /> Désactiver la 2FA
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      <div className="flex items-start gap-3 p-4 rounded-xl bg-amber-500/5 border border-amber-500/20">
+                        <AlertTriangle className="w-5 h-5 text-amber-500 mt-0.5 flex-shrink-0" />
+                        <div>
+                          <p className="font-semibold text-sm text-amber-600">Votre compte n'est pas protégé par la 2FA</p>
+                          <p className="text-xs text-muted-foreground mt-1">Activez l'authentification à deux facteurs pour protéger votre compte contre les accès non autorisés.</p>
+                        </div>
+                      </div>
+                      <p className="text-sm text-muted-foreground">
+                        Vous aurez besoin d'une application d'authentification comme <strong>Google Authenticator</strong> ou <strong>Authy</strong>.
+                      </p>
+                      <Button onClick={startSetup2FA} disabled={tfaLoading}>
+                        <QrCode className="w-4 h-4 mr-2" />
+                        {tfaLoading ? "Chargement..." : "Configurer la 2FA"}
+                      </Button>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {tfaStep === "setup" && (
+                <div className="space-y-6 max-w-md">
+                  <div className="space-y-2">
+                    <p className="font-semibold text-sm">Étape 1 — Scannez le QR code</p>
+                    <p className="text-xs text-muted-foreground">Ouvrez votre application d'authentification et scannez ce code QR.</p>
+                  </div>
+                  <div className="flex justify-center">
+                    <div className="p-3 bg-white rounded-xl border shadow-sm">
+                      <img src={tfaQr} alt="QR Code 2FA" className="w-44 h-44" />
+                    </div>
+                  </div>
+                  <div className="p-3 bg-secondary/30 rounded-lg border">
+                    <p className="text-xs text-muted-foreground mb-1">Clé manuelle (si vous ne pouvez pas scanner) :</p>
+                    <code className="text-xs font-mono break-all text-foreground">{tfaSecret}</code>
+                  </div>
+                  <div className="space-y-2">
+                    <p className="font-semibold text-sm">Étape 2 — Vérifiez le code</p>
+                    <p className="text-xs text-muted-foreground">Entrez le code à 6 chiffres affiché dans votre application pour finaliser la configuration.</p>
+                  </div>
+                  <form onSubmit={enable2FA} className="space-y-4">
+                    <div className="space-y-2">
+                      <Label>Code de vérification</Label>
+                      <Input
+                        type="text"
+                        inputMode="numeric"
+                        maxLength={6}
+                        placeholder="000000"
+                        value={tfaVerifyCode}
+                        onChange={e => setTfaVerifyCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                        className="text-center text-2xl tracking-widest font-bold"
+                      />
+                    </div>
+                    <div className="flex gap-3">
+                      <Button type="submit" disabled={tfaLoading || tfaVerifyCode.length !== 6}>
+                        {tfaLoading ? "Activation..." : "Activer la 2FA"}
+                      </Button>
+                      <Button type="button" variant="outline" onClick={() => { setTfaStep("idle"); setTfaVerifyCode(""); }}>Annuler</Button>
+                    </div>
+                  </form>
+                </div>
+              )}
+
+              {tfaStep === "disable" && (
+                <form onSubmit={disable2FA} className="space-y-4 max-w-md">
+                  <div className="flex items-start gap-3 p-4 rounded-xl bg-red-500/5 border border-red-500/20">
+                    <AlertTriangle className="w-5 h-5 text-red-500 mt-0.5 flex-shrink-0" />
+                    <p className="text-xs text-red-600">Pour confirmer la désactivation, entrez votre mot de passe et votre code 2FA actuel.</p>
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Mot de passe</Label>
+                    <Input type="password" required value={tfaDisableForm.password} onChange={e => setTfaDisableForm(f => ({ ...f, password: e.target.value }))} />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Code 2FA actuel</Label>
+                    <Input type="text" inputMode="numeric" maxLength={6} placeholder="000000"
+                      value={tfaDisableForm.code} onChange={e => setTfaDisableForm(f => ({ ...f, code: e.target.value.replace(/\D/g, "").slice(0, 6) }))}
+                      className="text-center text-xl tracking-widest font-bold" />
+                  </div>
+                  <div className="flex gap-3">
+                    <Button type="submit" variant="destructive" disabled={tfaLoading}>
+                      {tfaLoading ? "Désactivation..." : "Confirmer la désactivation"}
+                    </Button>
+                    <Button type="button" variant="outline" onClick={() => { setTfaStep("idle"); setTfaDisableForm({ password: "", code: "" }); }}>Annuler</Button>
+                  </div>
+                </form>
+              )}
             </CardContent>
           </Card>
         </TabsContent>

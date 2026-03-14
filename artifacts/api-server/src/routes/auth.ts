@@ -3,8 +3,9 @@ import bcrypt from "bcryptjs";
 import { db } from "@workspace/db";
 import { usersTable, balancesTable } from "@workspace/db/schema";
 import { eq } from "drizzle-orm";
-import { signToken } from "../lib/jwt.js";
+import { signToken, signTempToken, verifyTempToken } from "../lib/jwt.js";
 import { requireAuth, AuthRequest } from "../middlewares/auth.js";
+import { verifyTwoFactorCode } from "./two_factor.js";
 
 const router = Router();
 
@@ -59,8 +60,54 @@ router.post("/login", async (req, res): Promise<void> => {
       res.status(401).json({ error: "Unauthorized", message: "Invalid credentials" });
       return;
     }
+
+    if (user.twoFactorEnabled) {
+      const tempToken = signTempToken({ userId: user.id, twoFactorPending: true });
+      res.json({ requiresTwoFactor: true, tempToken });
+      return;
+    }
+
     const token = signToken({ userId: user.id, email: user.email, role: user.role });
-    const { passwordHash: _, ...safeUser } = user;
+    const { passwordHash: _, twoFactorSecret: __, twoFactorPendingSecret: ___, ...safeUser } = user;
+    res.json({ token, user: safeUser });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal Server Error", message: "Login failed" });
+  }
+});
+
+router.post("/login/2fa", async (req, res): Promise<void> => {
+  try {
+    const { tempToken, code } = req.body || {};
+    if (!tempToken || !code) {
+      res.status(400).json({ error: "Token et code requis" });
+      return;
+    }
+
+    let payload: { userId: number; twoFactorPending: boolean };
+    try {
+      payload = verifyTempToken(tempToken) as { userId: number; twoFactorPending: boolean };
+    } catch {
+      res.status(401).json({ error: "Token expiré ou invalide. Veuillez vous reconnecter." });
+      return;
+    }
+
+    if (!payload.twoFactorPending) {
+      res.status(400).json({ error: "Token invalide" });
+      return;
+    }
+
+    const validCode = await verifyTwoFactorCode(payload.userId, code);
+    if (!validCode) {
+      res.status(401).json({ error: "Code d'authentification invalide" });
+      return;
+    }
+
+    const [user] = await db.select().from(usersTable).where(eq(usersTable.id, payload.userId)).limit(1);
+    if (!user) { res.status(404).json({ error: "Utilisateur non trouvé" }); return; }
+
+    const token = signToken({ userId: user.id, email: user.email, role: user.role });
+    const { passwordHash: _, twoFactorSecret: __, twoFactorPendingSecret: ___, ...safeUser } = user;
     res.json({ token, user: safeUser });
   } catch (err) {
     console.error(err);

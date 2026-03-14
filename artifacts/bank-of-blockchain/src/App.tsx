@@ -8,6 +8,8 @@ import { ThemeProvider } from "@/contexts/ThemeContext";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/public/Home";
 import Login from "@/pages/public/Login";
+import ForgotPassword from "@/pages/auth/ForgotPassword";
+import ResetPassword from "@/pages/auth/ResetPassword";
 import Register from "@/pages/public/Register";
 import LaBanque from "@/pages/public/LaBanque";
 import Contact from "@/pages/public/Contact";
@@ -84,6 +86,8 @@ function Router() {
       <Route path="/login" component={Login} />
       <Route path="/ouverture-de-compte" component={Register} />
       <Route path="/register" component={Register} />
+      <Route path="/mot-de-passe-oublie" component={ForgotPassword} />
+      <Route path="/reset-password" component={ResetPassword} />
 
       {/* User Dashboard Routes */}
       <Route path="/dashboard">
