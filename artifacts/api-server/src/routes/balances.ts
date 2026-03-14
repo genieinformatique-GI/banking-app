@@ -44,6 +44,10 @@ router.get("/:userId", requireAdmin, async (req: AuthRequest, res): Promise<void
 router.patch("/:userId", requireAdmin, async (req: AuthRequest, res): Promise<void> => {
   try {
     const userId = parseInt(req.params["userId"]!);
+    if (!req.body || typeof req.body !== "object") {
+      res.status(400).json({ error: "Request body is required" });
+      return;
+    }
     const { eur, usd, btc } = req.body;
     const updates: Record<string, unknown> = { updatedAt: new Date() };
     if (eur !== undefined) updates["eur"] = String(eur);

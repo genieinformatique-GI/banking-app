@@ -161,7 +161,7 @@ export default function AdminNotifications() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {notificationsData?.notifications.map(n => (
+                  {(notificationsData?.notifications ?? []).map(n => (
                     <TableRow key={n.id}>
                       <TableCell>{getTypeIcon(n.type)}</TableCell>
                       <TableCell className="font-medium max-w-[200px] truncate" title={n.message}>
