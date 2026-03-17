@@ -215,12 +215,7 @@ export default function Login() {
                     : tfaMethod === "sms" ? `📱 Vérifiez vos SMS et saisissez le code à 6 chiffres.`
                     : `🔐 Ouvrez votre application Google Authenticator ou Authy et saisissez le code à 6 chiffres.`}
                 </p>
-                {tfaDevCode && (
-                  <div style={{ marginTop: 12, padding: "10px 16px", background: "rgba(246,168,33,0.08)", borderRadius: 8, border: "1px solid rgba(246,168,33,0.2)" }}>
-                    <p style={{ color: "#92400e", fontSize: 11, fontWeight: 600, marginBottom: 4 }}>Mode démo — Code visible :</p>
-                    <code style={{ fontSize: 24, fontWeight: 800, letterSpacing: 8, color: "#d97706" }}>{tfaDevCode}</code>
-                  </div>
-                )}
+
               </div>
               <div style={{ marginBottom: 24 }}>
                 <label style={lbl}>Code d'authentification</label>

@@ -1,0 +1,45 @@
+Note: Unnecessary use of -X or --request, POST is already inferred.
+* Host localhost:3000 was resolved.
+* IPv6: ::1
+* IPv4: 127.0.0.1
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0*   Trying [::1]:3000...
+* Connected to localhost (::1) port 3000
+> POST /api/auth/login HTTP/1.1
+> Host: localhost:3000
+> User-Agent: curl/8.5.0
+> Accept: */*
+> Content-Type: application/json
+> Content-Length: 67
+> 
+} [67 bytes data]
+< HTTP/1.1 500 Internal Server Error
+< Cross-Origin-Opener-Policy: same-origin
+< Cross-Origin-Resource-Policy: same-origin
+< Origin-Agent-Cluster: ?1
+< Referrer-Policy: no-referrer
+< Strict-Transport-Security: max-age=31536000; includeSubDomains
+< X-Content-Type-Options: nosniff
+< X-DNS-Prefetch-Control: off
+< X-Download-Options: noopen
+< X-Frame-Options: SAMEORIGIN
+< X-Permitted-Cross-Domain-Policies: none
+< X-XSS-Protection: 0
+< Vary: Origin, Accept-Encoding
+< Access-Control-Allow-Credentials: true
+< RateLimit-Policy: 20;w=900
+< RateLimit-Limit: 20
+< RateLimit-Remaining: 19
+< RateLimit-Reset: 900
+< Content-Type: application/json; charset=utf-8
+< Content-Length: 58
+< ETag: W/"3a-0ZjYbn7j4biuJ5Qj7+R94FQEJF4"
+< Date: Sun, 15 Mar 2026 23:02:05 GMT
+< Connection: keep-alive
+< Keep-Alive: timeout=5
+< 
+{ [58 bytes data]
+100   125  100    58  100    67   4275   4938 --:--:-- --:--:-- --:--:--  9615
+* Connection #0 to host localhost left intact
+{"error":"Internal Server Error","message":"Login failed"}

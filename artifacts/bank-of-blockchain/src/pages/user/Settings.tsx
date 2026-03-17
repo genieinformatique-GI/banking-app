@@ -114,10 +114,9 @@ export default function Settings() {
       if (method === "app") {
         setTfaQr(data.qrCode);
         setTfaSecret(data.secret);
-      } else {
-        setTfaOtpMsg(data.message);
-        setTfaDevCode(data.devCode || "");
-      }
+       } else {
+         setTfaOtpMsg(data.message);
+       }
       setTfaStep("setup");
     } catch (err: any) {
       toast({ title: "Erreur", description: err.message, variant: "destructive" });
@@ -126,43 +125,41 @@ export default function Settings() {
     }
   };
 
-  const resendOtp = async () => {
-    setTfaLoading(true);
-    try {
-      const res = await fetch("/api/auth/2fa/send-otp", { method: "POST", headers: authHeader() });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Erreur");
-      setTfaOtpMsg(data.message);
-      setTfaDevCode(data.devCode || "");
-      toast({ title: "Code renvoyé", description: data.message });
-    } catch (err: any) {
-      toast({ title: "Erreur", description: err.message, variant: "destructive" });
-    } finally {
-      setTfaLoading(false);
-    }
-  };
+   const resendOtp = async () => {
+     setTfaLoading(true);
+     try {
+       const res = await fetch("/api/auth/2fa/send-otp", { method: "POST", headers: authHeader() });
+       const data = await res.json();
+       if (!res.ok) throw new Error(data.error || "Erreur");
+       setTfaOtpMsg(data.message);
+       toast({ title: "Code renvoyé", description: data.message });
+     } catch (err: any) {
+       toast({ title: "Erreur", description: err.message, variant: "destructive" });
+     } finally {
+       setTfaLoading(false);
+     }
+   };
 
-  const enable2FA = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setTfaLoading(true);
-    try {
-      const res = await fetch("/api/auth/2fa/enable", { method: "POST", headers: authHeader(), body: JSON.stringify({ code: tfaVerifyCode }) });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Erreur");
-      const label = tfaMethod === "app" ? "Application" : tfaMethod === "email" ? "Email" : "SMS";
-      toast({ title: `2FA activée (${label}) !`, description: data.message, variant: "success" });
-      setTfaEnabled(true);
-      setTfaActiveMethod(tfaMethod);
-      setTfaStep("idle");
-      setTfaVerifyCode("");
-      setTfaDevCode("");
-      queryClient.invalidateQueries();
-    } catch (err: any) {
-      toast({ title: "Code invalide", description: err.message, variant: "destructive" });
-    } finally {
-      setTfaLoading(false);
-    }
-  };
+   const enable2FA = async (e: React.FormEvent) => {
+     e.preventDefault();
+     setTfaLoading(true);
+     try {
+       const res = await fetch("/api/auth/2fa/enable", { method: "POST", headers: authHeader(), body: JSON.stringify({ code: tfaVerifyCode }) });
+       const data = await res.json();
+       if (!res.ok) throw new Error(data.error || "Erreur");
+       const label = tfaMethod === "app" ? "Application" : tfaMethod === "email" ? "Email" : "SMS";
+       toast({ title: `2FA activée (${label}) !`, description: data.message });
+       setTfaEnabled(true);
+       setTfaActiveMethod(tfaMethod);
+       setTfaStep("idle");
+       setTfaVerifyCode("");
+       queryClient.invalidateQueries();
+     } catch (err: any) {
+       toast({ title: "Code invalide", description: err.message, variant: "destructive" });
+     } finally {
+       setTfaLoading(false);
+     }
+   };
 
   const disable2FA = async (e: React.FormEvent) => {
     e.preventDefault();

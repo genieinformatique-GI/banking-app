@@ -29,11 +29,11 @@ export default function AdminTransactions() {
 
   const validateMutation = useValidateTransaction({
     mutation: {
-      onSuccess: () => {
-        toast({ title: "Transaction validée", variant: "success" });
-        queryClient.invalidateQueries();
-        setDetailModalOpen(false);
-      }
+       onSuccess: () => {
+         toast({ title: "Transaction validée" });
+         queryClient.invalidateQueries();
+         setDetailModalOpen(false);
+       }
     }
   });
 
@@ -67,85 +67,85 @@ export default function AdminTransactions() {
 
   return (
     <div className="space-y-8 animate-fade-in">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
-        <div>
-          <h1 className="text-3xl font-display font-bold">{(t as any).admin.transactions.title}</h1>
-          <p className="text-muted-foreground mt-1">Supervisez et validez les dépôts et retraits.</p>
-        </div>
-        <div className="flex items-center gap-2">
-          <Filter className="w-4 h-4 text-muted-foreground" />
-          <Select value={filter} onValueChange={setFilter}>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder={(t as any).transactions.allStatuses} />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">{(t as any).transactions.allStatuses}</SelectItem>
-              <SelectItem value="pending">{t.common.status.pending}</SelectItem>
-              <SelectItem value="processing">{t.common.status.processing}</SelectItem>
-              <SelectItem value="completed">{t.common.status.completed}</SelectItem>
-              <SelectItem value="rejected">{t.common.status.rejected}</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-      </div>
+       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
+         <div>
+           <h1 className="text-3xl font-display font-bold">{t.transactions.title}</h1>
+           <p className="text-muted-foreground mt-1">Supervisez et validez les dépôts et retraits.</p>
+         </div>
+         <div className="flex items-center gap-2">
+           <Filter className="w-4 h-4 text-muted-foreground" />
+           <Select value={filter} onValueChange={setFilter}>
+             <SelectTrigger className="w-[180px]">
+               <SelectValue placeholder={t.transactions.allStatuses} />
+             </SelectTrigger>
+             <SelectContent>
+               <SelectItem value="all">{t.transactions.allStatuses}</SelectItem>
+               <SelectItem value="pending">{t.common.status.pending}</SelectItem>
+               <SelectItem value="processing">{t.common.status.processing}</SelectItem>
+               <SelectItem value="completed">{t.common.status.completed}</SelectItem>
+               <SelectItem value="rejected">{t.common.status.rejected}</SelectItem>
+             </SelectContent>
+           </Select>
+         </div>
+       </div>
 
-      <Card>
-        <CardContent className="p-0">
-          {isLoading ? (
-            <div className="p-8 flex justify-center"><div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" /></div>
-          ) : (
-            <div className="overflow-x-auto"><Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>ID</TableHead>
-                  <TableHead>{t.admin.users.name}</TableHead>
-                  <TableHead>{(t as any).common.type}</TableHead>
-                  <TableHead>{t.transfers.amount}</TableHead>
-                  <TableHead>{t.transactions.description}</TableHead>
-                  <TableHead>{t.transactions.date}</TableHead>
-                  <TableHead>{t.transactions.status}</TableHead>
-                  <TableHead className="text-right">{t.common.actions}</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredTx.map(tx => (
-                  <TableRow key={tx.id}>
-                    <TableCell className="font-mono text-xs text-muted-foreground">#{tx.id}</TableCell>
-                    <TableCell className="font-medium">{tx.user?.firstName} {tx.user?.lastName}</TableCell>
-                    <TableCell className="capitalize">{tx.type.replace('_', ' ')}</TableCell>
-                    <TableCell className="font-mono font-bold text-foreground">{formatCurrency(tx.amount, tx.currency)}</TableCell>
-                    <TableCell className="text-xs text-muted-foreground max-w-[120px] truncate">{tx.description || "—"}</TableCell>
-                    <TableCell className="text-muted-foreground text-sm">{formatDate(tx.createdAt)}</TableCell>
-                    <TableCell>{getStatusBadge(tx.status)}</TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex justify-end gap-1">
-                        <Button size="sm" variant="ghost" onClick={() => openDetail(tx)} title="Voir détails">
-                          <Eye className="w-4 h-4" />
-                        </Button>
-                        {(tx.status === 'pending' || tx.status === 'processing') && (
-                          <>
-                            <Button size="sm" variant="outline" className="text-emerald-500 border-emerald-500/30 hover:bg-emerald-500/10"
-                              onClick={() => validateMutation.mutate({ id: tx.id })} disabled={validateMutation.isPending}>
-                              <CheckCircle className="w-3.5 h-3.5 mr-1" /> Valider
-                            </Button>
-                            <Button size="sm" variant="outline" className="text-red-500 border-red-500/30 hover:bg-red-500/10"
-                              onClick={() => openReject(tx)}>
-                              <XCircle className="w-3.5 h-3.5 mr-1" /> Rejeter
-                            </Button>
-                          </>
-                        )}
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-                {filteredTx.length === 0 && (
-                  <TableRow><TableCell colSpan={8} className="text-center p-8 text-muted-foreground">Aucune transaction trouvée.</TableCell></TableRow>
-                )}
-              </TableBody>
-            </Table></div>
-          )}
-        </CardContent>
-      </Card>
+       <Card>
+         <CardContent className="p-0">
+           {isLoading ? (
+             <div className="p-8 flex justify-center"><div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" /></div>
+           ) : (
+             <div className="overflow-x-auto"><Table>
+               <TableHeader>
+                 <TableRow>
+                   <TableHead>ID</TableHead>
+                   <TableHead>{t.admin.users.name}</TableHead>
+                   <TableHead>{t.common.type}</TableHead>
+                   <TableHead>{t.transactions.amount}</TableHead>
+                   <TableHead>{t.transactions.description}</TableHead>
+                   <TableHead>{t.transactions.date}</TableHead>
+                   <TableHead>{t.transactions.status}</TableHead>
+                   <TableHead className="text-right">{t.common.actions}</TableHead>
+                 </TableRow>
+               </TableHeader>
+               <TableBody>
+                 {filteredTx.map(tx => (
+                   <TableRow key={tx.id}>
+                     <TableCell className="font-mono text-xs text-muted-foreground">#{tx.id}</TableCell>
+                     <TableCell className="font-medium">{tx.user?.firstName} {tx.user?.lastName}</TableCell>
+                     <TableCell className="capitalize">{tx.type.replace('_', ' ')}</TableCell>
+                     <TableCell className="font-mono font-bold text-foreground">{formatCurrency(tx.amount, tx.currency)}</TableCell>
+                     <TableCell className="text-xs text-muted-foreground max-w-[120px] truncate">{tx.description || "—"}</TableCell>
+                     <TableCell className="text-muted-foreground text-sm">{formatDate(tx.createdAt)}</TableCell>
+                     <TableCell>{getStatusBadge(tx.status)}</TableCell>
+                     <TableCell className="text-right">
+                       <div className="flex justify-end gap-1">
+                         <Button size="sm" variant="ghost" onClick={() => openDetail(tx)} title="Voir détails">
+                           <Eye className="w-4 h-4" />
+                         </Button>
+                         {(tx.status === 'pending' || tx.status === 'processing') && (
+                           <>
+                             <Button size="sm" variant="outline" className="text-emerald-500 border-emerald-500/30 hover:bg-emerald-500/10"
+                               onClick={() => validateMutation.mutate({ id: tx.id })} disabled={validateMutation.isPending}>
+                               <CheckCircle className="w-3.5 h-3.5 mr-1" /> Valider
+                             </Button>
+                             <Button size="sm" variant="outline" className="text-red-500 border-red-500/30 hover:bg-red-500/10"
+                               onClick={() => openReject(tx)}>
+                               <XCircle className="w-3.5 h-3.5 mr-1" /> Rejeter
+                             </Button>
+                           </>
+                         )}
+                       </div>
+                     </TableCell>
+                   </TableRow>
+                 ))}
+                 {filteredTx.length === 0 && (
+                   <TableRow><TableCell colSpan={8} className="text-center p-8 text-muted-foreground">Aucune transaction trouvée.</TableCell></TableRow>
+                 )}
+               </TableBody>
+             </Table></div>
+           )}
+         </CardContent>
+       </Card>
 
       {/* ── Detail Modal ── */}
       <Dialog open={detailModalOpen} onOpenChange={setDetailModalOpen}>

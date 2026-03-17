@@ -1,0 +1,32 @@
+
+> @workspace/api-server@0.0.0 dev
+> NODE_ENV=development tsx ./src/index.ts
+
+Server listening on port 3000
+Login attempt for email: admin@blockchainbank.com
+User found: admin@blockchainbank.com
+Password valid
+Generating token
+Token generated: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoiYWRtaW5AYmxvY2tjaGFpbmJhbmsuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzczNzY4MTMxLCJleHAiOjE3NzQzNzI5MzF9.NG75yPpx4BtpiLn1fVEDVyXOVsvrxzWeIU_QS66vtuU
+Login attempt for email: francghistamba@gmail.com
+User found: francghistamba@gmail.com
+Password valid
+Generating token
+Token generated: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImVtYWlsIjoiZnJhbmNnaGlzdGFtYmFAZ21haWwuY29tIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3NzM3NjgyMTUsImV4cCI6MTc3NDM3MzAxNX0.rXCcVZf9d4qDUD6CCWsWU28I2HeYQnbIH8ewD4tq_Qg
+[2FA EMAIL] To: francghistamba@gmail.com — Code: 730108
+[2FA SMS] To: 656465415 — Code: 137058
+Login attempt for email: admin@blockchainbank.com
+User found: admin@blockchainbank.com
+Password valid
+Generating token
+Token generated: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoiYWRtaW5AYmxvY2tjaGFpbmJhbmsuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzczNzY4MzEyLCJleHAiOjE3NzQzNzMxMTJ9.9yjNEVvlXhcGQT-csju-wBa8t09h2aOIcracpFg9MqY
+Login attempt for email: francghistamba@gmail.com
+User found: francghistamba@gmail.com
+Password valid
+User has 2FA enabled
+[2FA LOGIN SMS] User francghistamba@gmail.com — Code: 809499
+Login attempt for email: admin@blockchainbank.com
+User found: admin@blockchainbank.com
+Password valid
+Generating token
+Token generated: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoiYWRtaW5AYmxvY2tjaGFpbmJhbmsuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzczNzc1OTA0LCJleHAiOjE3NzQzODA3MDR9.C_SUMKNoJyJLd2ads3arMkHut9ZjVFqEBCul0owxkVg

@@ -45,6 +45,7 @@ router.post("/register", async (req, res): Promise<void> => {
 
 router.post("/login", async (req, res): Promise<void> => {
   try {
+    console.log("Login attempt for email:", req.body.email);
     const { email, password } = req.body;
     if (!email || !password) {
       res.status(400).json({ error: "Bad Request", message: "Email and password required" });
@@ -55,43 +56,48 @@ router.post("/login", async (req, res): Promise<void> => {
       res.status(401).json({ error: "Unauthorized", message: "Invalid credentials" });
       return;
     }
+    console.log("User found:", user.email);
     const valid = await bcrypt.compare(password, user.passwordHash);
     if (!valid) {
       res.status(401).json({ error: "Unauthorized", message: "Invalid credentials" });
       return;
     }
+    console.log("Password valid");
 
     if (user.twoFactorEnabled) {
+      console.log("User has 2FA enabled");
       const tempToken = signTempToken({ userId: user.id, twoFactorPending: true });
       const method = user.twoFactorMethod || "app";
 
-      if (method === "email" || method === "sms") {
-        const code = Math.floor(100000 + Math.random() * 900000).toString();
-        const otpExpiry = new Date(Date.now() + 10 * 60 * 1000);
-        await db.update(usersTable).set({ otpCode: code, otpExpiry, updatedAt: new Date() }).where(eq(usersTable.id, user.id));
-        console.log(`[2FA LOGIN ${method.toUpperCase()}] User ${user.email} — Code: ${code}`);
-        try {
-          const { notificationsTable } = await import("@workspace/db/schema");
-          await db.insert(notificationsTable).values({
-            userId: user.id,
-            title: `Code 2FA par ${method === "email" ? "Email" : "SMS"}`,
-            message: `Votre code de connexion est : ${code} (valable 10 minutes). ${method === "sms" ? `SMS envoyé au ${user.phone || "numéro renseigné"}.` : `Envoyé à ${user.email}.`}`,
-            type: "info",
-            isRead: false,
-          });
-        } catch {}
-        res.json({ requiresTwoFactor: true, tempToken, method, sentTo: method === "email" ? user.email : user.phone, devCode: code });
-      } else {
-        res.json({ requiresTwoFactor: true, tempToken, method: "app" });
-      }
+       if (method === "email" || method === "sms") {
+         const code = Math.floor(100000 + Math.random() * 900000).toString();
+         const otpExpiry = new Date(Date.now() + 10 * 60 * 1000);
+         await db.update(usersTable).set({ otpCode: code, otpExpiry, updatedAt: new Date() }).where(eq(usersTable.id, user.id));
+         console.log(`[2FA LOGIN ${method.toUpperCase()}] User ${user.email} — Code: ${code}`);
+         try {
+           const { notificationsTable } = await import("@workspace/db/schema");
+           await db.insert(notificationsTable).values({
+             userId: user.id,
+             title: `Code 2FA par ${method === "email" ? "Email" : "SMS"}`,
+             message: `Votre code de connexion est : ${code} (valable 10 minutes). ${method === "sms" ? `SMS envoyé au ${user.phone || "numéro renseigné"}.` : `Envoyé à ${user.email}.`}`,
+             type: "info",
+             isRead: false,
+           });
+         } catch {}
+         res.json({ requiresTwoFactor: true, tempToken, method, sentTo: method === "email" ? user.email : user.phone });
+       } else {
+         res.json({ requiresTwoFactor: true, tempToken, method: "app" });
+       }
       return;
     }
 
+    console.log("Generating token");
     const token = signToken({ userId: user.id, email: user.email, role: user.role });
+    console.log("Token generated:", token);
     const { passwordHash: _, twoFactorSecret: __, twoFactorPendingSecret: ___, ...safeUser } = user;
     res.json({ token, user: safeUser });
   } catch (err) {
-    console.error(err);
+    console.error("Error in login route:", err);
     res.status(500).json({ error: "Internal Server Error", message: "Login failed" });
   }
 });

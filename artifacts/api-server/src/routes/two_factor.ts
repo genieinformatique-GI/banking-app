@@ -85,13 +85,12 @@ router.post("/setup", async (req: AuthRequest, res): Promise<void> => {
 
       await sendOTPToUser(user, method, code);
 
-      res.json({
-        method,
-        message: method === "email"
-          ? `Un code de vérification a été envoyé à ${user.email}`
-          : `Un code de vérification SMS a été envoyé au ${user.phone || "numéro renseigné"}`,
-        devCode: code,
-      });
+       res.json({
+         method,
+         message: method === "email"
+           ? `Un code de vérification a été envoyé à ${user.email}`
+           : `Un code de vérification SMS a été envoyé au ${user.phone || "numéro renseigné"}`,
+       });
     }
   } catch (err) {
     console.error(err);

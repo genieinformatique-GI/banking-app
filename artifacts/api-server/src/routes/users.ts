@@ -5,6 +5,7 @@ import { usersTable, balancesTable, bankAccountsTable, transactionsTable, bankTr
 import { eq, ilike, or, and, count, SQL, desc } from "drizzle-orm";
 import { requireAuth, requireAdmin, AuthRequest } from "../middlewares/auth.js";
 import { logAction } from "../lib/logger.js";
+import { sendAccountActivationEmail, sendAccountRejectionEmail } from "../lib/email.js";
 
 const router = Router();
 router.use(requireAuth);
@@ -102,7 +103,7 @@ router.get("/stats", async (req: AuthRequest, res): Promise<void> => {
 
 router.get("/:id", async (req: AuthRequest, res): Promise<void> => {
   try {
-    const id = parseInt(req.params["id"]!);
+    const id = parseInt(req.params["id"] as string);
     const [user] = await db.select({
       id: usersTable.id,
       email: usersTable.email,
@@ -147,7 +148,7 @@ router.get("/:id", async (req: AuthRequest, res): Promise<void> => {
 
 router.get("/:id/export", async (req: AuthRequest, res): Promise<void> => {
   try {
-    const id = parseInt(req.params["id"]!);
+    const id = parseInt(req.params["id"] as string);
     const [user] = await db.select({
       id: usersTable.id,
       email: usersTable.email,
@@ -183,7 +184,7 @@ router.get("/:id/export", async (req: AuthRequest, res): Promise<void> => {
 
 router.patch("/:id", async (req: AuthRequest, res): Promise<void> => {
   try {
-    const id = parseInt(req.params["id"]!);
+    const id = parseInt(req.params["id"] as string);
     const { firstName, lastName, phone, country, dateOfBirth, status, role } = req.body;
     const updates: Record<string, unknown> = { updatedAt: new Date() };
     if (firstName !== undefined) updates["firstName"] = firstName;
@@ -211,7 +212,7 @@ router.patch("/:id", async (req: AuthRequest, res): Promise<void> => {
 
 router.patch("/:id/permissions", async (req: AuthRequest, res): Promise<void> => {
   try {
-    const id = parseInt(req.params["id"]!);
+    const id = parseInt(req.params["id"] as string);
     const { adminRole, adminPermissions, twoFactorRequired } = req.body;
     const updates: Record<string, unknown> = { updatedAt: new Date() };
     if (adminRole !== undefined) updates["adminRole"] = adminRole;
@@ -239,7 +240,7 @@ router.patch("/:id/permissions", async (req: AuthRequest, res): Promise<void> =>
 
 router.patch("/:id/avatar", async (req: AuthRequest, res): Promise<void> => {
   try {
-    const id = parseInt(req.params["id"]!);
+    const id = parseInt(req.params["id"] as string);
     const { avatarUrl } = req.body || {};
     if (!avatarUrl) { res.status(400).json({ error: "avatarUrl is required" }); return; }
     const [updated] = await db.update(usersTable).set({ avatarUrl, updatedAt: new Date() }).where(eq(usersTable.id, id)).returning({ id: usersTable.id, avatarUrl: usersTable.avatarUrl });
@@ -254,7 +255,7 @@ router.patch("/:id/avatar", async (req: AuthRequest, res): Promise<void> => {
 
 router.delete("/:id", async (req: AuthRequest, res): Promise<void> => {
   try {
-    const id = parseInt(req.params["id"]!);
+    const id = parseInt(req.params["id"] as string);
     await db.delete(usersTable).where(eq(usersTable.id, id));
     await logAction({ adminId: req.userId, action: "DELETE_USER", target: "user", targetId: id });
     res.json({ success: true, message: "User deleted" });
@@ -266,9 +267,16 @@ router.delete("/:id", async (req: AuthRequest, res): Promise<void> => {
 
 router.post("/:id/activate", async (req: AuthRequest, res): Promise<void> => {
   try {
-    const id = parseInt(req.params["id"]!);
+    const id = parseInt(req.params["id"] as string);
     await db.update(usersTable).set({ status: "active", updatedAt: new Date() }).where(eq(usersTable.id, id));
     await logAction({ adminId: req.userId, action: "ACTIVATE_USER", target: "user", targetId: id });
+    
+    // Get user details for email
+    const [user] = await db.select().from(usersTable).where(eq(usersTable.id, id)).limit(1);
+    if (user) {
+      await sendAccountActivationEmail(user.email, user.firstName);
+    }
+    
     res.json({ success: true, message: "User activated" });
   } catch (err) {
     console.error(err);
@@ -278,9 +286,16 @@ router.post("/:id/activate", async (req: AuthRequest, res): Promise<void> => {
 
 router.post("/:id/suspend", async (req: AuthRequest, res): Promise<void> => {
   try {
-    const id = parseInt(req.params["id"]!);
+    const id = parseInt(req.params["id"] as string);
     await db.update(usersTable).set({ status: "suspended", updatedAt: new Date() }).where(eq(usersTable.id, id));
     await logAction({ adminId: req.userId, action: "SUSPEND_USER", target: "user", targetId: id });
+    
+    // Get user details for email
+    const [user] = await db.select().from(usersTable).where(eq(usersTable.id, id)).limit(1);
+    if (user) {
+      await sendAccountRejectionEmail(user.email, user.firstName);
+    }
+    
     res.json({ success: true, message: "User suspended" });
   } catch (err) {
     console.error(err);
@@ -290,7 +305,7 @@ router.post("/:id/suspend", async (req: AuthRequest, res): Promise<void> => {
 
 router.post("/:id/reset-password", async (req: AuthRequest, res): Promise<void> => {
   try {
-    const id = parseInt(req.params["id"]!);
+    const id = parseInt(req.params["id"] as string);
     const { newPassword } = req.body || {};
     if (!newPassword || newPassword.length < 8) {
       res.status(400).json({ error: "Le mot de passe doit contenir au moins 8 caractères" }); return;

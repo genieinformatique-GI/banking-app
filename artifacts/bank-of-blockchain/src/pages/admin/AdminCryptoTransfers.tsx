@@ -27,11 +27,11 @@ export default function AdminCryptoTransfers() {
 
   const validateMutation = useValidateCryptoTransfer({
     mutation: {
-      onSuccess: () => {
-        toast({ title: "Transfert crypto validé", variant: "success" });
-        queryClient.invalidateQueries();
-        setDetailModalOpen(false);
-      }
+       onSuccess: () => {
+         toast({ title: "Transfert crypto validé" });
+         queryClient.invalidateQueries();
+         setDetailModalOpen(false);
+       }
     }
   });
 
@@ -50,11 +50,11 @@ export default function AdminCryptoTransfers() {
   const openDetail = (t: any) => { setSelectedTransfer(t); setDetailModalOpen(true); };
   const openReject = (t: any) => { setSelectedTransfer(t); setRejectReason(""); setRejectModalOpen(true); };
 
-  const statusBadge = (status: string) => {
-    if (status === 'pending') return <Badge variant="warning">{(tl as any).admin.bankTransfers.toValidate}</Badge>;
-    if (status === 'completed') return <Badge variant="success">{(tl as any).admin.bankTransfers.validated}</Badge>;
-    return <Badge variant="destructive">{(tl as any).admin.bankTransfers.rejected}</Badge>;
-  };
+   const statusBadge = (status: string) => {
+     if (status === 'pending') return <Badge variant="warning">{(tl as any).admin.cryptoTransfers.toValidate}</Badge>;
+     if (status === 'completed') return <Badge variant="success">{(tl as any).admin.cryptoTransfers.validated}</Badge>;
+     return <Badge variant="destructive">{(tl as any).admin.cryptoTransfers.rejected}</Badge>;
+   };
 
   const truncateAddress = (address: string) => address ? `${address.slice(0, 8)}…${address.slice(-6)}` : '';
 
