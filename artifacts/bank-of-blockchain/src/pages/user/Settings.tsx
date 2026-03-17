@@ -717,7 +717,7 @@ export default function Settings() {
                             <Trash2 className="w-4 h-4" />
                           </Button>
                         </TableCell>
-                      </TableRow>
+                      </TableRow>git 
                     ))}
                   </TableBody>
                 </Table>
