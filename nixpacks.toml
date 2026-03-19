@@ -1,16 +1,17 @@
 [phases.setup]
 nixPkgs = ["nodejs_22"]
+aptPkgs = ["curl"]
 
 [phases.install]
 cmds = [
-  "npm install --prefix artifacts/api-server",
-  "npm install --prefix artifacts/bank-of-blockchain"
+  "npm install -g pnpm",
+  "pnpm install"
 ]
 
 [phases.build]
 cmds = [
-  "npm run build --prefix artifacts/bank-of-blockchain",
-  "npm run build --prefix artifacts/api-server"
+  "pnpm --filter bank-of-blockchain build",
+  "pnpm --filter api-server build"
 ]
 
 [start]
