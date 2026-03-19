@@ -73,4 +73,3 @@ buildAll().catch((err) => {
   console.error(err);
   process.exit(1);
 });
-# force rebuild jeu. 19 mars 2026 22:22:19 WAT
