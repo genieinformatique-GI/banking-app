@@ -16,16 +16,13 @@ ENV FRONTEND_PORT=3000
 RUN pnpm --filter @workspace/bank-of-blockchain run build
 RUN pnpm --filter @workspace/api-server run build
 FROM node:22-slim AS production
-RUN npm install -g pnpm
 WORKDIR /app
+COPY --from=base /app/node_modules ./node_modules
 COPY --from=base /app/artifacts/api-server/dist ./artifacts/api-server/dist
 COPY --from=base /app/artifacts/bank-of-blockchain/dist/public ./artifacts/bank-of-blockchain/dist/public
 COPY --from=base /app/package.json ./
-COPY --from=base /app/pnpm-lock.yaml ./
 COPY --from=base /app/artifacts/api-server/package.json ./artifacts/api-server/
-COPY --from=base /app/node_modules/.pnpm /app/node_modules/.pnpm
-COPY --from=base /app/node_modules/dotenv /app/node_modules/dotenv
-RUN pnpm install --no-frozen-lockfile --prod
+COPY --from=base /app/lib ./lib
 ENV NODE_ENV=production
 ENV FRONTEND_DIST_PATH=/app/artifacts/bank-of-blockchain/dist/public
 EXPOSE 3000
