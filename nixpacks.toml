@@ -1,16 +1,11 @@
 [phases.setup]
-nixPkgs = ["nodejs_22", "nodePackages.pnpm"]
+nixPkgs = ["nodejs_22"]
 
 [phases.install]
-cmds = [
-  "pnpm install --no-frozen-lockfile"
-]
+cmds = ["npm install -g pnpm", "pnpm install"]
 
 [phases.build]
-cmds = [
-  "pnpm --filter bank-of-blockchain build",
-  "pnpm --filter api-server build"
-]
+cmds = ["pnpm run build"]
 
 [start]
-cmd = "node artifacts/api-server/dist/index.js"
+cmd = "NODE_ENV=production node ./artifacts/api-server/dist/index.cjs"
