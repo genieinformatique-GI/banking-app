@@ -23,9 +23,8 @@ COPY --from=base /app/artifacts/bank-of-blockchain/dist/public ./artifacts/bank-
 COPY --from=base /app/package.json ./
 COPY --from=base /app/artifacts/api-server/package.json ./artifacts/api-server/
 COPY --from=base /app/lib ./lib
+COPY --from=base /app/pnpm-workspace.yaml ./
 ENV NODE_ENV=production
 ENV FRONTEND_DIST_PATH=/app/artifacts/bank-of-blockchain/dist/public
 EXPOSE 3000
-RUN cd artifacts/api-server && npm install dotenv --no-package-lock --no-save
 CMD ["node", "artifacts/api-server/dist/index.cjs"]
-
