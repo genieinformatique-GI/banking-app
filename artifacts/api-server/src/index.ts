@@ -1,4 +1,3 @@
-if (process.env.NODE_ENV !== "production") { require("dotenv/config"); }
 import app from "./app";
 
 const rawPort = process.env["PORT"];
