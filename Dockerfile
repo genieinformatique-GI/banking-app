@@ -24,7 +24,7 @@ COPY --from=base /app/package.json ./
 COPY --from=base /app/pnpm-lock.yaml ./
 COPY --from=base /app/artifacts/api-server/package.json ./artifacts/api-server/
 COPY --from=base /app/lib ./lib
-RUN pnpm install --no-frozen-lockfile --prod && pnpm add dotenv --filter @workspace/api-server
+RUN pnpm install --no-frozen-lockfile --prod && npm install dotenv --prefix artifacts/api-server
 ENV NODE_ENV=production
 ENV FRONTEND_DIST_PATH=/app/artifacts/bank-of-blockchain/dist/public
 EXPOSE 3000
