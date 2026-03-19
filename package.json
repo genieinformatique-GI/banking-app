@@ -3,10 +3,13 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "preinstall": "sh -c 'rm -f package-lock.json yarn.lock; case \"$npm_config_user_agent\" in pnpm/*) ;; *) echo \"Use pnpm instead\" >&2; exit 1 ;; esac'",
-    "build": "pnpm run typecheck && pnpm -r --if-present run build",
+    "build-all": "npm run build-db && npm run build-frontend && npm run build-api",
+    "build-db": "cd lib/db && npm install && npm run build",
+    "build-frontend": "cd artifacts/bank-of-blockchain && npm install && npm run build",
+    "build-api": "cd artifacts/api-server && npm install && npm run build",
+    "build": "npm run build-all",
     "typecheck:libs": "tsc --build",
-    "typecheck": "pnpm run typecheck:libs && pnpm -r --filter \"./artifacts/**\" --filter \"./scripts\" --if-present run typecheck"
+    "typecheck": "npm run typecheck:libs && npm run build --if-present"
   },
   "private": true,
   "devDependencies": {
