@@ -13,3 +13,7 @@ cmd = "NODE_ENV=production node artifacts/api-server/dist/index.cjs"
 [variables]
 NODE_ENV = "production"
 PORT = "3000"
+
+# Force cache invalidation
+[meta]
+version = "2.0"
