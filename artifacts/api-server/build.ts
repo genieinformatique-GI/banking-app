@@ -35,6 +35,7 @@ const allowlist = [
   "xlsx",
   "zod",
   "zod-validation-error",
+  "dotenv",
 ];
 
 async function buildAll() {
