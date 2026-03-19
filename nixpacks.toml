@@ -1,0 +1,17 @@
+[phases.setup]
+nixPkgs = ["nodejs_24"]
+
+[phases.install]
+cmds = [
+  "npm install --prefix artifacts/api-server",
+  "npm install --prefix artifacts/bank-of-blockchain"
+]
+
+[phases.build]
+cmds = [
+  "npm run build --prefix artifacts/bank-of-blockchain",
+  "npm run build --prefix artifacts/api-server"
+]
+
+[start]
+cmd = "node artifacts/api-server/dist/index.js"
