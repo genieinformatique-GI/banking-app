@@ -29,6 +29,4 @@ RUN pnpm install --frozen-lockfile --prod
 ENV NODE_ENV=production
 ENV FRONTEND_DIST_PATH=/app/artifacts/bank-of-blockchain/dist/public
 EXPOSE 3000
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD curl -f http://localhost:3000/api/healthz || exit 1
 CMD ["node", "artifacts/api-server/dist/index.cjs"]
