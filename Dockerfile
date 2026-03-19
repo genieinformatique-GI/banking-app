@@ -12,6 +12,7 @@ RUN pnpm install --frozen-lockfile
 COPY . .
 ENV PORT=3000
 ENV BASE_PATH=/
+ENV FRONTEND_PORT=3000
 RUN pnpm --filter @workspace/bank-of-blockchain run build
 RUN pnpm --filter @workspace/api-server run build
 FROM node:22-slim AS production
