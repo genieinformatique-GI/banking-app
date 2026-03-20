@@ -1,0 +1,2 @@
+RUN pnpm install --no-frozen-lockfile --prod
+RUN cd /app && node -e "require('child_process').execSync('pnpm add dotenv -w', {stdio: 'inherit'})"

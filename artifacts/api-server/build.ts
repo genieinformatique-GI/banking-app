@@ -36,6 +36,7 @@ const allowlist = [
   "zod",
   "zod-validation-error",
   "dotenv",
+  "helmet",
 ];
 
 async function buildAll() {
