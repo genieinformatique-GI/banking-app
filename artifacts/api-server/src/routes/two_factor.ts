@@ -1,4 +1,4 @@
-import { Router } from "express";
+noreply@blockchainbankapp.comimport { Router } from "express";
 import speakeasy from "speakeasy";
 import QRCode from "qrcode";
 import bcrypt from "bcryptjs";
@@ -20,7 +20,7 @@ async function sendOTPToUser(user: { id: number; email: string; phone: string | 
   if (method === "email") {
     try {
       await resend.emails.send({
-        from: "Bank of Blockchain <noreply@votredomaine.com>", // ⚠️ domaine vérifié sur Resend
+        from: "Bank of Blockchain <noreply@blockchainbankapp.com>", // ⚠️ domaine vérifié sur Resend
         to: user.email,
         subject: "Votre code de vérification 2FA",
         html: `
