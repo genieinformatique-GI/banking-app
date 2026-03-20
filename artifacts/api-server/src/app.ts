@@ -51,7 +51,7 @@ if (process.env.NODE_ENV === "production" && existsSync(frontendDist)) {
   app.use(express.static(frontendDist, { maxAge: "7d", etag: true }));
 
   // SPA fallback — send index.html for all non-API routes
-  app.get("*", (_req: Request, res: Response) => {
+  app.get("/{*path}", (_req: Request, res: Response) => {
     res.sendFile(path.join(frontendDist, "index.html"));
   });
 
