@@ -85,7 +85,7 @@ export default function Settings() {
   type TfaStep = "idle" | "method-select" | "setup" | "enable" | "disable";
   const [tfaStep, setTfaStep] = useState<TfaStep>("idle");
   const [tfaEnabled, setTfaEnabled] = useState(false);
-  const [tfaMethod, setTfaMethod] = useState<"app" | "email" | "sms">("app");
+  const [tfaMethod, setTfaMethod] = useState<"app" | "email">("app");
   const [tfaActiveMethod, setTfaActiveMethod] = useState<string | null>(null);
   const [tfaQr, setTfaQr] = useState("");
   const [tfaSecret, setTfaSecret] = useState("");
@@ -104,7 +104,7 @@ export default function Settings() {
 
   const authHeader = () => ({ "Content-Type": "application/json", Authorization: `Bearer ${localStorage.getItem("bob_token")}` });
 
-  const startSetup2FA = async (method: "app" | "email" | "sms") => {
+  const startSetup2FA = async (method: "app" | "email") => {
     setTfaLoading(true);
     try {
       const res = await fetch("/api/auth/2fa/setup", { method: "POST", headers: authHeader(), body: JSON.stringify({ method }) });
@@ -114,9 +114,9 @@ export default function Settings() {
       if (method === "app") {
         setTfaQr(data.qrCode);
         setTfaSecret(data.secret);
-       } else {
-         setTfaOtpMsg(data.message);
-       }
+      } else {
+        setTfaOtpMsg(data.message);
+      }
       setTfaStep("setup");
     } catch (err: any) {
       toast({ title: "Erreur", description: err.message, variant: "destructive" });
@@ -125,41 +125,41 @@ export default function Settings() {
     }
   };
 
-   const resendOtp = async () => {
-     setTfaLoading(true);
-     try {
-       const res = await fetch("/api/auth/2fa/send-otp", { method: "POST", headers: authHeader() });
-       const data = await res.json();
-       if (!res.ok) throw new Error(data.error || "Erreur");
-       setTfaOtpMsg(data.message);
-       toast({ title: "Code renvoyé", description: data.message });
-     } catch (err: any) {
-       toast({ title: "Erreur", description: err.message, variant: "destructive" });
-     } finally {
-       setTfaLoading(false);
-     }
-   };
+  const resendOtp = async () => {
+    setTfaLoading(true);
+    try {
+      const res = await fetch("/api/auth/2fa/send-otp", { method: "POST", headers: authHeader() });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Erreur");
+      setTfaOtpMsg(data.message);
+      toast({ title: "Code renvoyé", description: data.message });
+    } catch (err: any) {
+      toast({ title: "Erreur", description: err.message, variant: "destructive" });
+    } finally {
+      setTfaLoading(false);
+    }
+  };
 
-   const enable2FA = async (e: React.FormEvent) => {
-     e.preventDefault();
-     setTfaLoading(true);
-     try {
-       const res = await fetch("/api/auth/2fa/enable", { method: "POST", headers: authHeader(), body: JSON.stringify({ code: tfaVerifyCode }) });
-       const data = await res.json();
-       if (!res.ok) throw new Error(data.error || "Erreur");
-       const label = tfaMethod === "app" ? "Application" : tfaMethod === "email" ? "Email" : "SMS";
-       toast({ title: `2FA activée (${label}) !`, description: data.message });
-       setTfaEnabled(true);
-       setTfaActiveMethod(tfaMethod);
-       setTfaStep("idle");
-       setTfaVerifyCode("");
-       queryClient.invalidateQueries();
-     } catch (err: any) {
-       toast({ title: "Code invalide", description: err.message, variant: "destructive" });
-     } finally {
-       setTfaLoading(false);
-     }
-   };
+  const enable2FA = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setTfaLoading(true);
+    try {
+      const res = await fetch("/api/auth/2fa/enable", { method: "POST", headers: authHeader(), body: JSON.stringify({ code: tfaVerifyCode }) });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Erreur");
+      const label = tfaMethod === "app" ? "Application" : "Email";
+      toast({ title: `2FA activée (${label}) !`, description: data.message });
+      setTfaEnabled(true);
+      setTfaActiveMethod(tfaMethod);
+      setTfaStep("idle");
+      setTfaVerifyCode("");
+      queryClient.invalidateQueries();
+    } catch (err: any) {
+      toast({ title: "Code invalide", description: err.message, variant: "destructive" });
+    } finally {
+      setTfaLoading(false);
+    }
+  };
 
   const disable2FA = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -454,10 +454,10 @@ export default function Settings() {
                     <Shield className="w-5 h-5" /> Authentification à deux facteurs (2FA)
                   </CardTitle>
                   <CardDescription>
-                    Choisissez votre méthode de vérification : application, email ou SMS.
+                    Choisissez votre méthode de vérification : application ou email.
                     {tfaEnabled && tfaActiveMethod && (
                       <span className="ml-2 text-green-600 font-medium">
-                        — Méthode active : {tfaActiveMethod === "app" ? "Application 2FA" : tfaActiveMethod === "email" ? "Email" : "SMS"}
+                        — Méthode active : {tfaActiveMethod === "app" ? "Application 2FA" : "Email"}
                       </span>
                     )}
                   </CardDescription>
@@ -477,7 +477,7 @@ export default function Settings() {
                         <div>
                           <p className="font-semibold text-sm text-green-600">La 2FA est activée sur votre compte</p>
                           <p className="text-xs text-muted-foreground mt-1">
-                            Méthode : <strong>{tfaActiveMethod === "app" ? "Application d'authentification" : tfaActiveMethod === "email" ? "Email" : "SMS"}</strong>.
+                            Méthode : <strong>{tfaActiveMethod === "app" ? "Application d'authentification" : "Email"}</strong>.
                             Un code vous est demandé à chaque connexion.
                           </p>
                         </div>
@@ -515,7 +515,6 @@ export default function Settings() {
                     {[
                       { method: "app" as const, icon: <QrCode className="w-6 h-6" />, title: "Application d'authentification", desc: "Google Authenticator, Authy, etc. — méthode la plus sécurisée" },
                       { method: "email" as const, icon: <span className="text-2xl">✉️</span>, title: "Email", desc: `Un code à 6 chiffres sera envoyé à ${user?.email}` },
-                      { method: "sms" as const, icon: <span className="text-2xl">📱</span>, title: "SMS", desc: `Un code sera envoyé par SMS au ${(user as any)?.phone || "numéro renseigné dans votre profil"}` },
                     ].map(({ method, icon, title, desc }) => (
                       <button key={method} onClick={() => startSetup2FA(method)} disabled={tfaLoading}
                         className="flex items-center gap-4 p-4 rounded-xl border-2 text-left transition-all hover:border-primary hover:bg-primary/5 border-border">
@@ -568,12 +567,12 @@ export default function Settings() {
                 </div>
               )}
 
-              {tfaStep === "setup" && (tfaMethod === "email" || tfaMethod === "sms") && (
+              {tfaStep === "setup" && tfaMethod === "email" && (
                 <div className="space-y-6 max-w-md">
                   <div className="flex items-start gap-3 p-4 rounded-xl bg-primary/5 border border-primary/20">
                     <CheckCircle2 className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
                     <div>
-                      <p className="font-semibold text-sm">{tfaOtpMsg || `Code envoyé par ${tfaMethod === "email" ? "email" : "SMS"}`}</p>
+                      <p className="font-semibold text-sm">{tfaOtpMsg || "Code envoyé par email"}</p>
                       {tfaDevCode && (
                         <div className="mt-2 p-2 bg-amber-500/10 rounded border border-amber-500/20">
                           <p className="text-xs text-amber-700 font-medium">Mode démo — Code visible :</p>
@@ -608,7 +607,7 @@ export default function Settings() {
                   <div className="flex items-start gap-3 p-4 rounded-xl bg-red-500/5 border border-red-500/20">
                     <AlertTriangle className="w-5 h-5 text-red-500 mt-0.5 flex-shrink-0" />
                     <p className="text-xs text-red-600">Pour confirmer la désactivation, entrez votre mot de passe.
-                      {tfaActiveMethod !== "app" && " Si votre méthode 2FA est email/SMS, laissez le champ code vide ou entrez le dernier code reçu."}
+                      {tfaActiveMethod !== "app" && " Si votre méthode 2FA est par email, laissez le champ code vide ou entrez le dernier code reçu."}
                     </p>
                   </div>
                   <div className="space-y-2">
@@ -717,7 +716,7 @@ export default function Settings() {
                             <Trash2 className="w-4 h-4" />
                           </Button>
                         </TableCell>
-                      </TableRow> 
+                      </TableRow>
                     ))}
                   </TableBody>
                 </Table>
