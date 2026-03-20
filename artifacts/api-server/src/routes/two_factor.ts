@@ -6,6 +6,8 @@ import { db } from "@workspace/db";
 import { usersTable, notificationsTable } from "@workspace/db/schema";
 import { eq } from "drizzle-orm";
 import { requireAuth, AuthRequest } from "../middlewares/auth.js";
+import { Resend } from "resend";
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 const router = Router();
 router.use(requireAuth);
