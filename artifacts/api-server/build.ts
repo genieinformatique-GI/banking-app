@@ -37,6 +37,10 @@ const allowlist = [
   "zod-validation-error",
   "dotenv",
   "helmet",
+  "compression",
+  "bcrypt",
+  "morgan",
+  "cookie-parser",
 ];
 
 async function buildAll() {
