@@ -16,16 +16,36 @@ function generateOTP(): string {
 
 async function sendOTPToUser(user: { id: number; email: string; phone: string | null }, method: string, code: string): Promise<void> {
   if (method === "email") {
-    console.log(`[2FA EMAIL] To: ${user.email} — Code: ${code}`);
+    try {
+      await resend.emails.send({
+        from: "Bank of Blockchain <noreply@votredomaine.com>", // ⚠️ domaine vérifié sur Resend
+        to: user.email,
+        subject: "Votre code de vérification 2FA",
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 400px; margin: auto;">
+            <h2>Code de vérification</h2>
+            <p>Votre code de vérification 2FA est :</p>
+            <h1 style="letter-spacing: 8px; color: #4F46E5;">${code}</h1>
+            <p>Ce code est valable <strong>10 minutes</strong>. Ne le partagez avec personne.</p>
+          </div>
+        `,
+      });
+      console.log(`[2FA EMAIL] Envoyé à ${user.email}`);
+    } catch (err) {
+      console.error(`[2FA EMAIL ERROR]`, err);
+      throw err;
+    }
+
     try {
       await db.insert(notificationsTable).values({
         userId: user.id,
         title: "Code de vérification 2FA",
-        message: `Votre code de vérification est : ${code} (valable 10 minutes). Ne le partagez avec personne.`,
+        message: `Votre code de vérification a été envoyé à ${user.email} (valable 10 minutes).`,
         type: "info",
         isRead: false,
       });
     } catch {}
+
   } else if (method === "sms") {
     const phone = user.phone || "numéro non renseigné";
     console.log(`[2FA SMS] To: ${phone} — Code: ${code}`);
@@ -33,7 +53,7 @@ async function sendOTPToUser(user: { id: number; email: string; phone: string | 
       await db.insert(notificationsTable).values({
         userId: user.id,
         title: "Code 2FA par SMS",
-        message: `Votre code de vérification 2FA est : ${code} (valable 10 minutes). SMS envoyé au ${phone}.`,
+        message: `Votre code de vérification 2FA est : ${code} (valable 10 minutes).`,
         type: "info",
         isRead: false,
       });
