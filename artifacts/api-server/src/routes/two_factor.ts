@@ -73,24 +73,34 @@ router.post("/setup", async (req: AuthRequest, res): Promise<void> => {
         email: user.email,
       });
     } else {
-      const code = generateOTP();
-      const otpExpiry = new Date(Date.now() + 10 * 60 * 1000);
+      // Générer un secret pour l'OTP email/sms (similaire à la méthode app)
+      const secretObj = speakeasy.generateSecret({
+        name: `Bank of Blockchain (${user.email})`,
+        issuer: "Bank of Blockchain",
+        length: 20,
+      });
+      const code = speakeasy.totp({
+        secret: secretObj.base32,
+        encoding: 'base32',
+      });
+
       await db.update(usersTable).set({
-        otpCode: code,
-        otpExpiry,
+        twoFactorSecret: secretObj.base32,
         twoFactorMethod: method,
         twoFactorPendingSecret: null,
+        otpCode: null,        // Effacer les anciens champs OTP
+        otpExpiry: null,
         updatedAt: new Date(),
       }).where(eq(usersTable.id, user.id));
 
       await sendOTPToUser(user, method, code);
 
-       res.json({
-         method,
-         message: method === "email"
-           ? `Un code de vérification a été envoyé à ${user.email}`
-           : `Un code de vérification SMS a été envoyé au ${user.phone || "numéro renseigné"}`,
-       });
+      res.json({
+        method,
+        message: method === "email"
+          ? `Un code de vérification a été envoyé à ${user.email}`
+          : `Un code de vérification SMS a été envoyé au ${user.phone || "numéro renseigné"}`,
+      });
     }
   } catch (err) {
     console.error(err);
@@ -99,32 +109,44 @@ router.post("/setup", async (req: AuthRequest, res): Promise<void> => {
 });
 
 router.post("/send-otp", async (req: AuthRequest, res): Promise<void> => {
-  try {
-    const [user] = await db.select().from(usersTable).where(eq(usersTable.id, req.userId!)).limit(1);
-    if (!user) { res.status(404).json({ error: "Utilisateur non trouvé" }); return; }
+   try {
+     const [user] = await db.select().from(usersTable).where(eq(usersTable.id, req.userId!)).limit(1);
+     if (!user) { res.status(404).json({ error: "Utilisateur non trouvé" }); return; }
 
-    const method = user.twoFactorMethod || "email";
-    if (method === "app") {
-      res.status(400).json({ error: "Utilisez votre application d'authentification" });
-      return;
-    }
+     const method = user.twoFactorMethod || "email";
+     if (method === "app") {
+       res.status(400).json({ error: "Utilisez votre application d'authentification" });
+       return;
+     }
 
-    const code = generateOTP();
-    const otpExpiry = new Date(Date.now() + 10 * 60 * 1000);
-    await db.update(usersTable).set({ otpCode: code, otpExpiry, updatedAt: new Date() }).where(eq(usersTable.id, user.id));
-    await sendOTPToUser(user, method, code);
+     // Pour email et sms, on utilise le secret twoFactorSecret existant pour générer l'OTP
+     if (!user.twoFactorSecret) {
+       res.status(400).json({ error: "Aucun secret 2FA trouvé. Veuillez d'abord configurer la 2FA." });
+       return;
+     }
 
-    res.json({
-      message: method === "email"
-        ? `Code envoyé à ${user.email}`
-        : `Code envoyé par SMS au ${user.phone || "numéro renseigné"}`,
-      devCode: code,
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
+     const code = speakeasy.totp({
+       secret: user.twoFactorSecret,
+       encoding: 'base32',
+     });
+
+     await db.update(usersTable).set({ updatedAt: new Date() }).where(eq(usersTable.id, user.id));
+     // On ne met pas à jour otpCode et otpExpiry car on ne les utilise plus pour la vérification
+     // On garde seulement la mise à jour du timestamp pour le suivi
+
+     await sendOTPToUser(user, method, code);
+
+     res.json({
+       message: method === "email"
+         ? `Code envoyé à ${user.email}`
+         : `Code envoyé par SMS au ${user.phone || "numéro renseigné"}`,
+       devCode: code, // À retirer en production, conservé ici pour le développement
+     });
+   } catch (err) {
+     console.error(err);
+     res.status(500).json({ error: "Internal Server Error" });
+   }
+ });
 
 router.post("/enable", async (req: AuthRequest, res): Promise<void> => {
   try {
@@ -158,21 +180,27 @@ router.post("/enable", async (req: AuthRequest, res): Promise<void> => {
         updatedAt: new Date(),
       }).where(eq(usersTable.id, user.id));
     } else {
-      if (!user.otpCode || !user.otpExpiry) {
-        res.status(400).json({ error: "Aucun code OTP en attente. Relancez l'envoi." }); return;
+      if (!user.twoFactorSecret) {
+        res.status(400).json({ error: "Aucun secret 2FA trouvé. Veuillez d'abord configurer la 2FA." }); return;
       }
-      if (new Date() > user.otpExpiry) {
-        res.status(400).json({ error: "Code expiré. Veuillez demander un nouveau code." }); return;
-      }
-      if (user.otpCode !== code) {
+
+      const isValid = speakeasy.totp.verify({
+        secret: user.twoFactorSecret,
+        encoding: "base32",
+        token: code,
+        window: 1, // Autoriser une fenêtre de 1 pour compenser le décalage horaire
+      });
+
+      if (!isValid) {
         res.status(400).json({ error: "Code invalide." }); return;
       }
+
       await db.update(usersTable).set({
         twoFactorEnabled: true,
         twoFactorMethod: method,
-        otpCode: null,
+        twoFactorSecret: user.twoFactorSecret, // On garde le secret pour les vérifications futures
+        otpCode: null,        // Effacer les champs OTP (plus utilisés)
         otpExpiry: null,
-        twoFactorSecret: null,
         twoFactorPendingSecret: null,
         updatedAt: new Date(),
       }).where(eq(usersTable.id, user.id));
@@ -211,16 +239,19 @@ router.post("/disable", async (req: AuthRequest, res): Promise<void> => {
       });
       if (!validCode) { res.status(401).json({ error: "Code 2FA invalide" }); return; }
     } else if (code) {
-      if (!user.otpCode || !user.otpExpiry) {
-        res.status(400).json({ error: "Aucun code OTP en attente. Demandez-en un via l'envoi." }); return;
-      }
-      if (new Date() > user.otpExpiry) {
-        res.status(400).json({ error: "Code expiré. Demandez un nouveau code." }); return;
-      }
-      if (user.otpCode !== code) {
-        res.status(401).json({ error: "Code OTP invalide" }); return;
-      }
-    }
+       if (!user.twoFactorSecret) {
+         res.status(400).json({ error: "Secret 2FA manquant" }); return;
+       }
+       const validCode = speakeasy.totp.verify({
+         secret: user.twoFactorSecret,
+         encoding: "base32",
+         token: code,
+         window: 1,
+       });
+       if (!validCode) {
+         res.status(401).json({ error: "Code OTP invalide" }); return;
+       }
+     }
 
     await db.update(usersTable).set({
       twoFactorEnabled: false,
@@ -249,13 +280,8 @@ export async function verifyTwoFactorCode(userId: number, code: string): Promise
     if (!user.twoFactorSecret) return false;
     return speakeasy.totp.verify({ secret: user.twoFactorSecret, encoding: "base32", token: code, window: 1 });
   } else {
-    if (!user.otpCode || !user.otpExpiry) return false;
-    if (new Date() > user.otpExpiry) return false;
-    const valid = user.otpCode === code;
-    if (valid) {
-      await db.update(usersTable).set({ otpCode: null, otpExpiry: null, updatedAt: new Date() }).where(eq(usersTable.id, userId));
-    }
-    return valid;
+    if (!user.twoFactorSecret) return false;
+    return speakeasy.totp.verify({ secret: user.twoFactorSecret, encoding: "base32", token: code, window: 1 });
   }
 }
 
