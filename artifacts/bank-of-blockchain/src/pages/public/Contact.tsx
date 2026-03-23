@@ -78,8 +78,8 @@ export default function Contact() {
                     {
                       icon: <Mail size={22} />,
                       title: "Email",
-                      content: "infos@bofblockchain.com",
-                      href: "mailto:infos@bofblockchain.com",
+                      content: "blockchaincontact@blockchainbankapp.com",
+                      href: "blockchaincontact@blockchainbankapp.com",
                     },
                     {
                       icon: <Phone size={22} />,
@@ -109,7 +109,7 @@ export default function Contact() {
                 <p style={{ color: "#b8d4e8", fontSize: "0.9rem", lineHeight: 1.65, marginBottom: "20px" }}>
                   Pour les demandes urgentes de remboursement, notre équipe prioritaire est disponible 24h/24 et 7j/7.
                 </p>
-                <a href="mailto:infos@bofblockchain.com">
+                <a href="blockchaincontact@blockchainbankapp.com">
                   <button style={{ background: "#f6a821", color: "white", border: "none", padding: "11px 22px", borderRadius: "6px", fontWeight: 700, cursor: "pointer", fontSize: "0.9rem" }}
                     className="hover:opacity-90 transition-opacity">
                     Contacter le support →
