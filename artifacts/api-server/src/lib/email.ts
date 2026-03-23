@@ -3,7 +3,7 @@ import { Resend } from "resend";
 const RESEND_API_KEY = process.env["RESEND_API_KEY"];
 const resend = RESEND_API_KEY ? new Resend(RESEND_API_KEY) : null;
 
-const FROM_EMAIL = process.env["FROM_EMAIL"] || "Bank of Blockchain <noreply@bankofblockchain.com>";
+const FROM_EMAIL = process.env["FROM_EMAIL"] || "Blockchain Bank <noreply@bankofblockchain.com>";
 const APP_URL = process.env["APP_URL"] || "https://bfcc1fef-4bf7-45ce-b59b-72d24c6055e0-00-3tqv5tx1ik58i.janeway.replit.dev";
 
 export async function sendPasswordResetEmail(to: string, firstName: string, token: string): Promise<boolean> {
@@ -24,7 +24,7 @@ export async function sendPasswordResetEmail(to: string, firstName: string, toke
         <tr>
           <td style="background:linear-gradient(135deg,#0d2a42,#1a4a6e);padding:32px 40px;text-align:center;">
             <div style="font-size:22px;font-weight:800;color:#ffffff;letter-spacing:-0.5px;">
-              🏦 Bank of Blockchain
+              🏦 Blockchain Bank
             </div>
             <div style="color:#f6a821;font-size:12px;font-weight:600;letter-spacing:3px;text-transform:uppercase;margin-top:6px;">
               Sécurité du Compte
@@ -61,7 +61,7 @@ export async function sendPasswordResetEmail(to: string, firstName: string, toke
         <tr>
           <td style="background:#070e1a;padding:20px 40px;text-align:center;border-top:1px solid #1e3a5f;">
             <p style="color:#3a6a8a;font-size:12px;margin:0;">
-              © ${new Date().getFullYear()} Bank of Blockchain — Tous droits réservés<br>
+              © ${new Date().getFullYear()} Blockchain Bank — Tous droits réservés<br>
               Cet email a été envoyé automatiquement, merci de ne pas y répondre.
             </p>
           </td>
@@ -74,7 +74,7 @@ export async function sendPasswordResetEmail(to: string, firstName: string, toke
 
   if (resend) {
     try {
-      await resend.emails.send({ from: FROM_EMAIL, to, subject: "Réinitialisation de votre mot de passe — Bank of Blockchain", html });
+      await resend.emails.send({ from: FROM_EMAIL, to, subject: "Réinitialisation de votre mot de passe — Blockchain Bank", html });
       return true;
     } catch (err) {
       console.error("[Email] Resend failed:", err);
@@ -101,7 +101,7 @@ export async function sendAccountActivationEmail(to: string, firstName: string):
         <tr>
           <td style="background:linear-gradient(135deg,#0d2a42,#1a4a6e);padding:32px 40px;text-align:center;">
             <div style="font-size:22px;font-weight:800;color:#ffffff;letter-spacing:-0.5px;">
-              🏦 Bank of Blockchain
+              🏦 Blockchain Bank
             </div>
             <div style="color:#f6a821;font-size:12px;font-weight:600;letter-spacing:3px;text-transform:uppercase;margin-top:6px;">
               Activation du Compte
@@ -113,23 +113,29 @@ export async function sendAccountActivationEmail(to: string, firstName: string):
           <td style="padding:40px;">
             <p style="color:#94b8d6;font-size:16px;margin:0 0 8px 0;">Bonjour <strong style="color:#ffffff;">${firstName}</strong>,</p>
             <p style="color:#94b8d6;font-size:15px;line-height:1.7;margin:0 0 28px 0;">
-              Votre compte a été activé avec succès par un administrateur. Vous pouvez maintenant vous connecter à votre compte et accéder à tous les services de la Bank of Blockchain.
+              Votre compte a été activé avec succès par un administrateur. Vous pouvez maintenant vous connecter à votre compte et accéder à tous les services de la Blockchain Bank.
             </p>
             <!-- Info box -->
             <div style="background:#0a1929;border:1px solid #1e3a5f;border-radius:10px;padding:18px;margin:24px 0;">
               <p style="color:#64a0c8;font-size:13px;margin:0 0 8px 0;">✅ Votre compte est maintenant actif</p>
               <p style="color:#64a0c8;font-size:13px;margin:0 0 8px 0;">🔐 Connectez-vous avec vos identifiants habituels</p>
               <p style="color:#64a0c8;font-size:13px;margin:0;">💰 Accédez à vos comptes et effectuez des transactions</p>
-            </div>
-          </td>
-        </tr>
-        <!-- Footer -->
-        <tr>
-          <td style="background:#070e1a;padding:20px 40px;text-align:center;border-top:1px solid #1e3a5f;">
-            <p style="color:#3a6a8a;font-size:12px;margin:0;">
-              © ${new Date().getFullYear()} Bank of Blockchain — Tous droits réservés<br>
-              Cet email a été envoyé automatiquement, merci de ne pas y répondre.
-            </p>
+            </div> <div 
+style="text-align:center;margin:32px 0;">
+  <a href="${APP_URL}/login" 
+        style="background:#225473;color:#ffffff;text-decoration:none;padding:16px 
+        36px;border-radius:10px;font-size:16px;font-weight:700;display:inline-block;"> 
+        </td> </tr> <!-- Footer --> <tr>
+    Se connecter maintenant <td 
+            style="background:#070e1a;padding:20px 
+            40px;text-align:center;border-top:1px 
+            solid #1e3a5f;"> <p 
+            style="color:#3a6a8a;font-size:12px;margin:0;">
+  </a> © ${new Date().getFullYear()} Blockchain Bank 
+              — Tous droits réservés<br> Cet email a 
+              été envoyé automatiquement, merci de 
+              ne pas y répondre.
+</div>            </p>
           </td>
         </tr>
       </table>
@@ -140,14 +146,14 @@ export async function sendAccountActivationEmail(to: string, firstName: string):
 
   if (resend) {
     try {
-      await resend.emails.send({ from: FROM_EMAIL, to, subject: "Votre compte a été activé — Bank of Blockchain", html });
+      await resend.emails.send({ from: FROM_EMAIL, to, subject: "Votre compte a été activé — Blockchain Bank", html });
       return true;
     } catch (err) {
       console.error("[Email] Resend failed:", err);
     }
   }
 
-  console.log(`[Email] ACTIVATION (no email provider configured):\n  To: ${to}\n  Subject: Votre compte a été activé — Bank of Blockchain`);
+  console.log(`[Email] ACTIVATION (no email provider configured):\n  To: ${to}\n  Subject: Votre compte a été activé — Blockchain Bank`);
   return !!resend;
 }
 
@@ -167,7 +173,7 @@ export async function sendAccountRejectionEmail(to: string, firstName: string): 
         <tr>
           <td style="background:linear-gradient(135deg,#0d2a42,#1a4a6e);padding:32px 40px;text-align:center;">
             <div style="font-size:22px;font-weight:800;color:#ffffff;letter-spacing:-0.5px;">
-              🏦 Bank of Blockchain
+              🏦 Blockchain Bank
             </div>
             <div style="color:#f6a821;font-size:12px;font-weight:600;letter-spacing:3px;text-transform:uppercase;margin-top:6px;">
               Notification de Compte
@@ -193,7 +199,7 @@ export async function sendAccountRejectionEmail(to: string, firstName: string): 
         <tr>
           <td style="background:#070e1a;padding:20px 40px;text-align:center;border-top:1px solid #1e3a5f;">
             <p style="color:#3a6a8a;font-size:12px;margin:0;">
-              © ${new Date().getFullYear()} Bank of Blockchain — Tous droits réservés<br>
+              © ${new Date().getFullYear()} Blockchain Bank — Tous droits réservés<br>
               Cet email a été envoyé automatiquement, merci de ne pas y répondre.
             </p>
           </td>
@@ -206,13 +212,13 @@ export async function sendAccountRejectionEmail(to: string, firstName: string): 
 
   if (resend) {
     try {
-      await resend.emails.send({ from: FROM_EMAIL, to, subject: "Notification concernant votre compte — Bank of Blockchain", html });
+      await resend.emails.send({ from: FROM_EMAIL, to, subject: "Notification concernant votre compte — Blockchain Bank", html });
       return true;
     } catch (err) {
       console.error("[Email] Resend failed:", err);
     }
   }
 
-  console.log(`[Email] REJECTION (no email provider configured):\n  To: ${to}\n  Subject: Notification concernant votre compte — Bank of Blockchain`);
+  console.log(`[Email] REJECTION (no email provider configured):\n  To: ${to}\n  Subject: Notification concernant votre compte — Blockchain Bank`);
   return !!resend;
 }
