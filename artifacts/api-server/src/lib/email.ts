@@ -120,22 +120,19 @@ export async function sendAccountActivationEmail(to: string, firstName: string):
               <p style="color:#64a0c8;font-size:13px;margin:0 0 8px 0;">✅ Votre compte est maintenant actif</p>
               <p style="color:#64a0c8;font-size:13px;margin:0 0 8px 0;">🔐 Connectez-vous avec vos identifiants habituels</p>
               <p style="color:#64a0c8;font-size:13px;margin:0;">💰 Accédez à vos comptes et effectuez des transactions</p>
-            </div> <div 
-style="text-align:center;margin:32px 0;">
-  <a href="${APP_URL}/login" 
-        style="background:#225473;color:#ffffff;text-decoration:none;padding:16px 
-        36px;border-radius:10px;font-size:16px;font-weight:700;display:inline-block;"> 
-        </td> </tr> <!-- Footer --> <tr>
-    Se connecter maintenant <td 
-            style="background:#070e1a;padding:20px 
-            40px;text-align:center;border-top:1px 
-            solid #1e3a5f;"> <p 
-            style="color:#3a6a8a;font-size:12px;margin:0;">
-  </a> © ${new Date().getFullYear()} Blockchain Bank 
-              — Tous droits réservés<br> Cet email a 
-              été envoyé automatiquement, merci de 
-              ne pas y répondre.
-</div>            </p>
+            </div>
+            <div style="text-align:center;margin:32px 0;">
+              <a href="${APP_URL}/login" style="background:#225473;color:#ffffff;text-decoration:none;padding:16px 36px;border-radius:10px;font-size:16px;font-weight:700;display:inline-block;">Se connecter maintenant</a>
+            </div>
+          </td>
+        </tr>
+        <!-- Footer -->
+        <tr>
+          <td style="background:#070e1a;padding:20px 40px;text-align:center;border-top:1px solid #1e3a5f;">
+            <p style="color:#3a6a8a;font-size:12px;margin:0;">
+              © ${new Date().getFullYear()} Blockchain Bank — Tous droits réservés<br>
+              Cet email a été envoyé automatiquement, merci de ne pas y répondre.
+            </p>
           </td>
         </tr>
       </table>
