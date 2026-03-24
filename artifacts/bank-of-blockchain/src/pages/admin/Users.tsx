@@ -66,6 +66,9 @@ export default function AdminUsers() {
   const [savingPerm, setSavingPerm] = useState(false);
   const [resetPwValue, setResetPwValue] = useState("");
   const [resetPwLoading, setResetPwLoading] = useState(false);
+  const [suspendOpen, setSuspendOpen] = useState(false);
+  const [suspendUserId, setSuspendUserId] = useState<number | null>(null);
+  const [suspendReason, setSuspendReason] = useState("");
 
   const activateUser = useActivateUser({ mutation: { onSuccess: () => { toast({ title: "Utilisateur activé", variant: "success" }); queryClient.invalidateQueries(); } } });
   const suspendUser = useSuspendUser({ mutation: { onSuccess: () => { toast({ title: "Utilisateur suspendu" }); queryClient.invalidateQueries(); } } });
@@ -139,6 +142,45 @@ export default function AdminUsers() {
       toast({ title: "Erreur", description: err.message, variant: "destructive" });
     }
     setSavingPerm(false);
+  };
+
+  const SUSPEND_REASONS = [
+    { value: "document_falsifie", label: "Document falsifié ou illisible" },
+    { value: "nom_different", label: "Nom différent entre les documents" },
+    { value: "selfie_non_conforme", label: "Selfie/Photo non conforme" },
+    { value: "usurpation_identite", label: "Tentative d'usurpation d'identité" },
+    { value: "comptes_multiples", label: "Multiples comptes avec le même appareil" },
+    { value: "ip_suspecte", label: "IP suspecte (VPN, TOR)" },
+    { value: "comportement_bot", label: "Comportement automatique (bot)" },
+    { value: "tentatives_repetees", label: "Tentatives répétées de création de compte" },
+    { value: "depot_suspect", label: "Tentative de dépôt suspect" },
+    { value: "echec_2fa", label: "Échec du code 2FA" },
+    { value: "incoherence_identite", label: "Incohérence Nom / Email / Pays" },
+    { value: "dob_invalide", label: "Date de naissance invalide" },
+    { value: "adresse_fictive", label: "Adresse fictive ou incorrecte" },
+    { value: "ip_pays_mismatch", label: "Pays déclaré ≠ IP détectée (ex: Cameroun / Russie)" },
+    { value: "activite_illegale", label: "Utilisation pour activité illégale suspectée" },
+    { value: "spam_escroquerie", label: "Spam / Escroquerie" },
+    { value: "crypto_frauduleuse", label: "Crypto frauduleuse" },
+  ];
+
+  const handleSuspendSubmit = async () => {
+    if (!suspendUserId || !suspendReason) return;
+    try {
+      const res = await fetch(`/api/users/${suspendUserId}/suspend`, {
+        method: "PATCH",
+        headers: authHeader(),
+        body: JSON.stringify({ reason: suspendReason }),
+      });
+      if (!res.ok) throw new Error("Erreur serveur");
+      toast({ title: "Compte suspendu", description: "L'utilisateur a été notifié par email.", variant: "success" });
+      setSuspendOpen(false);
+      setSuspendUserId(null);
+      setSuspendReason("");
+      queryClient.invalidateQueries();
+    } catch (err: any) {
+      toast({ title: "Erreur", description: err.message, variant: "destructive" });
+    }
   };
 
   const handleResetPassword = async () => {
@@ -250,7 +292,7 @@ export default function AdminUsers() {
                         )}
                         {user.status !== 'suspended' && user.role !== 'admin' && (
                           <Button size="sm" variant="outline" className="text-red-500 border-red-500/30 hover:bg-red-500/10"
-                            onClick={() => suspendUser.mutate({ id: user.id })} disabled={suspendUser.isPending}>
+                            onClick={() => { setSuspendUserId(user.id); setSuspendReason(""); setSuspendOpen(true); }}>
                             <XCircle className="w-3 h-3 mr-1" /> Suspendre
                           </Button>
                         )}
@@ -585,6 +627,37 @@ export default function AdminUsers() {
               <Button onClick={handleSavePermissions} disabled={savingPerm}>{savingPerm ? "Sauvegarde…" : "Sauvegarder"}</Button>
             </DialogFooter>
           </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={suspendOpen} onOpenChange={setSuspendOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Suspendre / Rejeter le compte</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-2">
+            <div className="space-y-2">
+              <Label>Raison *</Label>
+              <Select value={suspendReason} onValueChange={setSuspendReason}>
+                <SelectTrigger><SelectValue placeholder="Choisissez une raison..." /></SelectTrigger>
+                <SelectContent>
+                  {SUSPEND_REASONS.map((r) => (
+                    <SelectItem key={r.value} value={r.value}>{r.label}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            {suspendReason && (
+              <div className="rounded-md bg-muted p-3 text-sm text-muted-foreground">
+                <p><strong>Message envoyé au client :</strong></p>
+                <p className="mt-1 italic">"Votre compte a été suspendu en raison de : <span className="font-medium text-foreground">{SUSPEND_REASONS.find((r) => r.value === suspendReason)?.label}</span>. Veuillez contacter le support si vous pensez qu'il s'agit d'une erreur."</p>
+              </div>
+            )}
+          </div>
+          <DialogFooter className="gap-2">
+            <Button variant="outline" onClick={() => { setSuspendOpen(false); setSuspendReason(""); setSuspendUserId(null); }}>Annuler</Button>
+            <Button variant="destructive" disabled={!suspendReason} onClick={handleSuspendSubmit}>Confirmer la suspension</Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>
