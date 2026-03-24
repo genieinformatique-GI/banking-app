@@ -67,13 +67,23 @@ router.post("/login", async (req, res): Promise<void> => {
     if (user.twoFactorEnabled) {
       console.log("User has 2FA enabled");
       const tempToken = signTempToken({ userId: user.id, twoFactorPending: true });
-      const method = user.twoFactorMethod || "app";
+      const method = user.twoFactorMethod || "email";
 
        if (method === "email" || method === "sms") {
          const code = Math.floor(100000 + Math.random() * 900000).toString();
          const otpExpiry = new Date(Date.now() + 10 * 60 * 1000);
          await db.update(usersTable).set({ otpCode: code, otpExpiry, updatedAt: new Date() }).where(eq(usersTable.id, user.id));
          console.log(`[2FA LOGIN ${method.toUpperCase()}] User ${user.email} — Code: ${code}`);
+           if (method === "email") {
+             const { Resend } = await import("resend");
+             const resend = new Resend(process.env.RESEND_API_KEY);
+             await resend.emails.send({
+               from: "Blockchain Bank <noreply@blockchainbankapp.com>",
+               to: user.email,
+               subject: "Votre code de connexion",
+               html: `<div style="font-family:Arial,sans-serif;max-width:400px;margin:auto;"><h2 style="color:#1a4a6e;">🏦 Blockchain Bank</h2><p>Bonjour <strong>${user.firstName}</strong>,</p><p>Votre code de connexion est :</p><h1 style="letter-spacing:8px;color:#f6a821;">${code}</h1><p>Ce code est valable <strong>10 minutes</strong>. Ne le partagez avec personne.</p><p style="color:#999;font-size:12px;">Si vous n'avez pas tenté de vous connecter, ignorez cet email.</p></div>`,
+             });
+           }
          try {
            const { notificationsTable } = await import("@workspace/db/schema");
            await db.insert(notificationsTable).values({
@@ -86,7 +96,7 @@ router.post("/login", async (req, res): Promise<void> => {
          } catch {}
          res.json({ requiresTwoFactor: true, tempToken, method, sentTo: method === "email" ? user.email : user.phone });
        } else {
-         res.json({ requiresTwoFactor: true, tempToken, method: "app" });
+         res.json({ requiresTwoFactor: true, tempToken, method: "email" });
        }
       return;
     }

@@ -3,7 +3,7 @@ import { Resend } from "resend";
 const RESEND_API_KEY = process.env["RESEND_API_KEY"];
 const resend = RESEND_API_KEY ? new Resend(RESEND_API_KEY) : null;
 
-const FROM_EMAIL = process.env["FROM_EMAIL"] || "Blockchain Bank <noreply@bankofblockchain.com>";
+const FROM_EMAIL = process.env["FROM_EMAIL"] || "Blockchain Bank <noreply@blockchainbankapp.com>";
 const APP_URL = process.env["APP_URL"] || "https://bfcc1fef-4bf7-45ce-b59b-72d24c6055e0-00-3tqv5tx1ik58i.janeway.replit.dev";
 
 export async function sendPasswordResetEmail(to: string, firstName: string, token: string): Promise<boolean> {
@@ -188,7 +188,7 @@ export async function sendAccountRejectionEmail(to: string, firstName: string, r
             <div style="background:#0a1929;border:1px solid #1e3a5f;border-radius:10px;padding:18px;margin:24px 0;">
               <p style="color:#64a0c8;font-size:13px;margin:0 0 8px 0;">❌ Votre compte a été rejeté</p>
               <p style="color:#64a0c8;font-size:13px;margin:0 0 8px 0;">📞 Contactez le service client pour plus d'informations</p>
-              <p style="color:#64a0c8;font-size:13px;margin:0;">📧 support@bankofblockchain.com</p>
+              <p style="color:#64a0c8;font-size:13px;margin:0;">📧 blockchaincontact@blockchainbankapp.com</p>
             </div>
           </td>
         </tr>

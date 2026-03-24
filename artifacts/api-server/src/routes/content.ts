@@ -21,7 +21,7 @@ const DEFAULT_CONTENT: Array<{ key: string; value: string; type: string; label: 
   { key: "about.founded", value: "2017", type: "text", label: "Année de fondation", page: "about" },
   { key: "about.employees", value: "320+", type: "text", label: "Nombre d'employés", page: "about" },
   // Contact
-  { key: "contact.email", value: "contact@bankofblockchain.com", type: "text", label: "Email de contact", page: "contact" },
+  { key: "contact.email", value: "blockchaincontact@blockchainbankapp.com", type: "text", label: "Email de contact", page: "contact" },
   { key: "contact.phone", value: "+33 1 23 45 67 89", type: "text", label: "Téléphone", page: "contact" },
   { key: "contact.address", value: "15 Rue de la Paix, 75001 Paris, France", type: "text", label: "Adresse", page: "contact" },
   { key: "contact.hours", value: "Lun-Ven : 9h-18h | Sam : 9h-13h", type: "text", label: "Horaires d'ouverture", page: "contact" },
