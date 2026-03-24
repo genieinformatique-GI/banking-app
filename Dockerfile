@@ -27,4 +27,4 @@ COPY --from=base /app/pnpm-workspace.yaml ./
 ENV NODE_ENV=production
 ENV FRONTEND_DIST_PATH=/app/artifacts/bank-of-blockchain/dist/public
 EXPOSE 3000
-CMD ["node", "artifacts/api-server/dist/index.cjs"]
+CMD ["sh", "-c", "cd /app/lib/db && npx drizzle-kit push --config ./drizzle.config.ts && cd /app && node artifacts/api-server/dist/index.cjs"]

@@ -27,6 +27,7 @@ export const usersTable = pgTable("users", {
   otpCode: text("otp_code"),
   otpExpiry: timestamp("otp_expiry"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
+  suspendReason: text("suspend_reason"),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 

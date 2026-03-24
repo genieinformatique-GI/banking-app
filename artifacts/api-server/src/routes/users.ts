@@ -287,7 +287,8 @@ router.post("/:id/activate", async (req: AuthRequest, res): Promise<void> => {
 router.post("/:id/suspend", async (req: AuthRequest, res): Promise<void> => {
   try {
     const id = parseInt(req.params["id"] as string);
-    await db.update(usersTable).set({ status: "suspended", updatedAt: new Date() }).where(eq(usersTable.id, id));
+    const { reason } = req.body || {};
+      await db.update(usersTable).set({ status: "suspended", suspendReason: reason || null, updatedAt: new Date() }).where(eq(usersTable.id, id));
     await logAction({ adminId: req.userId, action: "SUSPEND_USER", target: "user", targetId: id });
     
     // Get user details for email

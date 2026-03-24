@@ -129,7 +129,7 @@ export default function AdminUsers() {
     setSavingPerm(true);
     try {
       const res = await fetch(`/api/users/${selectedUser.id}/permissions`, {
-        method: "PATCH",
+        method: "POST",
         headers: authHeader(),
         body: JSON.stringify({ adminRole: permForm.adminRole, adminPermissions: permForm.permissions, twoFactorRequired: permForm.twoFactorRequired }),
       });
@@ -168,7 +168,7 @@ export default function AdminUsers() {
     if (!suspendUserId || !suspendReason) return;
     try {
       const res = await fetch(`/api/users/${suspendUserId}/suspend`, {
-        method: "PATCH",
+        method: "POST",
         headers: authHeader(),
         body: JSON.stringify({ reason: suspendReason }),
       });
