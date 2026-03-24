@@ -294,7 +294,7 @@ router.post("/:id/suspend", async (req: AuthRequest, res): Promise<void> => {
     // Get user details for email
     const [user] = await db.select().from(usersTable).where(eq(usersTable.id, id)).limit(1);
     if (user) {
-      await sendAccountRejectionEmail(user.email, user.firstName);
+      await sendAccountRejectionEmail(user.email, user.firstName, reason);
     }
     
     res.json({ success: true, message: "User suspended" });

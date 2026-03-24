@@ -154,7 +154,7 @@ export async function sendAccountActivationEmail(to: string, firstName: string):
   return !!resend;
 }
 
-export async function sendAccountRejectionEmail(to: string, firstName: string): Promise<boolean> {
+export async function sendAccountRejectionEmail(to: string, firstName: string, reason?: string): Promise<boolean> {
   const html = `
 <!DOCTYPE html>
 <html>
@@ -182,7 +182,7 @@ export async function sendAccountRejectionEmail(to: string, firstName: string): 
           <td style="padding:40px;">
             <p style="color:#94b8d6;font-size:16px;margin:0 0 8px 0;">Bonjour <strong style="color:#ffffff;">${firstName}</strong>,</p>
             <p style="color:#94b8d6;font-size:15px;line-height:1.7;margin:0 0 28px 0;">
-              Nous vous informons que votre compte a été rejeté par un administrateur. Si vous pensez qu'il s'agit d'une erreur, veuillez contacter notre service client pour obtenir de l'aide.
+              Nous vous informons que votre compte a été suspendu/rejeté pour la raison suivante : <strong style="color:#f6a821;">${reason || 'Non spécifiée'}</strong>. Si vous pensez qu'il s'agit d'une erreur, veuillez contacter notre support.
             </p>
             <!-- Info box -->
             <div style="background:#0a1929;border:1px solid #1e3a5f;border-radius:10px;padding:18px;margin:24px 0;">
