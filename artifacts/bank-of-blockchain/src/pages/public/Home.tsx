@@ -37,15 +37,21 @@ const registerSchema = z.object({
   email: z.string().email("Adresse email invalide"),
   phone: z.string().optional(),
   country: z.string().min(2, "Veuillez sélectionner votre pays"),
-  password: z
-    .string()
-    .min(8, "Le mot de passe doit contenir au moins 8 caractères")
-    .regex(/[A-Z]/, "Au moins une lettre majuscule requise")
-    .regex(/[0-9]/, "Au moins un chiffre requis"),
+  password: z.string().min(8, "Le mot de passe doit contenir au moins 8 caractères").regex(/[A-Z]/, "Au moins une lettre majuscule requise").regex(/[0-9]/, "Au moins un chiffre requis"),
   confirmPassword: z.string().min(1, "Veuillez confirmer votre mot de passe"),
+  hasInvested: z.enum(["yes", "no"]).optional(),
+  investmentPlatform: z.string().optional(),
+  investmentAmount: z.string().optional(),
+  investmentCurrency: z.string().optional(),
 }).refine((d) => d.password === d.confirmPassword, {
   message: "Les mots de passe ne correspondent pas",
   path: ["confirmPassword"],
+}).refine((d) => { if (d.hasInvested === "yes") return !!d.investmentPlatform && d.investmentPlatform.length >= 2; return true; }, {
+  message: "Veuillez indiquer la plateforme ou le broker",
+  path: ["investmentPlatform"],
+}).refine((d) => { if (d.hasInvested === "yes") return !!d.investmentAmount && d.investmentAmount.length > 0; return true; }, {
+  message: "Veuillez indiquer le montant investi",
+  path: ["investmentAmount"],
 });
 
 const heroImgs = [hero1, hero2];
@@ -93,7 +99,7 @@ function HomeRegisterForm() {
 
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
-    defaultValues: { civility: "", firstName: "", lastName: "", email: "", phone: "", country: "", password: "", confirmPassword: "" }
+    defaultValues: { civility: "", firstName: "", lastName: "", email: "", phone: "", country: "", password: "", confirmPassword: "", hasInvested: undefined, investmentPlatform: "", investmentAmount: "", investmentCurrency: "" }
   });
 
   const registerMutation = useRegister({
@@ -113,9 +119,11 @@ function HomeRegisterForm() {
     }
   });
 
+  const hasInvested = form.watch("hasInvested");
+
   const onSubmit = (values: z.infer<typeof registerSchema>) => {
-    const { civility: _c, confirmPassword: _cp, ...data } = values;
-    registerMutation.mutate({ data });
+    const { civility: _c, confirmPassword: _cp, hasInvested, investmentPlatform, investmentAmount, investmentCurrency: _cur, ...rest } = values;
+    const data = { ...rest, hasInvested: hasInvested === "yes", previousBroker: hasInvested === "yes" ? (investmentPlatform || undefined) : undefined, previousAmount: hasInvested === "yes" && investmentAmount ? Number(investmentAmount) : undefined };
   };
 
   const errors = form.formState.errors;
@@ -188,6 +196,49 @@ function HomeRegisterForm() {
           {errors.country && <p style={err}>{errors.country.message}</p>}
         </div>
       </div>
+      {/* Avez-vous déjà investi ? */}
+      <div style={{ marginBottom: "18px" }}>
+        <label style={lbl}>Avez-vous déjà investi sur une plateforme crypto ou broker ? *</label>
+        <div style={{ display: "flex", gap: "24px", marginTop: "8px" }}>
+          {[{ value: "yes", label: "Oui" }, { value: "no", label: "Non" }].map(({ value, label }) => (
+            <label key={value} style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", fontSize: "14px", color: "#374151", fontWeight: 600 }}>
+              <input type="radio" value={value} {...form.register("hasInvested")} style={{ accentColor: "#225473", width: "16px", height: "16px", cursor: "pointer" }} />
+              {label}
+            </label>
+          ))}
+        </div>
+        {errors.hasInvested && <p style={err}>{errors.hasInvested.message}</p>}
+      </div>
+      {hasInvested === "yes" && (
+        <div style={{ background: "#f0f7ff", border: "1.5px solid #c7dff7", borderRadius: "12px", padding: "20px", marginBottom: "18px", display: "flex", flexDirection: "column", gap: "14px" }}>
+          <div>
+            <label style={lbl}>Plateforme ou broker *</label>
+            <input type="text" placeholder="Ex: Binance, Coinbase, eToro..." {...form.register("investmentPlatform")} style={inp(!!errors.investmentPlatform)}
+              onFocus={e => e.target.style.borderColor = "#225473"}
+              onBlur={e => e.target.style.borderColor = errors.investmentPlatform ? "#ef4444" : "#e2e8f0"} />
+            {errors.investmentPlatform && <p style={err}>{errors.investmentPlatform.message}</p>}
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+            <div>
+              <label style={lbl}>Montant investi *</label>
+              <input type="number" placeholder="Ex: 5000" min="0" {...form.register("investmentAmount")} style={inp(!!errors.investmentAmount)}
+                onFocus={e => e.target.style.borderColor = "#225473"}
+                onBlur={e => e.target.style.borderColor = errors.investmentAmount ? "#ef4444" : "#e2e8f0"} />
+              {errors.investmentAmount && <p style={err}>{errors.investmentAmount.message}</p>}
+            </div>
+            <div>
+              <label style={lbl}>Devise *</label>
+              <select {...form.register("investmentCurrency")} style={{ ...inp(!!errors.investmentCurrency), color: form.watch("investmentCurrency") ? "#1a2637" : "#64748b" }}>
+                <option value="">Sélectionner</option>
+                <option value="EUR">EUR — Euro</option>
+                <option value="USD">USD — Dollar américain</option>
+                <option value="BTC">BTC — Bitcoin</option>
+              </select>
+              {errors.investmentCurrency && <p style={err}>{errors.investmentCurrency.message}</p>}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Mot de passe */}
       <div style={{ marginBottom: "18px" }}>
