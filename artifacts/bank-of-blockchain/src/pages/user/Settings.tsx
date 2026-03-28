@@ -25,7 +25,7 @@ export default function Settings() {
 
   // Profile edit state
   const [editingProfile, setEditingProfile] = useState(false);
-  const [profileForm, setProfileForm] = useState({ firstName: '', lastName: '', phone: '', country: '' });
+  const [profileForm, setProfileForm] = useState({ firstName: "", lastName: "", phone: "", country: "", hasInvested: false, previousBroker: "", previousAmount: "" });
   const [savingProfile, setSavingProfile] = useState(false);
 
   // Password change state
@@ -215,6 +215,9 @@ export default function Settings() {
       lastName: user?.lastName || '',
       phone: user?.phone || '',
       country: user?.country || '',
+      hasInvested: (user as any)?.hasInvested || false,
+      previousBroker: (user as any)?.previousBroker || '',
+      previousAmount: (user as any)?.previousAmount || '',
     });
     setEditingProfile(true);
   };
@@ -376,6 +379,28 @@ export default function Settings() {
                       <Input id="country" value={profileForm.country} onChange={e => setProfileForm({ ...profileForm, country: e.target.value })} />
                     </div>
                   </div>
+                  <div className="space-y-3 border border-muted rounded-lg p-4 bg-muted/20">
+                    <p className="text-sm font-semibold">Expérience en investissement</p>
+                    <div className="space-y-2">
+                      <Label>A déjà investi sur une plateforme crypto ou broker ?</Label>
+                      <div className="flex gap-4">
+                        <label className="flex items-center gap-2 cursor-pointer"><input type="radio" checked={profileForm.hasInvested === true} onChange={() => setProfileForm(p => ({ ...p, hasInvested: true }))} /> Oui</label>
+                        <label className="flex items-center gap-2 cursor-pointer"><input type="radio" checked={profileForm.hasInvested === false} onChange={() => setProfileForm(p => ({ ...p, hasInvested: false }))} /> Non</label>
+                      </div>
+                    </div>
+                    {profileForm.hasInvested && (
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <Label>Plateforme ou broker</Label>
+                          <Input placeholder="Ex: Binance, eToro..." value={profileForm.previousBroker} onChange={e => setProfileForm(p => ({ ...p, previousBroker: e.target.value }))} />
+                        </div>
+                        <div className="space-y-2">
+                          <Label>Montant investi</Label>
+                          <Input placeholder="Ex: 5000" value={profileForm.previousAmount} onChange={e => setProfileForm(p => ({ ...p, previousAmount: e.target.value }))} />
+                        </div>
+                      </div>
+                    )}
+                  </div>
                   <div className="flex gap-3 pt-2">
                     <Button type="submit" disabled={savingProfile}>
                       <Save className="w-4 h-4 mr-2" />
@@ -392,6 +417,9 @@ export default function Settings() {
                     { label: "Email", value: user?.email },
                     { label: "Téléphone", value: user?.phone || "—" },
                     { label: "Pays", value: user?.country || "—" },
+                    { label: "A déjà investi", value: (user as any)?.hasInvested ? "Oui" : "Non" },
+                    { label: "Plateforme/Broker", value: (user as any)?.previousBroker || "—" },
+                    { label: "Montant investi", value: (user as any)?.previousAmount || "—" },
                   ].map(({ label, value }) => (
                     <div key={label} className="space-y-1">
                       <Label className="text-muted-foreground text-xs uppercase tracking-wide">{label}</Label>
