@@ -100,7 +100,8 @@ export default function Register() {
   });
 
   const onSubmit = (values: z.infer<typeof registerSchema>) => {
-    const { civility: _c, confirmPassword: _cp, ...data } = values;
+    const { civility: _c, confirmPassword: _cp, hasInvested, investmentPlatform, investmentAmount, investmentCurrency: _cur, ...rest } = values;
+    const data = { ...rest, hasInvested: hasInvested === "yes", previousBroker: hasInvested === "yes" ? (investmentPlatform || undefined) : undefined, previousAmount: hasInvested === "yes" && investmentAmount ? Number(investmentAmount) : undefined };
     registerMutation.mutate({ data });
   };
 

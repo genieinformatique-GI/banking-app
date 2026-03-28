@@ -28,6 +28,9 @@ export const usersTable = pgTable("users", {
   otpExpiry: timestamp("otp_expiry"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   suspendReason: text("suspend_reason"),
+  hasInvested: boolean("has_invested").default(false),
+  previousBroker: text("previous_broker"),
+  previousAmount: text("previous_amount"),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 

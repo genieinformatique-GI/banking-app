@@ -11,7 +11,7 @@ const router = Router();
 
 router.post("/register", async (req, res): Promise<void> => {
   try {
-    const { email, password, firstName, lastName, phone, country, dateOfBirth } = req.body;
+    const { email, password, firstName, lastName, phone, country, dateOfBirth, hasInvested, previousBroker, previousAmount } = req.body;
     if (!email || !password || !firstName || !lastName) {
       res.status(400).json({ error: "Bad Request", message: "Missing required fields" });
       return;
@@ -30,6 +30,9 @@ router.post("/register", async (req, res): Promise<void> => {
       phone: phone || null,
       country: country || null,
       dateOfBirth: dateOfBirth || null,
+      hasInvested: hasInvested || false,
+      previousBroker: previousBroker || null,
+      previousAmount: previousAmount || null,
       role: "user",
       status: "pending",
     }).returning();
