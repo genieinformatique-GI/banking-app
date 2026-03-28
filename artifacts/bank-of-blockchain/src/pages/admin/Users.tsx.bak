@@ -56,7 +56,7 @@ export default function AdminUsers() {
   const [newUser, setNewUser] = useState({
     email: "", password: "", firstName: "", lastName: "",
     phone: "", country: "", dateOfBirth: "", role: "user", status: "active",
-    adminRole: "", adminPermissions: {} as Record<string, boolean>, hasInvested: false, previousBroker: "", previousAmount: "",
+    adminRole: "", adminPermissions: {} as Record<string, boolean>,
   });
   const [creating, setCreating] = useState(false);
 
@@ -117,7 +117,7 @@ export default function AdminUsers() {
       toast({ title: "Compte créé avec succès", variant: "success" });
       queryClient.invalidateQueries();
       setCreateOpen(false);
-      setNewUser({ email: "", password: "", firstName: "", lastName: "", phone: "", country: "", dateOfBirth: "", role: "user", status: "active", adminRole: "", adminPermissions: {}, hasInvested: false, previousBroker: "", previousAmount: "" });
+      setNewUser({ email: "", password: "", firstName: "", lastName: "", phone: "", country: "", dateOfBirth: "", role: "user", status: "active", adminRole: "", adminPermissions: {} });
     } catch (err: any) {
       toast({ title: "Erreur", description: err.message, variant: "destructive" });
     }
@@ -359,28 +359,6 @@ export default function AdminUsers() {
               </div>
             </div>
 
-            <div className="space-y-3 border border-muted rounded-lg p-4 bg-muted/20">
-              <p className="text-sm font-semibold">Expérience en investissement</p>
-              <div className="space-y-2">
-                <Label>A déjà investi sur une plateforme crypto ou broker ?</Label>
-                <div className="flex gap-4">
-                  <label className="flex items-center gap-2 cursor-pointer"><input type="radio" checked={newUser.hasInvested === true} onChange={() => setNewUser(p => ({ ...p, hasInvested: true }))} /> Oui</label>
-                  <label className="flex items-center gap-2 cursor-pointer"><input type="radio" checked={newUser.hasInvested === false} onChange={() => setNewUser(p => ({ ...p, hasInvested: false }))} /> Non</label>
-                </div>
-              </div>
-              {newUser.hasInvested && (
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-1">
-                    <Label>Plateforme ou broker</Label>
-                    <Input placeholder="Ex: Binance, eToro..." value={newUser.previousBroker} onChange={e => setNewUser(p => ({ ...p, previousBroker: e.target.value }))} />
-                  </div>
-                  <div className="space-y-1">
-                    <Label>Montant investi</Label>
-                    <Input placeholder="Ex: 5000" value={newUser.previousAmount} onChange={e => setNewUser(p => ({ ...p, previousAmount: e.target.value }))} />
-                  </div>
-                </div>
-              )}
-            </div>
             <Separator />
             <div className="space-y-1">
               <Label>Type de compte</Label>
@@ -494,27 +472,6 @@ export default function AdminUsers() {
                   </div>
                 )}
 
-                <div className="space-y-3 border border-muted rounded-lg p-4 bg-muted/20">
-                  <p className="text-sm font-semibold">Expérience en investissement</p>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div className="bg-muted/40 rounded-lg p-3">
-                      <p className="text-xs text-muted-foreground">A déjà investi</p>
-                      <p className="font-medium mt-0.5">{selectedUserDetail.hasInvested ? "Oui" : "Non"}</p>
-                    </div>
-                    {selectedUserDetail.previousBroker && (
-                      <div className="bg-muted/40 rounded-lg p-3">
-                        <p className="text-xs text-muted-foreground">Plateforme / Broker</p>
-                        <p className="font-medium mt-0.5">{selectedUserDetail.previousBroker}</p>
-                      </div>
-                    )}
-                    {selectedUserDetail.previousAmount && (
-                      <div className="bg-muted/40 rounded-lg p-3">
-                        <p className="text-xs text-muted-foreground">Montant investi</p>
-                        <p className="font-medium mt-0.5">{selectedUserDetail.previousAmount}</p>
-                      </div>
-                    )}
-                  </div>
-                </div>
                 <Separator />
                 <div className="space-y-3">
                   <p className="text-sm font-semibold flex items-center gap-2"><KeyRound className="w-4 h-4 text-primary" /> Réinitialiser le mot de passe</p>
