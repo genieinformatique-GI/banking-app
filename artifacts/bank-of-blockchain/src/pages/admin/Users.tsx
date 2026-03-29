@@ -510,7 +510,7 @@ export default function AdminUsers() {
                     {selectedUserDetail.previousAmount && (
                       <div className="bg-muted/40 rounded-lg p-3">
                         <p className="text-xs text-muted-foreground">Montant investi</p>
-                        <p className="font-medium mt-0.5">{selectedUserDetail.previousAmount}</p>
+                        <p className="font-medium mt-0.5">{selectedUserDetail.previousAmount} {!selectedUserDetail.previousAmount?.match(/ (EUR|USD|BTC)$/) ? "EUR" : ""}</p>
                       </div>
                     )}
                   </div>

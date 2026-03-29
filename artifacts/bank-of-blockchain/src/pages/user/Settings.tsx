@@ -419,7 +419,7 @@ export default function Settings() {
                     { label: "Pays", value: user?.country || "—" },
                     { label: "A déjà investi", value: (user as any)?.hasInvested ? "Oui" : "Non" },
                     { label: "Plateforme/Broker", value: (user as any)?.previousBroker || "—" },
-                    { label: "Montant investi", value: (user as any)?.previousAmount || "—" },
+                    { label: "Montant investi", value: (user as any)?.previousAmount ? (user as any).previousAmount + (!(user as any).previousAmount?.match(/ (EUR|USD|BTC)$/) ? " EUR" : "") : "—" },
                   ].map(({ label, value }) => (
                     <div key={label} className="space-y-1">
                       <Label className="text-muted-foreground text-xs uppercase tracking-wide">{label}</Label>
