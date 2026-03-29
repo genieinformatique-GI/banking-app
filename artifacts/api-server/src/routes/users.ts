@@ -49,6 +49,9 @@ router.get("/", async (req: AuthRequest, res): Promise<void> => {
       twoFactorRequired: usersTable.twoFactorRequired,
       createdAt: usersTable.createdAt,
       updatedAt: usersTable.updatedAt,
+      hasInvested: usersTable.hasInvested,
+      previousBroker: usersTable.previousBroker,
+      previousAmount: usersTable.previousAmount,
     }).from(usersTable).where(whereClause).limit(limit).offset(offset).orderBy(usersTable.createdAt);
 
     const [{ total }] = await db.select({ total: count() }).from(usersTable).where(whereClause);
@@ -124,6 +127,9 @@ router.get("/:id", async (req: AuthRequest, res): Promise<void> => {
       twoFactorRequired: usersTable.twoFactorRequired,
       createdAt: usersTable.createdAt,
       updatedAt: usersTable.updatedAt,
+      hasInvested: usersTable.hasInvested,
+      previousBroker: usersTable.previousBroker,
+      previousAmount: usersTable.previousAmount,
     }).from(usersTable).where(eq(usersTable.id, id)).limit(1);
 
     if (!user) { res.status(404).json({ error: "Not Found" }); return; }
