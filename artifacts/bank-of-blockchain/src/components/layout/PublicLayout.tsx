@@ -446,7 +446,7 @@ function PublicFooter() {
                 <li style={{ display: "flex", gap: "14px", alignItems: "flex-start" }}>
                   <MapPin size={16} style={{ color: "#f6a821", marginTop: "2px", flexShrink: 0 }} />
                   <span style={{ color: "#64748b", fontSize: "13.5px", lineHeight: "1.7" }}>
-                    ECB Tower, Sonnemannstraße 20,<br />60314 Frankfurt am Main, Allemagne
+                    Russie
                   </span>
                 </li>
                 <li style={{ display: "flex", gap: "14px", alignItems: "center" }}>
