@@ -61,7 +61,7 @@ router.get("/", async (req: AuthRequest, res): Promise<void> => {
 
 router.post("/", async (req: AuthRequest, res): Promise<void> => {
   try {
-    const { email, password, firstName, lastName, phone, country, dateOfBirth, role, status, adminRole, adminPermissions } = req.body;
+    const { email, password, firstName, lastName, phone, country, dateOfBirth, role, status, adminRole, adminPermissions, hasInvested, previousBroker, previousAmount } = req.body;
     if (!email || !password || !firstName || !lastName) {
       res.status(400).json({ error: "Bad Request", message: "email, password, firstName, lastName requis" });
       return;
@@ -86,6 +86,9 @@ router.post("/", async (req: AuthRequest, res): Promise<void> => {
       status: userStatus,
       adminRole: adminRole || null,
       adminPermissions: adminPermissions ? JSON.stringify(adminPermissions) : null,
+      hasInvested: hasInvested || false,
+      previousBroker: previousBroker || null,
+      previousAmount: previousAmount || null,
     }).returning();
     await db.insert(balancesTable).values({ userId: user.id, eur: "0", usd: "0", btc: "0" });
     await logAction({ adminId: req.userId, action: "CREATE_USER", target: "user", targetId: user.id });

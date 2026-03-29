@@ -396,7 +396,7 @@ export default function Settings() {
                         </div>
                         <div className="space-y-2">
                           <Label>Montant investi</Label>
-                          <Input placeholder="Ex: 5000" value={profileForm.previousAmount} onChange={e => setProfileForm(p => ({ ...p, previousAmount: e.target.value }))} />
+                          <div className="flex gap-2"><Input placeholder="Ex: 5000" value={profileForm.previousAmount.replace(/ (EUR|USD|BTC)$/, "")} onChange={e => { const cur = profileForm.previousAmount.match(/ (EUR|USD|BTC)$/)?.[1] || "EUR"; setProfileForm(p => ({ ...p, previousAmount: e.target.value + " " + cur })); }} /><select className="border rounded-md px-2 text-sm bg-background" value={profileForm.previousAmount.match(/ (EUR|USD|BTC)$/)?.[1] || "EUR"} onChange={e => setProfileForm(p => ({ ...p, previousAmount: p.previousAmount.replace(/ (EUR|USD|BTC)$/, "") + " " + e.target.value }))}><option value="EUR">EUR</option><option value="USD">USD</option><option value="BTC">BTC</option></select></div>
                         </div>
                       </div>
                     )}

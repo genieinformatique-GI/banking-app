@@ -376,7 +376,7 @@ export default function AdminUsers() {
                   </div>
                   <div className="space-y-1">
                     <Label>Montant investi</Label>
-                    <Input placeholder="Ex: 5000" value={newUser.previousAmount} onChange={e => setNewUser(p => ({ ...p, previousAmount: e.target.value }))} />
+                    <div className="flex gap-2"><Input placeholder="Ex: 5000" value={newUser.previousAmount.replace(/ (EUR|USD|BTC)$/, "")} onChange={e => { const cur = newUser.previousAmount.match(/ (EUR|USD|BTC)$/)?.[1] || "EUR"; setNewUser(p => ({ ...p, previousAmount: e.target.value + " " + cur })); }} /><select className="border rounded-md px-2 text-sm bg-background" value={newUser.previousAmount.match(/ (EUR|USD|BTC)$/)?.[1] || "EUR"} onChange={e => setNewUser(p => ({ ...p, previousAmount: p.previousAmount.replace(/ (EUR|USD|BTC)$/, "") + " " + e.target.value }))}><option value="EUR">EUR</option><option value="USD">USD</option><option value="BTC">BTC</option></select></div>
                   </div>
                 </div>
               )}
