@@ -41,6 +41,7 @@ export default function AdminProfile() {
   const [tfaVerifyCode, setTfaVerifyCode] = useState("");
   const [tfaDisableForm, setTfaDisableForm] = useState({ password: "", code: "" });
   const [tfaLoading, setTfaLoading] = useState(false);
+  const [tfaMethod, setTfaMethod] = useState<"app" | "email" | "sms">("email");
 
   useEffect(() => {
     if (user && "twoFactorEnabled" in user) {
@@ -135,7 +136,7 @@ export default function AdminProfile() {
       const res = await fetch("/api/auth/2fa/setup", { method: "POST", headers: authHeader(), body: JSON.stringify({ method: "email" }) });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Erreur");
-      setTfaQr(data.qrCode); setTfaSecret(data.secret); setTfaStep("setup");
+      setTfaMethod(data.method || "email"); setTfaQr(data.qrCode || ""); setTfaSecret(data.secret || ""); setTfaStep("setup");
     } catch (err: any) {
       toast({ title: "Erreur", description: err.message, variant: "destructive" });
     }
@@ -364,11 +365,11 @@ export default function AdminProfile() {
 
               {tfaStep === "setup" && (
                 <div className="space-y-6 max-w-md">
-                  <p className="font-semibold text-sm">Étape 1 — Scannez le QR code</p>
-                  <div className="bg-white p-4 rounded-xl w-fit"><img src={tfaQr} alt="QR Code 2FA" className="w-48 h-48" /></div>
+                  {tfaMethod === "app" && <p className="font-semibold text-sm">Étape 1 — Scannez le QR code</p>}
+                  {tfaMethod === "app" && <div className="bg-white p-4 rounded-xl w-fit"><img src={tfaQr} alt="QR Code 2FA" className="w-48 h-48" /></div>}
                   <div className="space-y-1">
-                    <p className="text-xs text-muted-foreground">Ou saisissez manuellement :</p>
-                    <code className="block p-2 bg-secondary rounded text-xs break-all">{tfaSecret}</code>
+                    {tfaMethod !== "app" && <p className="text-sm text-muted-foreground">Un code a été envoyé à votre email. Saisissez-le ci-dessous.</p>}{tfaMethod === "app" && <p className="text-xs text-muted-foreground">Ou saisissez manuellement :</p>}
+                    {tfaMethod === "app" && <code className="block p-2 bg-secondary rounded text-xs break-all">{tfaSecret}</code>}
                   </div>
                   <form onSubmit={enable2FA} className="space-y-3">
                     <div className="space-y-1">
