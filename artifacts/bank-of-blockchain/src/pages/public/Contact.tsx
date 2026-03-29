@@ -74,21 +74,9 @@ export default function Contact() {
                 <h3 style={{ color: "#225473", fontWeight: 800, fontSize: "1.3rem", marginBottom: "24px" }}>Informations de contact</h3>
                 <div className="space-y-6">
                   {[
-                    {
-                      icon: <MapPin size={22} />,
-                    },
-                    {
-                      icon: <Mail size={22} />,
-                      { icon: <MapPin size={22} />, title: "Localisation", content: "Russie" },
-                    { icon: <Mail size={22} />, title: "Email",
-                      content: "blockchaincontact@blockchainbankapp.com",
-                      href: "blockchaincontact@blockchainbankapp.com",
-                    },
-                    {
-                      icon: <Phone size={22} />,
-                      title: "Horaires d'assistance",
-                      content: "Lundi - Vendredi: 9h00 - 18h00",
-                    },
+                    { icon: <MapPin size={22} />, title: "Localisation", content: "Russie" },
+                    { icon: <Mail size={22} />, title: "Email", content: "blockchaincontact@blockchainbankapp.com", href: "mailto:blockchaincontact@blockchainbankapp.com" },
+                    { icon: <Phone size={22} />, title: "Horaires d'assistance", content: "Lundi - Vendredi: 9h00 - 18h00" },
                   ].map(({ icon, title, content, href }, i) => (
                     <div key={i} className="flex gap-4">
                       <div style={{ width: "50px", height: "50px", borderRadius: "10px", background: "#225473", color: "white", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
