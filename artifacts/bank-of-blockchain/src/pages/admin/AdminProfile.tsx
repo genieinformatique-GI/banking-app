@@ -132,7 +132,7 @@ export default function AdminProfile() {
   const startSetup2FA = async () => {
     setTfaLoading(true);
     try {
-      const res = await fetch("/api/auth/2fa/setup", { method: "POST", headers: authHeader() });
+      const res = await fetch("/api/auth/2fa/setup", { method: "POST", headers: authHeader(), body: JSON.stringify({ method: "email" }) });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Erreur");
       setTfaQr(data.qrCode); setTfaSecret(data.secret); setTfaStep("setup");
