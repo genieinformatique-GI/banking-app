@@ -40,19 +40,23 @@ export default function Contact() {
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
-                    <input type="text" placeholder="Nom & Prénoms *" required value={form.nom} onChange={(e) => setForm({ ...form, nom: e.target.value })}
+                    <label style={{ display: "block", color: "#225473", fontWeight: 600, fontSize: "0.85rem", marginBottom: "6px" }}>Nom & Prénoms *</label>
+                    <input type="text" placeholder="Ex: Jean Dupont" required value={form.nom} onChange={(e) => setForm({ ...form, nom: e.target.value })}
                       style={{ width: "100%", padding: "12px 14px", border: "1px solid #ddd", borderRadius: "6px", fontSize: "0.9rem", background: "white" }} />
                   </div>
                   <div>
-                    <input type="email" placeholder="Email *" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })}
+                    <label style={{ display: "block", color: "#225473", fontWeight: 600, fontSize: "0.85rem", marginBottom: "6px" }}>Email *</label>
+                    <input type="email" placeholder="Ex: jean@example.com" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })}
                       style={{ width: "100%", padding: "12px 14px", border: "1px solid #ddd", borderRadius: "6px", fontSize: "0.9rem", background: "white" }} />
                   </div>
                   <div>
-                    <input type="text" placeholder="Sujet *" required value={form.motif} onChange={(e) => setForm({ ...form, motif: e.target.value })}
+                    <label style={{ display: "block", color: "#225473", fontWeight: 600, fontSize: "0.85rem", marginBottom: "6px" }}>Sujet *</label>
+                    <input type="text" placeholder="Ex: Question sur mon compte" required value={form.motif} onChange={(e) => setForm({ ...form, motif: e.target.value })}
                       style={{ width: "100%", padding: "12px 14px", border: "1px solid #ddd", borderRadius: "6px", fontSize: "0.9rem", background: "white" }} />
                   </div>
                   <div>
-                    <textarea placeholder="Votre message *" required rows={5} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })}
+                    <label style={{ display: "block", color: "#225473", fontWeight: 600, fontSize: "0.85rem", marginBottom: "6px" }}>Message *</label>
+                    <textarea placeholder="Décrivez votre demande en détail..." required rows={5} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })}
                       style={{ width: "100%", padding: "12px 14px", border: "1px solid #ddd", borderRadius: "6px", fontSize: "0.9rem", background: "white", resize: "vertical" }} />
                   </div>
                   <button type="submit"
@@ -72,12 +76,11 @@ export default function Contact() {
                   {[
                     {
                       icon: <MapPin size={22} />,
-                      title: "Localisation",
-                      content: "ECB Tower, Sonnemannstraße 20, 60314 Frankfurt am Main, Allemagne",
                     },
                     {
                       icon: <Mail size={22} />,
-                      title: "Email",
+                      { icon: <MapPin size={22} />, title: "Localisation", content: "Russie" },
+                    { icon: <Mail size={22} />, title: "Email",
                       content: "blockchaincontact@blockchainbankapp.com",
                       href: "blockchaincontact@blockchainbankapp.com",
                     },
