@@ -62,10 +62,10 @@ function PublicHeader() {
             <div className="hidden md:flex items-center gap-6">
               <div className="flex items-center gap-2">
                 <Mail size={12} style={{ color: "#f6a821" }} />
-                <a href="mailto:infos@bofblockchain.com"
+                <a href="mailto:blockchaincontact@blockchainbankapp.com"
                   style={{ color: "#8899b0", fontSize: "12px" }}
                   className="hover:text-white transition-colors">
-                  infos@bofblockchain.com
+                  blockchaincontact@blockchainbankapp.com
                 </a>
               </div>
               <span style={{ color: "#1e3a5f", fontSize: "12px" }}>|</span>
@@ -451,10 +451,10 @@ function PublicFooter() {
                 </li>
                 <li style={{ display: "flex", gap: "14px", alignItems: "center" }}>
                   <Mail size={16} style={{ color: "#f6a821", flexShrink: 0 }} />
-                  <a href="mailto:infos@bofblockchain.com"
+                  <a href="mailto:blockchaincontact@blockchainbankapp.com"
                     style={{ color: "#64748b", fontSize: "13.5px" }}
                     className="hover:text-[#f6a821] transition-colors">
-                    infos@bofblockchain.com
+                    blockchaincontact@blockchainbankapp.com
                   </a>
                 </li>
               </ul>
