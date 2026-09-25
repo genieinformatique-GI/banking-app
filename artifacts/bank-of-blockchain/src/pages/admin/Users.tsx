@@ -129,7 +129,7 @@ export default function AdminUsers() {
     setSavingPerm(true);
     try {
       const res = await fetch(`/api/users/${selectedUser.id}/permissions`, {
-        method: "POST",
+        method: "PATCH",
         headers: authHeader(),
         body: JSON.stringify({ adminRole: permForm.adminRole, adminPermissions: permForm.permissions, twoFactorRequired: permForm.twoFactorRequired }),
       });
