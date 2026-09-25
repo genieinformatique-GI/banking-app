@@ -15,7 +15,7 @@ import { Separator } from "@/components/ui/separator";
 import { formatDate, formatCurrency } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
-import { CheckCircle, XCircle, Plus, Eye, Settings2, UserPlus, ShieldCheck, Search, Euro, DollarSign, Bitcoin, ArrowRightLeft, CreditCard, Zap, KeyRound } from "lucide-react";
+import { CheckCircle, XCircle, Plus, Eye, Settings2, UserPlus, ShieldCheck, Search, Euro, DollarSign, Bitcoin, ArrowRightLeft, CreditCard, Zap, KeyRound, ChevronLeft, ChevronRight } from "lucide-react";
 
 const ADMIN_PERMISSIONS = [
   { key: "manage_users", label: "Gestion des utilisateurs" },
@@ -39,13 +39,19 @@ const ADMIN_ROLES = [
 
 const authHeader = () => ({ "Content-Type": "application/json", Authorization: `Bearer ${localStorage.getItem("bob_token")}` });
 
+const USERS_PER_PAGE = 20;
+
 export default function AdminUsers() {
   const { t } = useLanguage();
-  const { data, isLoading } = useGetUsers();
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
+  const { data, isLoading } = useGetUsers({
+    page,
+    limit: USERS_PER_PAGE,
+    search: search.trim() || undefined,
+  });
   const { toast } = useToast();
   const queryClient = useQueryClient();
-
-  const [search, setSearch] = useState("");
   const [createOpen, setCreateOpen] = useState(false);
   const [detailOpen, setDetailOpen] = useState(false);
   const [permOpen, setPermOpen] = useState(false);
@@ -202,11 +208,9 @@ export default function AdminUsers() {
     setResetPwLoading(false);
   };
 
-  const filteredUsers = data?.users?.filter((u: any) => {
-    if (!search) return true;
-    const q = search.toLowerCase();
-    return u.email.toLowerCase().includes(q) || u.firstName.toLowerCase().includes(q) || u.lastName.toLowerCase().includes(q);
-  }) || [];
+  const filteredUsers = data?.users || [];
+  const totalUsers = data?.total ?? 0;
+  const totalPages = Math.max(1, Math.ceil(totalUsers / USERS_PER_PAGE));
 
   return (
     <div className="space-y-8 animate-fade-in">
@@ -223,9 +227,9 @@ export default function AdminUsers() {
       <div className="flex items-center gap-3">
         <div className="relative flex-1 max-w-sm">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-          <Input placeholder="Rechercher…" value={search} onChange={e => setSearch(e.target.value)} className="pl-9" />
+          <Input placeholder="Rechercher…" value={search} onChange={e => { setSearch(e.target.value); setPage(1); }} className="pl-9" />
         </div>
-        <Badge variant="outline" className="text-sm">{filteredUsers.length} compte{filteredUsers.length !== 1 ? "s" : ""}</Badge>
+        <Badge variant="outline" className="text-sm">{totalUsers} compte{totalUsers !== 1 ? "s" : ""}</Badge>
       </div>
 
       <Card>
@@ -302,6 +306,29 @@ export default function AdminUsers() {
                 ))}
               </TableBody>
             </Table></div>
+            <div className="flex items-center justify-between border-t p-4">
+              <span className="text-sm text-muted-foreground">
+                Page {page} sur {totalPages} · {totalUsers} compte{totalUsers !== 1 ? "s" : ""}
+              </span>
+              <div className="flex items-center gap-2">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => setPage(currentPage => Math.max(1, currentPage - 1))}
+                  disabled={page <= 1 || isLoading}
+                >
+                  <ChevronLeft className="mr-1 h-4 w-4" /> Précédent
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => setPage(currentPage => Math.min(totalPages, currentPage + 1))}
+                  disabled={page >= totalPages || isLoading}
+                >
+                  Suivant <ChevronRight className="ml-1 h-4 w-4" />
+                </Button>
+              </div>
+            </div>
           )}
         </CardContent>
       </Card>
