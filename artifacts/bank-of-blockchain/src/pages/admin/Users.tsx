@@ -237,7 +237,8 @@ export default function AdminUsers() {
           {isLoading ? (
             <div className="p-8 flex justify-center"><div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" /></div>
           ) : (
-            <div className="overflow-x-auto"><Table>
+            <div>
+              <div className="overflow-x-auto"><Table>
               <TableHeader>
                 <TableRow>
                   <TableHead>Nom complet</TableHead>
@@ -329,6 +330,7 @@ export default function AdminUsers() {
                 </Button>
               </div>
             </div>
+          </div>
           )}
         </CardContent>
       </Card>
