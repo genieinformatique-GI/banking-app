@@ -2,7 +2,7 @@ import { Router } from "express";
 import bcrypt from "bcryptjs";
 import { db } from "@workspace/db";
 import { usersTable, balancesTable, bankAccountsTable, transactionsTable, bankTransfersTable, cryptoTransfersTable, notificationsTable } from "@workspace/db/schema";
-import { eq, ilike, or, and, count, SQL, desc } from "drizzle-orm";
+import { eq, ilike, or, and, count, inArray, SQL, desc } from "drizzle-orm";
 import { requireAuth, requireAdmin, AuthRequest } from "../middlewares/auth.js";
 import { logAction } from "../lib/logger.js";
 import { sendAccountActivationEmail, sendAccountRejectionEmail } from "../lib/email.js";
@@ -265,9 +265,68 @@ router.patch("/:id/avatar", async (req: AuthRequest, res): Promise<void> => {
 router.delete("/:id", async (req: AuthRequest, res): Promise<void> => {
   try {
     const id = parseInt(req.params["id"] as string);
+    if (!Number.isInteger(id) || id <= 0) {
+      res.status(400).json({ error: "Bad Request", message: "Identifiant invalide" });
+      return;
+    }
+
+    // Un admin ne peut pas supprimer son propre compte
+    if (id === req.userId) {
+      res.status(400).json({ error: "Bad Request", message: "Vous ne pouvez pas supprimer votre propre compte" });
+      return;
+    }
+
+    const [user] = await db.select().from(usersTable).where(eq(usersTable.id, id)).limit(1);
+    if (!user) {
+      res.status(404).json({ error: "Not Found", message: "Utilisateur introuvable" });
+      return;
+    }
+
+    // Les comptes administrateurs ne se suppriment pas depuis cette route
+    if (user.role === "admin") {
+      res.status(403).json({ error: "Forbidden", message: "Un compte administrateur ne peut pas être supprimé ici" });
+      return;
+    }
+
+    // Bloquer si des opérations sont encore en cours de traitement
+    const [{ pendingCount }] = await db
+      .select({ pendingCount: count() })
+      .from(transactionsTable)
+      .where(and(eq(transactionsTable.userId, id), inArray(transactionsTable.status, ["pending", "processing"])));
+    if (Number(pendingCount) > 0) {
+      res.status(409).json({
+        error: "Conflict",
+        message: `Suppression impossible : ${Number(pendingCount)} transaction(s) en attente ou en cours. Validez ou rejetez-les d'abord.`,
+      });
+      return;
+    }
+
+    // Instantané conservé dans les logs d'audit (les logs ne sont jamais supprimés)
+    const [balance] = await db.select().from(balancesTable).where(eq(balancesTable.userId, id)).limit(1);
+    const [{ txCount }] = await db.select({ txCount: count() }).from(transactionsTable).where(eq(transactionsTable.userId, id));
+    const snapshot = JSON.stringify({
+      email: user.email,
+      name: `${user.firstName} ${user.lastName}`,
+      status: user.status,
+      country: user.country,
+      createdAt: user.createdAt,
+      balances: balance ? { eur: balance.eur, usd: balance.usd, btc: balance.btc } : null,
+      transactionsDeleted: Number(txCount),
+    });
+
+    // Suppression définitive : les tables liées (soldes, comptes bancaires, transactions,
+    // virements, transferts crypto, notifications, tokens) sont supprimées en cascade par la base.
     await db.delete(usersTable).where(eq(usersTable.id, id));
-    await logAction({ adminId: req.userId, action: "DELETE_USER", target: "user", targetId: id });
-    res.json({ success: true, message: "User deleted" });
+
+    await logAction({
+      adminId: req.userId,
+      action: "DELETE_USER",
+      target: "user",
+      targetId: id,
+      details: snapshot,
+      ipAddress: req.ip,
+    });
+    res.json({ success: true, message: "Utilisateur supprimé définitivement" });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Internal Server Error" });
