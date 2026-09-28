@@ -15,7 +15,7 @@ import { Separator } from "@/components/ui/separator";
 import { formatDate, formatCurrency } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
-import { CheckCircle, XCircle, Plus, Eye, Settings2, UserPlus, ShieldCheck, Search, Euro, DollarSign, Bitcoin, ArrowRightLeft, CreditCard, Zap, KeyRound, ChevronLeft, ChevronRight } from "lucide-react";
+import { CheckCircle, XCircle, Plus, Eye, Settings2, UserPlus, ShieldCheck, Search, Euro, DollarSign, Bitcoin, ArrowRightLeft, CreditCard, Zap, KeyRound, ChevronLeft, ChevronRight, Trash2 } from "lucide-react";
 
 const ADMIN_PERMISSIONS = [
   { key: "manage_users", label: "Gestion des utilisateurs" },
@@ -75,6 +75,10 @@ export default function AdminUsers() {
   const [suspendOpen, setSuspendOpen] = useState(false);
   const [suspendUserId, setSuspendUserId] = useState<number | null>(null);
   const [suspendReason, setSuspendReason] = useState("");
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState<any>(null);
+  const [deleteConfirm, setDeleteConfirm] = useState("");
+  const [deleting, setDeleting] = useState(false);
 
   const activateUser = useActivateUser({ mutation: { onSuccess: () => { toast({ title: "Utilisateur activé", variant: "success" }); queryClient.invalidateQueries(); } } });
   const suspendUser = useSuspendUser({ mutation: { onSuccess: () => { toast({ title: "Utilisateur suspendu" }); queryClient.invalidateQueries(); } } });
@@ -189,6 +193,30 @@ export default function AdminUsers() {
     }
   };
 
+  const openDelete = (user: any) => {
+    setDeleteTarget(user);
+    setDeleteConfirm("");
+    setDeleteOpen(true);
+  };
+
+  const handleDeleteSubmit = async () => {
+    if (!deleteTarget || deleteConfirm.trim().toLowerCase() !== deleteTarget.email.toLowerCase()) return;
+    setDeleting(true);
+    try {
+      const res = await fetch(`/api/users/${deleteTarget.id}`, { method: "DELETE", headers: authHeader() });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.message || data.error || "Erreur serveur");
+      toast({ title: "Utilisateur supprimé définitivement", variant: "success" });
+      setDeleteOpen(false);
+      setDeleteTarget(null);
+      setDeleteConfirm("");
+      queryClient.invalidateQueries();
+    } catch (err: any) {
+      toast({ title: "Suppression impossible", description: err.message, variant: "destructive" });
+    }
+    setDeleting(false);
+  };
+
   const handleResetPassword = async () => {
     if (!selectedUser || !resetPwValue.trim()) return;
     setResetPwLoading(true);
@@ -299,6 +327,12 @@ export default function AdminUsers() {
                           <Button size="sm" variant="outline" className="text-red-500 border-red-500/30 hover:bg-red-500/10"
                             onClick={() => { setSuspendUserId(user.id); setSuspendReason(""); setSuspendOpen(true); }}>
                             <XCircle className="w-3 h-3 mr-1" /> Suspendre
+                          </Button>
+                        )}
+                        {user.role !== 'admin' && (
+                          <Button size="sm" variant="ghost" className="text-red-600 hover:bg-red-500/10" title="Supprimer définitivement"
+                            onClick={() => openDelete(user)}>
+                            <Trash2 className="w-4 h-4" />
                           </Button>
                         )}
                       </div>
@@ -729,6 +763,36 @@ export default function AdminUsers() {
           <DialogFooter className="gap-2">
             <Button variant="outline" onClick={() => { setSuspendOpen(false); setSuspendReason(""); setSuspendUserId(null); }}>Annuler</Button>
             <Button variant="destructive" disabled={!suspendReason} onClick={handleSuspendSubmit}>Confirmer la suspension</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* ── Delete User Modal ── */}
+      <Dialog open={deleteOpen} onOpenChange={(o) => { setDeleteOpen(o); if (!o) { setDeleteTarget(null); setDeleteConfirm(""); } }}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-red-600"><Trash2 className="w-5 h-5" /> Supprimer définitivement</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-2">
+            <div className="rounded-md bg-red-500/10 border border-red-500/30 p-3 text-sm">
+              <p>Vous allez supprimer <strong>{deleteTarget?.firstName} {deleteTarget?.lastName}</strong> ({deleteTarget?.email}).</p>
+              <p className="mt-2">Cette action est <strong>irréversible</strong> : le profil, les soldes, les comptes bancaires, les transactions, les virements et les notifications de cet utilisateur seront supprimés. Une trace est conservée dans les logs système.</p>
+              <p className="mt-2 text-muted-foreground">Pour bloquer simplement l'accès, utilisez plutôt « Suspendre ».</p>
+            </div>
+            <div className="space-y-2">
+              <Label>Tapez l'email de l'utilisateur pour confirmer</Label>
+              <Input value={deleteConfirm} onChange={e => setDeleteConfirm(e.target.value)} placeholder={deleteTarget?.email} />
+            </div>
+          </div>
+          <DialogFooter className="gap-2">
+            <Button variant="outline" onClick={() => setDeleteOpen(false)}>Annuler</Button>
+            <Button
+              variant="destructive"
+              disabled={deleting || deleteConfirm.trim().toLowerCase() !== (deleteTarget?.email || "\u0000").toLowerCase()}
+              onClick={handleDeleteSubmit}
+            >
+              {deleting ? "Suppression…" : "Supprimer définitivement"}
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
