@@ -13,10 +13,13 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { formatDate } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
-import { Send, Bell, Info, AlertTriangle, CheckCircle, XCircle } from "lucide-react";
+import { Send, Bell, Info, AlertTriangle, CheckCircle, XCircle, ChevronLeft, ChevronRight } from "lucide-react";
+
+const NOTIFICATIONS_PER_PAGE = 15;
 
 export default function AdminNotifications() {
   const { t } = useLanguage();
+  const [page, setPage] = useState(1);
   const { data: notificationsData, isLoading: notificationsLoading } = useGetNotifications();
   const { data: usersData } = useGetUsers();
   const { toast } = useToast();
@@ -63,6 +66,10 @@ export default function AdminNotifications() {
 
     createMutation.mutate({ data: payload });
   };
+
+  const allNotifications = Array.isArray(notificationsData) ? notificationsData : (notificationsData as any)?.notifications ?? [];
+  const notifTotalPages = Math.max(1, Math.ceil(allNotifications.length / NOTIFICATIONS_PER_PAGE));
+  const pagedNotifications = allNotifications.slice((page - 1) * NOTIFICATIONS_PER_PAGE, page * NOTIFICATIONS_PER_PAGE);
 
   const getTypeIcon = (type: string) => {
     switch (type) {
@@ -165,7 +172,7 @@ export default function AdminNotifications() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {(Array.isArray(notificationsData) ? notificationsData : (notificationsData as any)?.notifications ?? []).map(n => (
+                  {pagedNotifications.map(n => (
                     <TableRow key={n.id}>
                       <TableCell>{getTypeIcon(n.type)}</TableCell>
                       <TableCell className="font-medium max-w-[200px] truncate" title={n.message}>
@@ -180,13 +187,28 @@ export default function AdminNotifications() {
                       <TableCell className="text-muted-foreground text-sm">{formatDate(n.createdAt)}</TableCell>
                     </TableRow>
                   ))}
-                  {(Array.isArray(notificationsData) ? notificationsData : (notificationsData as any)?.notifications ?? []).length === 0 && (
+                  {allNotifications.length === 0 && (
                     <TableRow>
                       <TableCell colSpan={5} className="text-center p-8 text-muted-foreground">Aucune notification envoyée.</TableCell>
                     </TableRow>
                   )}
                 </TableBody>
               </Table>
+            )}
+            {!notificationsLoading && allNotifications.length > 0 && (
+              <div className="flex items-center justify-between border-t p-4">
+                <span className="text-sm text-muted-foreground">
+                  Page {page} sur {notifTotalPages} · {allNotifications.length} notification{allNotifications.length !== 1 ? "s" : ""}
+                </span>
+                <div className="flex items-center gap-2">
+                  <Button size="sm" variant="outline" onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page <= 1}>
+                    <ChevronLeft className="mr-1 h-4 w-4" /> Précédent
+                  </Button>
+                  <Button size="sm" variant="outline" onClick={() => setPage(p => Math.min(notifTotalPages, p + 1))} disabled={page >= notifTotalPages}>
+                    Suivant <ChevronRight className="ml-1 h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
             )}
           </CardContent>
         </Card>
