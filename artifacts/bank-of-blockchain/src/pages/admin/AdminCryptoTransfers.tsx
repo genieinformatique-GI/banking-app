@@ -12,11 +12,14 @@ import { Separator } from "@/components/ui/separator";
 import { formatDate } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
-import { Eye, CheckCircle, XCircle, Zap } from "lucide-react";
+import { Eye, CheckCircle, XCircle, Zap, ChevronLeft, ChevronRight } from "lucide-react";
+
+const TRANSFERS_PER_PAGE = 20;
 
 export default function AdminCryptoTransfers() {
   const { t: tl } = useLanguage();
-  const { data, isLoading } = useGetCryptoTransfers();
+  const [page, setPage] = useState(1);
+  const { data, isLoading } = useGetCryptoTransfers({ page, limit: TRANSFERS_PER_PAGE });
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -56,8 +59,6 @@ export default function AdminCryptoTransfers() {
      return <Badge variant="destructive">{(tl as any).admin.cryptoTransfers.rejected}</Badge>;
    };
 
-  const truncateAddress = (address: string) => address ? `${address.slice(0, 8)}…${address.slice(-6)}` : '';
-
   return (
     <div className="space-y-8 animate-fade-in">
       <div>
@@ -70,6 +71,7 @@ export default function AdminCryptoTransfers() {
           {isLoading ? (
             <div className="p-8 flex justify-center"><div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" /></div>
           ) : (
+            <div>
             <div className="overflow-x-auto"><Table>
               <TableHeader>
                 <TableRow>
@@ -90,7 +92,7 @@ export default function AdminCryptoTransfers() {
                     <TableCell className="font-medium">{t.user?.firstName} {t.user?.lastName}</TableCell>
                     <TableCell className="font-mono font-bold">{t.amount.toFixed(8)}</TableCell>
                     <TableCell><span className="font-semibold text-orange-500">{t.cryptocurrency}</span></TableCell>
-                    <TableCell className="font-mono text-xs text-muted-foreground" title={t.walletAddress}>{truncateAddress(t.walletAddress)}</TableCell>
+                    <TableCell className="font-mono text-xs text-muted-foreground max-w-[220px] break-all">{t.walletAddress}</TableCell>
                     <TableCell className="text-muted-foreground text-sm">{formatDate(t.createdAt)}</TableCell>
                     <TableCell>{statusBadge(t.status)}</TableCell>
                     <TableCell className="text-right">
@@ -119,6 +121,20 @@ export default function AdminCryptoTransfers() {
                 )}
               </TableBody>
             </Table></div>
+            <div className="flex items-center justify-between border-t p-4">
+              <span className="text-sm text-muted-foreground">
+                Page {page} sur {Math.max(1, Math.ceil((data?.total ?? 0) / TRANSFERS_PER_PAGE))} · {data?.total ?? 0} transfert{(data?.total ?? 0) !== 1 ? "s" : ""}
+              </span>
+              <div className="flex items-center gap-2">
+                <Button size="sm" variant="outline" onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page <= 1 || isLoading}>
+                  <ChevronLeft className="mr-1 h-4 w-4" /> Précédent
+                </Button>
+                <Button size="sm" variant="outline" onClick={() => setPage(p => Math.min(Math.max(1, Math.ceil((data?.total ?? 0) / TRANSFERS_PER_PAGE)), p + 1))} disabled={page >= Math.max(1, Math.ceil((data?.total ?? 0) / TRANSFERS_PER_PAGE)) || isLoading}>
+                  Suivant <ChevronRight className="ml-1 h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+            </div>
           )}
         </CardContent>
       </Card>
