@@ -4,7 +4,7 @@ import { z } from "zod/v4";
 import { usersTable } from "./users";
 import { transactionsTable } from "./transactions";
 
-export const cryptocurrencyEnum = pgEnum("cryptocurrency", ["BTC", "ETH", "USDT"]);
+export const cryptocurrencyEnum = pgEnum("cryptocurrency", ["BTC", "ETH", "USDT", "BNB"]);
 export const cryptoTransferStatusEnum = pgEnum("crypto_transfer_status", ["pending", "processing", "completed", "rejected"]);
 
 export const cryptoTransfersTable = pgTable("crypto_transfers", {
