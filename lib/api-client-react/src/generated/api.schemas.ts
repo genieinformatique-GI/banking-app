@@ -270,6 +270,7 @@ export const CryptoTransferCryptocurrency = {
   BTC: "BTC",
   ETH: "ETH",
   USDT: "USDT",
+  BNB: "BNB",
 } as const;
 
 export type CryptoTransferStatus =
@@ -318,6 +319,7 @@ export const CreateCryptoTransferRequestCryptocurrency = {
   BTC: "BTC",
   ETH: "ETH",
   USDT: "USDT",
+  BNB: "BNB",
 } as const;
 
 export interface CreateCryptoTransferRequest {
