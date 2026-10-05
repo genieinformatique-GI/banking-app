@@ -24,7 +24,7 @@ const bankTransferSchema = z.object({
 
 const cryptoTransferSchema = z.object({
   amount: z.coerce.number().positive("Montant doit être positif"),
-  cryptocurrency: z.enum(["BTC", "ETH", "USDT"]),
+  cryptocurrency: z.enum(["BTC", "ETH", "USDT", "BNB"]),
   walletAddress: z.string().min(10, "Adresse invalide"),
   network: z.string().optional()
 });
@@ -172,6 +172,7 @@ export default function Transfers() {
                     <option value="BTC">BTC - Bitcoin</option>
                     <option value="ETH">ETH - Ethereum</option>
                     <option value="USDT">USDT - Tether</option>
+                    <option value="BNB">BNB - BNB Chain</option>
                   </select>
                 </div>
               </div>
