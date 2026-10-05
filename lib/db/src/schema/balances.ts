@@ -1,4 +1,4 @@
-import { pgTable, serial, integer, numeric, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, serial, integer, numeric, text, timestamp } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod/v4";
 import { usersTable } from "./users";
@@ -9,6 +9,9 @@ export const balancesTable = pgTable("balances", {
   eur: numeric("eur", { precision: 18, scale: 8 }).notNull().default("0"),
   usd: numeric("usd", { precision: 18, scale: 8 }).notNull().default("0"),
   btc: numeric("btc", { precision: 18, scale: 8 }).notNull().default("0"),
+  btcAddress: text("btc_address"),
+  ethAddress: text("eth_address"),
+  bnbAddress: text("bnb_address"),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
