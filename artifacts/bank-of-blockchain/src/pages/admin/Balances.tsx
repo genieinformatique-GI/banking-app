@@ -10,13 +10,16 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
-import { Edit2, Euro, DollarSign, Bitcoin, RefreshCw, Plus, Minus, Equal } from "lucide-react";
+import { Edit2, Euro, DollarSign, Bitcoin, RefreshCw, Plus, Minus, Equal, ChevronLeft, ChevronRight, Wallet } from "lucide-react";
 
 type OpMode = "set" | "add" | "subtract";
 
+const USERS_PER_PAGE = 20;
+
 export default function Balances() {
   const { t } = useLanguage();
-  const { data: usersData, isLoading } = useGetUsers();
+  const [page, setPage] = useState(1);
+  const { data: usersData, isLoading } = useGetUsers({ page, limit: USERS_PER_PAGE });
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -28,6 +31,9 @@ export default function Balances() {
   const [eur, setEur] = useState("");
   const [usd, setUsd] = useState("");
   const [btc, setBtc] = useState("");
+  const [btcAddress, setBtcAddress] = useState("");
+  const [ethAddress, setEthAddress] = useState("");
+  const [bnbAddress, setBnbAddress] = useState("");
   const [saving, setSaving] = useState(false);
 
   const handleEdit = async (user: any) => {
@@ -38,17 +44,23 @@ export default function Balances() {
     setEur("0");
     setUsd("0");
     setBtc("0");
+    setBtcAddress("");
+    setEthAddress("");
+    setBnbAddress("");
     try {
       const token = localStorage.getItem('bob_token');
       const res = await fetch(`/api/balances/${user.id}`, {
         headers: { 'Authorization': `Bearer ${token}` },
       });
       const data = await res.json();
-      const b = data.balances || { eur: 0, usd: 0, btc: 0 };
+      const b = data.balances || { eur: 0, usd: 0, btc: 0, btcAddress: "", ethAddress: "", bnbAddress: "" };
       setCurrentBalances(b);
       setEur(b.eur.toString());
       setUsd(b.usd.toString());
       setBtc(b.btc.toString());
+      setBtcAddress(b.btcAddress || "");
+      setEthAddress(b.ethAddress || "");
+      setBnbAddress(b.bnbAddress || "");
     } catch {
       toast({ title: "Erreur", description: "Impossible de charger les soldes", variant: "destructive" });
     } finally {
@@ -85,7 +97,10 @@ export default function Balances() {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify({ eur: newBalances.eur, usd: newBalances.usd, btc: newBalances.btc }),
+        body: JSON.stringify({
+          eur: newBalances.eur, usd: newBalances.usd, btc: newBalances.btc,
+          btcAddress: btcAddress.trim(), ethAddress: ethAddress.trim(), bnbAddress: bnbAddress.trim(),
+        }),
       });
       if (!res.ok) {
         const err = await res.json();
@@ -151,6 +166,7 @@ export default function Balances() {
           ) : nonAdminUsers.length === 0 ? (
             <div className="p-8 text-center text-muted-foreground">Aucun client trouvé.</div>
           ) : (
+            <div>
             <div className="overflow-x-auto"><Table>
               <TableHeader>
                 <TableRow>
@@ -181,6 +197,20 @@ export default function Balances() {
                 ))}
               </TableBody>
             </Table></div>
+            <div className="flex items-center justify-between border-t p-4">
+              <span className="text-sm text-muted-foreground">
+                Page {page} sur {Math.max(1, Math.ceil((usersData?.total ?? 0) / USERS_PER_PAGE))} · {usersData?.total ?? 0} compte{(usersData?.total ?? 0) !== 1 ? "s" : ""}
+              </span>
+              <div className="flex items-center gap-2">
+                <Button size="sm" variant="outline" onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page <= 1 || isLoading}>
+                  <ChevronLeft className="mr-1 h-4 w-4" /> Précédent
+                </Button>
+                <Button size="sm" variant="outline" onClick={() => setPage(p => Math.min(Math.max(1, Math.ceil((usersData?.total ?? 0) / USERS_PER_PAGE)), p + 1))} disabled={page >= Math.max(1, Math.ceil((usersData?.total ?? 0) / USERS_PER_PAGE)) || isLoading}>
+                  Suivant <ChevronRight className="ml-1 h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+            </div>
           )}
         </CardContent>
       </Card>
@@ -253,6 +283,23 @@ export default function Balances() {
                         {mode === "set" ? "Nouveau solde BTC" : mode === "add" ? "Montant à créditer BTC" : "Montant à débiter BTC"}
                       </Label>
                       <Input id="bal-btc" type="number" step="0.00000001" min="0" value={btc} onChange={e => setBtc(e.target.value)} placeholder="0.00000000" />
+                    </div>
+                  </div>
+
+                  <div className="mt-5 pt-4 border-t border-border space-y-3">
+                    <p className="text-sm font-semibold flex items-center gap-2"><Wallet className="w-4 h-4 text-primary" /> Adresses de dépôt personnalisées</p>
+                    <p className="text-xs text-muted-foreground -mt-1">Adresse à communiquer au client pour qu'il dépose sur son compte. Laissez vide si non attribuée.</p>
+                    <div className="space-y-1.5">
+                      <Label htmlFor="bal-btc-addr">Adresse BTC</Label>
+                      <Input id="bal-btc-addr" value={btcAddress} onChange={e => setBtcAddress(e.target.value)} placeholder="Ex: bc1q..." className="font-mono text-xs" />
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label htmlFor="bal-eth-addr">Adresse ETH</Label>
+                      <Input id="bal-eth-addr" value={ethAddress} onChange={e => setEthAddress(e.target.value)} placeholder="Ex: 0x..." className="font-mono text-xs" />
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label htmlFor="bal-bnb-addr">Adresse BNB</Label>
+                      <Input id="bal-bnb-addr" value={bnbAddress} onChange={e => setBnbAddress(e.target.value)} placeholder="Ex: bnb1... ou 0x..." className="font-mono text-xs" />
                     </div>
                   </div>
 
