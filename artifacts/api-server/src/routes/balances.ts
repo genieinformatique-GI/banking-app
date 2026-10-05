@@ -8,15 +8,18 @@ import { logAction } from "../lib/logger.js";
 const router = Router();
 router.use(requireAuth);
 
-function formatBalances(b: { eur: string; usd: string; btc: string }) {
-  return { eur: parseFloat(b.eur), usd: parseFloat(b.usd), btc: parseFloat(b.btc) };
+function formatBalances(b: { eur: string; usd: string; btc: string; btcAddress: string | null; ethAddress: string | null; bnbAddress: string | null }) {
+  return {
+    eur: parseFloat(b.eur), usd: parseFloat(b.usd), btc: parseFloat(b.btc),
+    btcAddress: b.btcAddress || "", ethAddress: b.ethAddress || "", bnbAddress: b.bnbAddress || "",
+  };
 }
 
 router.get("/me", async (req: AuthRequest, res): Promise<void> => {
   try {
     const [balance] = await db.select().from(balancesTable).where(eq(balancesTable.userId, req.userId!)).limit(1);
     if (!balance) {
-      res.json({ userId: req.userId, balances: { eur: 0, usd: 0, btc: 0 } });
+      res.json({ userId: req.userId, balances: { eur: 0, usd: 0, btc: 0, btcAddress: "", ethAddress: "", bnbAddress: "" } });
       return;
     }
     res.json({ userId: req.userId, balances: formatBalances(balance) });
@@ -31,7 +34,7 @@ router.get("/:userId", requireAdmin, async (req: AuthRequest, res): Promise<void
     const userId = parseInt(req.params["userId"]!);
     const [balance] = await db.select().from(balancesTable).where(eq(balancesTable.userId, userId)).limit(1);
     if (!balance) {
-      res.json({ userId, balances: { eur: 0, usd: 0, btc: 0 } });
+      res.json({ userId, balances: { eur: 0, usd: 0, btc: 0, btcAddress: "", ethAddress: "", bnbAddress: "" } });
       return;
     }
     res.json({ userId, balances: formatBalances(balance) });
@@ -48,18 +51,26 @@ router.patch("/:userId", requireAdmin, async (req: AuthRequest, res): Promise<vo
       res.status(400).json({ error: "Request body is required" });
       return;
     }
-    const { eur, usd, btc } = req.body;
+    const { eur, usd, btc, btcAddress, ethAddress, bnbAddress } = req.body;
     const updates: Record<string, unknown> = { updatedAt: new Date() };
     if (eur !== undefined) updates["eur"] = String(eur);
     if (usd !== undefined) updates["usd"] = String(usd);
     if (btc !== undefined) updates["btc"] = String(btc);
+    if (btcAddress !== undefined) updates["btcAddress"] = btcAddress ? String(btcAddress).trim() : null;
+    if (ethAddress !== undefined) updates["ethAddress"] = ethAddress ? String(ethAddress).trim() : null;
+    if (bnbAddress !== undefined) updates["bnbAddress"] = bnbAddress ? String(bnbAddress).trim() : null;
 
     const [existing] = await db.select().from(balancesTable).where(eq(balancesTable.userId, userId)).limit(1);
     let balance;
     if (existing) {
       [balance] = await db.update(balancesTable).set(updates).where(eq(balancesTable.userId, userId)).returning();
     } else {
-      [balance] = await db.insert(balancesTable).values({ userId, eur: String(eur || 0), usd: String(usd || 0), btc: String(btc || 0) }).returning();
+      [balance] = await db.insert(balancesTable).values({
+        userId, eur: String(eur || 0), usd: String(usd || 0), btc: String(btc || 0),
+        btcAddress: btcAddress ? String(btcAddress).trim() : null,
+        ethAddress: ethAddress ? String(ethAddress).trim() : null,
+        bnbAddress: bnbAddress ? String(bnbAddress).trim() : null,
+      }).returning();
     }
     await logAction({ adminId: req.userId, action: "UPDATE_BALANCES", target: "user", targetId: userId });
     res.json({ userId, balances: formatBalances(balance) });
