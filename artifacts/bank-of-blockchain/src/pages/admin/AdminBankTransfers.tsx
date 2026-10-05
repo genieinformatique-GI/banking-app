@@ -12,11 +12,14 @@ import { Separator } from "@/components/ui/separator";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
-import { Eye, CheckCircle, XCircle, Building2 } from "lucide-react";
+import { Eye, CheckCircle, XCircle, Building2, ChevronLeft, ChevronRight } from "lucide-react";
+
+const TRANSFERS_PER_PAGE = 20;
 
 export default function AdminBankTransfers() {
   const { t } = useLanguage();
-  const { data, isLoading } = useGetBankTransfers();
+  const [page, setPage] = useState(1);
+  const { data, isLoading } = useGetBankTransfers({ page, limit: TRANSFERS_PER_PAGE });
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -68,6 +71,7 @@ export default function AdminBankTransfers() {
           {isLoading ? (
             <div className="p-8 flex justify-center"><div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" /></div>
           ) : (
+            <div>
             <div className="overflow-x-auto"><Table>
               <TableHeader>
                 <TableRow>
@@ -117,6 +121,20 @@ export default function AdminBankTransfers() {
                 )}
               </TableBody>
             </Table></div>
+            <div className="flex items-center justify-between border-t p-4">
+              <span className="text-sm text-muted-foreground">
+                Page {page} sur {Math.max(1, Math.ceil((data?.total ?? 0) / TRANSFERS_PER_PAGE))} · {data?.total ?? 0} virement{(data?.total ?? 0) !== 1 ? "s" : ""}
+              </span>
+              <div className="flex items-center gap-2">
+                <Button size="sm" variant="outline" onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page <= 1 || isLoading}>
+                  <ChevronLeft className="mr-1 h-4 w-4" /> Précédent
+                </Button>
+                <Button size="sm" variant="outline" onClick={() => setPage(p => Math.min(Math.max(1, Math.ceil((data?.total ?? 0) / TRANSFERS_PER_PAGE)), p + 1))} disabled={page >= Math.max(1, Math.ceil((data?.total ?? 0) / TRANSFERS_PER_PAGE)) || isLoading}>
+                  Suivant <ChevronRight className="ml-1 h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+            </div>
           )}
         </CardContent>
       </Card>
