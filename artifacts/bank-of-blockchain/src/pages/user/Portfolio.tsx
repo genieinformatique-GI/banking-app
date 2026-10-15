@@ -1,7 +1,9 @@
 import { useGetMyBalances } from "@workspace/api-client-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatCurrency } from "@/lib/utils";
-import { Euro, DollarSign, Bitcoin, TrendingUp } from "lucide-react";
+import { Euro, DollarSign, Bitcoin, TrendingUp, Wallet, Copy } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -18,8 +20,14 @@ const fakeChartData = [
 export default function Portfolio() {
   const { t } = useLanguage();
   const { data, isLoading } = useGetMyBalances();
-  
-  const balances = data?.balances || { eur: 0, usd: 0, btc: 0 };
+  const { toast } = useToast();
+
+  const balances = data?.balances || { eur: 0, usd: 0, btc: 0, btcAddress: "", ethAddress: "", bnbAddress: "" };
+
+  const copyAddress = (address: string) => {
+    navigator.clipboard.writeText(address);
+    toast({ title: "Adresse copiée" });
+  };
 
   return (
     <div className="space-y-8 animate-fade-in">
@@ -83,6 +91,40 @@ export default function Portfolio() {
           </CardContent>
         </Card>
       </div>
+
+            <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2"><Wallet className="w-5 h-5 text-primary" /> Mes adresses de dépôt</CardTitle>
+          <p className="text-sm text-muted-foreground mt-1">Utilisez ces adresses pour déposer des cryptomonnaies sur votre compte.</p>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          {isLoading ? (
+            <div className="h-10 bg-secondary animate-pulse rounded-lg w-full"></div>
+          ) : (
+            [
+              { label: "Bitcoin (BTC)", value: balances.btcAddress },
+              { label: "Ethereum (ETH)", value: balances.ethAddress },
+              { label: "BNB (BNB Chain)", value: balances.bnbAddress },
+            ].map(({ label, value }) => (
+              <div key={label} className="flex items-center justify-between gap-3 border border-border rounded-lg p-3">
+                <div className="min-w-0">
+                  <p className="text-xs text-muted-foreground">{label}</p>
+                  {value ? (
+                    <p className="font-mono text-sm break-all mt-0.5">{value}</p>
+                  ) : (
+                    <p className="text-sm text-muted-foreground italic mt-0.5">Aucune adresse attribuée pour le moment. Contactez le support.</p>
+                  )}
+                </div>
+                {value && (
+                  <Button size="sm" variant="outline" className="shrink-0" onClick={() => copyAddress(value)}>
+                    <Copy className="w-4 h-4 mr-1" /> Copier
+                  </Button>
+                )}
+              </div>
+            ))
+          )}
+        </CardContent>
+      </Card>
 
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
