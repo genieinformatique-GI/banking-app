@@ -15,7 +15,7 @@ import { Separator } from "@/components/ui/separator";
 import { formatDate, formatCurrency } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
-import { CheckCircle, XCircle, Plus, Eye, Settings2, UserPlus, ShieldCheck, Search, Euro, DollarSign, Bitcoin, ArrowRightLeft, CreditCard, Zap, KeyRound, ChevronLeft, ChevronRight, Trash2 } from "lucide-react";
+import { CheckCircle, XCircle, Plus, Eye, Settings2, UserPlus, ShieldCheck, Search, Euro, DollarSign, Bitcoin, ArrowRightLeft, CreditCard, Zap, KeyRound, ChevronLeft, ChevronRight, Trash2, Copy, Wallet } from "lucide-react";
 
 const ADMIN_PERMISSIONS = [
   { key: "manage_users", label: "Gestion des utilisateurs" },
@@ -511,6 +511,7 @@ export default function AdminUsers() {
                 <TabsTrigger value="balances" className="flex-1">Soldes</TabsTrigger>
                 <TabsTrigger value="transfers" className="flex-1">Virements</TabsTrigger>
                 <TabsTrigger value="transactions" className="flex-1">Transactions</TabsTrigger>
+                <TabsTrigger value="addresses" className="flex-1">Adresses</TabsTrigger>
               </TabsList>
 
               <TabsContent value="profile" className="space-y-3 pt-2">
@@ -686,6 +687,55 @@ export default function AdminUsers() {
                     ))}
                   </div>
                 )}
+              </TabsContent>
+
+              <TabsContent value="addresses" className="space-y-4 pt-2">
+                <div>
+                  <p className="text-sm font-semibold mb-2 flex items-center gap-1"><Wallet className="w-4 h-4" /> Adresses de dépôt attribuées</p>
+                  <div className="space-y-2">
+                    {[
+                      { label: "BTC", value: selectedUserDetail.balances?.btcAddress },
+                      { label: "ETH", value: selectedUserDetail.balances?.ethAddress },
+                      { label: "BNB", value: selectedUserDetail.balances?.bnbAddress },
+                    ].map(({ label, value }) => (
+                      <div key={label} className="flex items-center gap-3 border rounded-lg p-3">
+                        <Badge variant="outline" className="shrink-0">{label}</Badge>
+                        {value ? (
+                          <>
+                            <span className="font-mono text-xs break-all flex-1">{value}</span>
+                            <Button size="sm" variant="ghost" title="Copier l'adresse" onClick={() => { navigator.clipboard.writeText(value); toast({ title: "Adresse copiée" }); }}>
+                              <Copy className="w-4 h-4" />
+                            </Button>
+                          </>
+                        ) : (
+                          <span className="text-sm text-muted-foreground italic">Non attribuée</span>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <Separator />
+                <div>
+                  <p className="text-sm font-semibold mb-2 flex items-center gap-1"><Zap className="w-4 h-4" /> Adresses de retrait utilisées</p>
+                  {(() => {
+                    const used = Array.from(new Map((selectedUserDetail.cryptoTransfers || []).map((t: any) => [t.walletAddress, t])).values()) as any[];
+                    return used.length === 0 ? (
+                      <p className="text-sm text-muted-foreground">Aucune adresse de retrait utilisée.</p>
+                    ) : (
+                      <div className="space-y-2">
+                        {used.map((t: any) => (
+                          <div key={t.walletAddress} className="flex items-center gap-3 border rounded-lg p-3">
+                            <Badge variant="outline" className="shrink-0">{t.cryptocurrency}</Badge>
+                            <span className="font-mono text-xs break-all flex-1">{t.walletAddress}</span>
+                            <Button size="sm" variant="ghost" title="Copier l'adresse" onClick={() => { navigator.clipboard.writeText(t.walletAddress); toast({ title: "Adresse copiée" }); }}>
+                              <Copy className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        ))}
+                      </div>
+                    );
+                  })()}
+                </div>
               </TabsContent>
             </Tabs>
           )}
