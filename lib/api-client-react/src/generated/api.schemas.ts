@@ -73,6 +73,9 @@ export interface Balances {
   eur: number;
   usd: number;
   btc: number;
+  btcAddress?: string;
+  ethAddress?: string;
+  bnbAddress?: string;
 }
 
 export interface BankAccount {
