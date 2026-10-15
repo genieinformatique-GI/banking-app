@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
 import { Edit2, Euro, DollarSign, Bitcoin, RefreshCw, Plus, Minus, Equal, ChevronLeft, ChevronRight, Wallet } from "lucide-react";
@@ -216,13 +217,13 @@ export default function Balances() {
       </Card>
 
       <Dialog open={modalOpen} onOpenChange={setModalOpen}>
-        <DialogContent className="sm:max-w-lg">
+        <DialogContent className="sm:max-w-xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>{t.admin.users.editBalances}</DialogTitle>
           </DialogHeader>
           {selectedUser && (
             <div>
-              <p className="text-muted-foreground text-sm mb-4">
+              <p className="text-muted-foreground text-sm mb-3">
                 Client : <span className="font-semibold text-foreground">{selectedUser.firstName} {selectedUser.lastName}</span>
                 <span className="ml-2 text-xs">({selectedUser.email})</span>
               </p>
@@ -234,90 +235,99 @@ export default function Balances() {
                 </div>
               ) : (
                 <>
-                  {/* Current balances */}
-                  {currentBalances && (
-                    <div className="grid grid-cols-3 gap-2 mb-4 p-3 bg-secondary/30 rounded-lg text-center text-sm border border-border">
-                      <div><p className="text-muted-foreground text-xs mb-0.5">Solde EUR actuel</p><p className="font-bold text-base">{currentBalances.eur.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €</p></div>
-                      <div><p className="text-muted-foreground text-xs mb-0.5">Solde USD actuel</p><p className="font-bold text-base">{currentBalances.usd.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} $</p></div>
-                      <div><p className="text-muted-foreground text-xs mb-0.5">Solde BTC actuel</p><p className="font-bold text-base">{currentBalances.btc.toFixed(6)}</p></div>
-                    </div>
-                  )}
+                  <Tabs defaultValue="soldes">
+                    <TabsList className="w-full mb-3">
+                      <TabsTrigger value="soldes" className="flex-1">Soldes</TabsTrigger>
+                      <TabsTrigger value="adresses" className="flex-1">Adresses de dépôt</TabsTrigger>
+                    </TabsList>
 
-                  {/* Mode selector */}
-                  <div className="flex gap-2 mb-5">
-                    {modeButtons.map(btn => (
-                      <button
-                        key={btn.id}
-                        onClick={() => {
-                          setMode(btn.id);
-                          setEur("0"); setUsd("0"); setBtc("0");
-                        }}
-                        className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-sm font-medium transition-all ${mode === btn.id ? btn.color + " ring-2 ring-offset-1 ring-offset-card ring-current" : "bg-secondary/40 text-muted-foreground border border-border hover:bg-secondary"}`}
-                      >
-                        {btn.icon} {btn.label}
-                      </button>
-                    ))}
-                  </div>
+                    <TabsContent value="soldes">
+                      {/* Current balances */}
+                      {currentBalances && (
+                        <div className="grid grid-cols-3 gap-2 mb-3 p-3 bg-secondary/30 rounded-lg text-center text-sm border border-border">
+                          <div><p className="text-muted-foreground text-xs mb-0.5">Solde EUR actuel</p><p className="font-bold text-base">{currentBalances.eur.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €</p></div>
+                          <div><p className="text-muted-foreground text-xs mb-0.5">Solde USD actuel</p><p className="font-bold text-base">{currentBalances.usd.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} $</p></div>
+                          <div><p className="text-muted-foreground text-xs mb-0.5">Solde BTC actuel</p><p className="font-bold text-base">{currentBalances.btc.toFixed(6)}</p></div>
+                        </div>
+                      )}
 
-                  <p className="text-xs text-muted-foreground mb-4">
-                    {mode === "set" && "Saisissez le nouveau solde absolu à affecter au compte."}
-                    {mode === "add" && "Saisissez le montant à créditer (ajouter) au solde actuel."}
-                    {mode === "subtract" && "Saisissez le montant à débiter (retirer) du solde actuel."}
-                  </p>
-
-                  <div className="space-y-3">
-                    <div className="space-y-1.5">
-                      <Label htmlFor="bal-eur">
-                        {mode === "set" ? "Nouveau solde EUR (€)" : mode === "add" ? "Montant à créditer EUR (€)" : "Montant à débiter EUR (€)"}
-                      </Label>
-                      <Input id="bal-eur" type="number" step="0.01" min="0" value={eur} onChange={e => setEur(e.target.value)} placeholder="0.00" />
-                    </div>
-                    <div className="space-y-1.5">
-                      <Label htmlFor="bal-usd">
-                        {mode === "set" ? "Nouveau solde USD ($)" : mode === "add" ? "Montant à créditer USD ($)" : "Montant à débiter USD ($)"}
-                      </Label>
-                      <Input id="bal-usd" type="number" step="0.01" min="0" value={usd} onChange={e => setUsd(e.target.value)} placeholder="0.00" />
-                    </div>
-                    <div className="space-y-1.5">
-                      <Label htmlFor="bal-btc">
-                        {mode === "set" ? "Nouveau solde BTC" : mode === "add" ? "Montant à créditer BTC" : "Montant à débiter BTC"}
-                      </Label>
-                      <Input id="bal-btc" type="number" step="0.00000001" min="0" value={btc} onChange={e => setBtc(e.target.value)} placeholder="0.00000000" />
-                    </div>
-                  </div>
-
-                  <div className="mt-5 pt-4 border-t border-border space-y-3">
-                    <p className="text-sm font-semibold flex items-center gap-2"><Wallet className="w-4 h-4 text-primary" /> Adresses de dépôt personnalisées</p>
-                    <p className="text-xs text-muted-foreground -mt-1">Adresse à communiquer au client pour qu'il dépose sur son compte. Laissez vide si non attribuée.</p>
-                    <div className="space-y-1.5">
-                      <Label htmlFor="bal-btc-addr">Adresse BTC</Label>
-                      <Input id="bal-btc-addr" value={btcAddress} onChange={e => setBtcAddress(e.target.value)} placeholder="Ex: bc1q..." className="font-mono text-xs" />
-                    </div>
-                    <div className="space-y-1.5">
-                      <Label htmlFor="bal-eth-addr">Adresse ETH</Label>
-                      <Input id="bal-eth-addr" value={ethAddress} onChange={e => setEthAddress(e.target.value)} placeholder="Ex: 0x..." className="font-mono text-xs" />
-                    </div>
-                    <div className="space-y-1.5">
-                      <Label htmlFor="bal-bnb-addr">Adresse BNB</Label>
-                      <Input id="bal-bnb-addr" value={bnbAddress} onChange={e => setBnbAddress(e.target.value)} placeholder="Ex: bnb1... ou 0x..." className="font-mono text-xs" />
-                    </div>
-                  </div>
-
-                  {/* Preview of result */}
-                  {preview && mode !== "set" && (
-                    <div className={`mt-4 p-3 rounded-lg border text-sm ${mode === "add" ? "bg-emerald-500/5 border-emerald-500/20" : "bg-red-500/5 border-red-500/20"}`}>
-                      <p className={`font-semibold mb-2 text-xs uppercase tracking-wide ${mode === "add" ? "text-emerald-400" : "text-red-400"}`}>
-                        {mode === "add" ? "Résultat après crédit" : "Résultat après débit"}
-                      </p>
-                      <div className="grid grid-cols-3 gap-2 text-center">
-                        <div><p className="text-muted-foreground text-xs">EUR</p><p className="font-bold">{preview.eur.toFixed(2)} €</p></div>
-                        <div><p className="text-muted-foreground text-xs">USD</p><p className="font-bold">{preview.usd.toFixed(2)} $</p></div>
-                        <div><p className="text-muted-foreground text-xs">BTC</p><p className="font-bold">{preview.btc.toFixed(6)}</p></div>
+                      {/* Mode selector */}
+                      <div className="flex gap-2 mb-3">
+                        {modeButtons.map(btn => (
+                          <button
+                            key={btn.id}
+                            onClick={() => {
+                              setMode(btn.id);
+                              setEur("0"); setUsd("0"); setBtc("0");
+                            }}
+                            className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-sm font-medium transition-all ${mode === btn.id ? btn.color + " ring-2 ring-offset-1 ring-offset-card ring-current" : "bg-secondary/40 text-muted-foreground border border-border hover:bg-secondary"}`}
+                          >
+                            {btn.icon} {btn.label}
+                          </button>
+                        ))}
                       </div>
-                    </div>
-                  )}
 
-                  <div className="flex justify-end gap-3 mt-6">
+                      <p className="text-xs text-muted-foreground mb-3">
+                        {mode === "set" && "Saisissez le nouveau solde absolu à affecter au compte."}
+                        {mode === "add" && "Saisissez le montant à créditer (ajouter) au solde actuel."}
+                        {mode === "subtract" && "Saisissez le montant à débiter (retirer) du solde actuel."}
+                      </p>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div className="space-y-1.5">
+                          <Label htmlFor="bal-eur">
+                            {mode === "set" ? "Solde EUR (€)" : mode === "add" ? "Créditer EUR (€)" : "Débiter EUR (€)"}
+                          </Label>
+                          <Input id="bal-eur" type="number" step="0.01" min="0" value={eur} onChange={e => setEur(e.target.value)} placeholder="0.00" />
+                        </div>
+                        <div className="space-y-1.5">
+                          <Label htmlFor="bal-usd">
+                            {mode === "set" ? "Solde USD ($)" : mode === "add" ? "Créditer USD ($)" : "Débiter USD ($)"}
+                          </Label>
+                          <Input id="bal-usd" type="number" step="0.01" min="0" value={usd} onChange={e => setUsd(e.target.value)} placeholder="0.00" />
+                        </div>
+                        <div className="space-y-1.5">
+                          <Label htmlFor="bal-btc">
+                            {mode === "set" ? "Solde BTC" : mode === "add" ? "Créditer BTC" : "Débiter BTC"}
+                          </Label>
+                          <Input id="bal-btc" type="number" step="0.00000001" min="0" value={btc} onChange={e => setBtc(e.target.value)} placeholder="0.00000000" />
+                        </div>
+                      </div>
+
+                      {/* Preview of result */}
+                      {preview && mode !== "set" && (
+                        <div className={`mt-3 p-3 rounded-lg border text-sm ${mode === "add" ? "bg-emerald-500/5 border-emerald-500/20" : "bg-red-500/5 border-red-500/20"}`}>
+                          <p className={`font-semibold mb-2 text-xs uppercase tracking-wide ${mode === "add" ? "text-emerald-400" : "text-red-400"}`}>
+                            {mode === "add" ? "Résultat après crédit" : "Résultat après débit"}
+                          </p>
+                          <div className="grid grid-cols-3 gap-2 text-center">
+                            <div><p className="text-muted-foreground text-xs">EUR</p><p className="font-bold">{preview.eur.toFixed(2)} €</p></div>
+                            <div><p className="text-muted-foreground text-xs">USD</p><p className="font-bold">{preview.usd.toFixed(2)} $</p></div>
+                            <div><p className="text-muted-foreground text-xs">BTC</p><p className="font-bold">{preview.btc.toFixed(6)}</p></div>
+                          </div>
+                        </div>
+                      )}
+                    </TabsContent>
+
+                    <TabsContent value="adresses" className="space-y-3">
+                      <p className="text-sm font-semibold flex items-center gap-2"><Wallet className="w-4 h-4 text-primary" /> Adresses de dépôt personnalisées</p>
+                      <p className="text-xs text-muted-foreground -mt-1">Adresse à communiquer au client pour qu'il dépose sur son compte. Laissez vide si non attribuée.</p>
+                      <div className="space-y-1.5">
+                        <Label htmlFor="bal-btc-addr">Adresse BTC</Label>
+                        <Input id="bal-btc-addr" value={btcAddress} onChange={e => setBtcAddress(e.target.value)} placeholder="Ex: bc1q..." className="font-mono text-xs" />
+                      </div>
+                      <div className="space-y-1.5">
+                        <Label htmlFor="bal-eth-addr">Adresse ETH</Label>
+                        <Input id="bal-eth-addr" value={ethAddress} onChange={e => setEthAddress(e.target.value)} placeholder="Ex: 0x..." className="font-mono text-xs" />
+                      </div>
+                      <div className="space-y-1.5">
+                        <Label htmlFor="bal-bnb-addr">Adresse BNB</Label>
+                        <Input id="bal-bnb-addr" value={bnbAddress} onChange={e => setBnbAddress(e.target.value)} placeholder="Ex: bnb1... ou 0x..." className="font-mono text-xs" />
+                      </div>
+                    </TabsContent>
+                  </Tabs>
+
+                  <div className="flex justify-end gap-3 mt-4 pt-3 border-t border-border">
                     <Button variant="outline" onClick={() => setModalOpen(false)} disabled={saving}>Annuler</Button>
                     <Button
                       onClick={handleSave}
@@ -327,7 +337,7 @@ export default function Balances() {
                       {saving ? "Traitement..." :
                         mode === "add" ? `Créditer le compte` :
                         mode === "subtract" ? `Débiter le compte` :
-                        "Enregistrer les soldes"}
+                        "Enregistrer"}
                     </Button>
                   </div>
                 </>
