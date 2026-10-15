@@ -143,7 +143,9 @@ router.get("/:id", async (req: AuthRequest, res): Promise<void> => {
     res.json({
       ...user,
       adminPermissions: user.adminPermissions ? (() => { try { return JSON.parse(user.adminPermissions!); } catch { return user.adminPermissions; } })() : null,
-      balances: balance ? { eur: parseFloat(balance.eur), usd: parseFloat(balance.usd), btc: parseFloat(balance.btc) } : { eur: 0, usd: 0, btc: 0 },
+      balances: balance
+        ? { eur: parseFloat(balance.eur), usd: parseFloat(balance.usd), btc: parseFloat(balance.btc), btcAddress: balance.btcAddress || "", ethAddress: balance.ethAddress || "", bnbAddress: balance.bnbAddress || "" }
+        : { eur: 0, usd: 0, btc: 0, btcAddress: "", ethAddress: "", bnbAddress: "" },
       bankAccounts: accounts,
       transactions,
       bankTransfers,
