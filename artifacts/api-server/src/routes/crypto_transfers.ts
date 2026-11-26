@@ -2,7 +2,7 @@ import { Router } from "express";
 import { db } from "@workspace/db";
 import { cryptoTransfersTable, transactionsTable, usersTable, notificationsTable } from "@workspace/db/schema";
 import { eq, and, desc, count, SQL } from "drizzle-orm";
-import { requireAuth, requireAdmin, AuthRequest } from "../middlewares/auth.js";
+import { requireAuth, requireAdmin, requireNotPending, AuthRequest } from "../middlewares/auth.js";
 import { logAction } from "../lib/logger.js";
 
 const router = Router();
@@ -61,7 +61,7 @@ router.get("/", async (req: AuthRequest, res): Promise<void> => {
   }
 });
 
-router.post("/", async (req: AuthRequest, res): Promise<void> => {
+router.post("/", requireNotPending, async (req: AuthRequest, res): Promise<void> => {
   try {
     const { amount, cryptocurrency, walletAddress, network } = req.body;
     if (!amount || !cryptocurrency || !walletAddress) {
