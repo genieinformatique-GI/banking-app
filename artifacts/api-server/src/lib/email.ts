@@ -81,7 +81,7 @@ export async function sendPasswordResetEmail(to: string, firstName: string, toke
     }
   }
 
-  console.log(`[Email] RESET LINK (no email provider configured):\n  To: ${to}\n  URL: ${resetUrl}\n  Token: ${token}`);
+  console.log(`[Email] Aucun fournisseur d'email configuré — message non envoyé à ${to}`);
   return !!resend;
 }
 
