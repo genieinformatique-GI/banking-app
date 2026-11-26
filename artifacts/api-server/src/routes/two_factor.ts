@@ -7,13 +7,14 @@ import { usersTable, notificationsTable } from "@workspace/db/schema";
 import { eq } from "drizzle-orm";
 import { requireAuth, AuthRequest } from "../middlewares/auth.js";
 import { Resend } from "resend";
+import { randomInt } from "crypto";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 const router = Router();
 router.use(requireAuth);
 
 function generateOTP(): string {
-  return Math.floor(100000 + Math.random() * 900000).toString();
+  return randomInt(100000, 1000000).toString();
 }
 
 async function sendOTPToUser(user: { id: number; email: string; phone: string | null }, method: string, code: string): Promise<void> {
@@ -50,7 +51,6 @@ async function sendOTPToUser(user: { id: number; email: string; phone: string | 
 
   } else if (method === "sms") {
     const phone = user.phone || "numéro non renseigné";
-    console.log(`[2FA SMS] To: ${phone} — Code: ${code}`);
     try {
       await db.insert(notificationsTable).values({
         userId: user.id,
