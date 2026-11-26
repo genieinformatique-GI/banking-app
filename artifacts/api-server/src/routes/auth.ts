@@ -6,6 +6,7 @@ import { eq, desc } from "drizzle-orm";
 import { signToken, signTempToken, verifyTempToken } from "../lib/jwt.js";
 import { requireAuth, AuthRequest } from "../middlewares/auth.js";
 import { verifyTwoFactorCode } from "./two_factor.js";
+import { randomInt } from "crypto";
 
 const router = Router();
 
@@ -73,10 +74,9 @@ router.post("/login", async (req, res): Promise<void> => {
       const method = user.twoFactorMethod || "email";
 
        if (method === "email" || method === "sms") {
-         const code = Math.floor(100000 + Math.random() * 900000).toString();
+         const code = randomInt(100000, 1000000).toString();
          const otpExpiry = new Date(Date.now() + 10 * 60 * 1000);
          await db.update(usersTable).set({ otpCode: code, otpExpiry, updatedAt: new Date() }).where(eq(usersTable.id, user.id));
-         console.log(`[2FA LOGIN ${method.toUpperCase()}] User ${user.email} — Code: ${code}`);
            if (method === "email") {
              const { Resend } = await import("resend");
              const resend = new Resend(process.env.RESEND_API_KEY);
@@ -106,7 +106,6 @@ router.post("/login", async (req, res): Promise<void> => {
 
     console.log("Generating token");
     const token = signToken({ userId: user.id, email: user.email, role: user.role });
-    console.log("Token generated:", token);
     const { passwordHash: _, twoFactorSecret: __, twoFactorPendingSecret: ___, ...safeUser } = user;
     res.json({ token, user: safeUser });
   } catch (err) {
