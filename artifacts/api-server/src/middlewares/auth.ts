@@ -8,6 +8,7 @@ export interface AuthRequest extends Request {
   userId?: number;
   userRole?: string;
   userEmail?: string;
+  userStatus?: string;
 }
 
 export async function requireAuth(req: AuthRequest, res: Response, next: NextFunction): Promise<void> {
@@ -27,6 +28,7 @@ export async function requireAuth(req: AuthRequest, res: Response, next: NextFun
     req.userId = user.id;
     req.userRole = user.role;
     req.userEmail = user.email;
+    req.userStatus = user.status;
     next();
   } catch {
     res.status(401).json({ error: "Unauthorized", message: "Invalid token" });
@@ -36,6 +38,17 @@ export async function requireAuth(req: AuthRequest, res: Response, next: NextFun
 export function requireAdmin(req: AuthRequest, res: Response, next: NextFunction): void {
   if (req.userRole !== "admin") {
     res.status(403).json({ error: "Forbidden", message: "Admin access required" });
+    return;
+  }
+  next();
+}
+
+export function requireNotPending(req: AuthRequest, res: Response, next: NextFunction): void {
+  if (req.userRole !== "admin" && req.userStatus === "pending") {
+    res.status(403).json({
+      error: "Forbidden",
+      message: "Votre compte n'est pas encore activé : les virements sont impossibles tant qu'il n'est pas validé par l'administration.",
+    });
     return;
   }
   next();
